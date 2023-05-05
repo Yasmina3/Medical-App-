@@ -62,7 +62,7 @@ button = tk.Button(root, text="Local search", width= 20 , height=2 , command=lam
 button.bind('<Leave>', on_leave)
 button.place( x = 540, y = 280)
 
-button = tk.Button(root, text="Play Game", width= 20 , height=2 , command=lambda:open_window("Games" , " PLAY GAMES" , 'red') , bg="#1CFFD0")
+button = tk.Button(root, text="Play Game", width= 20 , height=2 , command=lambda:open_window("Games" , " PLAY GAMES" , '#0E153A') , bg="#1CFFD0")
 button.bind('<Leave>', on_leave)
 button.place( x = 540, y = 330)
 
