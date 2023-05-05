@@ -33,9 +33,10 @@ def open_window(windowTitle , pageTitle ,colrCode):
         window.geometry('800x500+250+50')
         window.resizable(False, False)
         window.config(background = colrCode)
-            # Create a label containing the text "hi"
-        label = tk.Label(window, text=pageTitle)
-        label.pack(padx=50 , pady=50)
+            # Create a label containing the window title
+        if windowTitle!="Local search":
+          label = tk.Label(window, text=pageTitle)
+          label.pack(padx=50 , pady=50)
 
 
         if windowTitle == "informed/uninformed":
@@ -57,11 +58,11 @@ button = tk.Button(root, text="Informed/Uninformed ", width= 20 , height=2 , com
 button.bind('<Leave>', on_leave)
 button.place( x = 540, y = 230)
 
-button = tk.Button(root, text="Local search", width= 20 , height=2 , command=lambda: open_window("Local search" , " Local search Algorithms" , '#95F8E4') , bg="#1CFFD0")
+button = tk.Button(root, text="Local search", width= 20 , height=2 , command=lambda: open_window("Local search" , "Local Search Algorithms" , '#95F8E4') , bg="#1CFFD0")
 button.bind('<Leave>', on_leave)
 button.place( x = 540, y = 280)
 
-button = tk.Button(root, text="Play Game", width= 20 , height=2 , command=lambda:open_window("Games" , " PLAY GAMES" , '#0E153A') , bg="#1CFFD0")
+button = tk.Button(root, text="Play Game", width= 20 , height=2 , command=lambda:open_window("Games" , " PLAY GAMES" , 'red') , bg="#1CFFD0")
 button.bind('<Leave>', on_leave)
 button.place( x = 540, y = 330)
 
