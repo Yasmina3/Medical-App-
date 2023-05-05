@@ -1,4 +1,3 @@
-
 from py_search.base import *
 from py_search import *
 from py_search.uninformed import depth_first_search, breadth_first_search
