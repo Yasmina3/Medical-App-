@@ -34,7 +34,7 @@ def open_window(windowTitle , pageTitle ,colrCode):
         window.resizable(False, False)
         window.config(background = colrCode)
             # Create a label containing the window title
-        if windowTitle!="Local search":
+        if windowTitle!="Local search" and windowTitle!="informed/uninformed":
           label = tk.Label(window, text=pageTitle)
           label.pack(padx=50 , pady=50)
 
@@ -54,7 +54,7 @@ def open_window(windowTitle , pageTitle ,colrCode):
 
         
 
-button = tk.Button(root, text="Informed/Uninformed ", width= 20 , height=2 , command=lambda: open_window("informed/uninformed", "Informed and Uninformed Algorithms" , '#95F8E4'), bg="#1CFFD0")
+button = tk.Button(root, text="Informed/Uninformed ", width= 20 , height=2 , command=lambda: open_window("informed/uninformed", "Informed and Uninformed Algorithms" , '#0E153A'), bg="#1CFFD0")
 button.bind('<Leave>', on_leave)
 button.place( x = 540, y = 230)
 
