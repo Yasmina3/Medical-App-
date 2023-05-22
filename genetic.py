@@ -1,6 +1,7 @@
 import random
 import math
 import statistics
+import tkinter as tk
 
 class SimpleGeneticAlgorithm():
     
@@ -265,13 +266,11 @@ class SimpleGeneticAlgorithm():
             return f'Best Generation: [{best_generation - 1}] | Mean Individuals fitness: [{round(statistics.mean(best_solution), 2)}]'
                               
 
-     
-def start_genetic_algorithm(population_size, num_generations, num_iterations, mutation_probability):
-    # Create an instance of SimpleGeneticAlgorithm with the user-specified parameters
-     gen = SimpleGeneticAlgorithm(pop_size=int(population_size), num_genes=5, n_iter=int(num_iterations), mutation_prob=int(mutation_probability))
-    # Call the generateOffspring() method to start the genetic algorithm
-     offspring = gen.generateOffspring()
-     print(offspring)
+
+
+    
+
+
     
 
 
