@@ -2,25 +2,6 @@ import tkinter as tk
 
 from genetic import SimpleGeneticAlgorithm
 
-def run_logic(window, pageTitle):
-    window.title(pageTitle)
-    window.geometry('800x500+250+50')
-    window.resizable(False, False)
-    window.config(background='#0E153A')
-
-    title_label = tk.Label(window, text=pageTitle, font=("Arial", 24, 'bold'), bg='#0E153A', fg='#1CFFD0')
-    title_label.pack(pady=50)
-
-    button_frame = tk.Frame(window, bg='#0E153A')
-    button_frame.pack(expand=True)
-
-    # Button to open the Genetic Algorithms window
-    genetic_button = tk.Button(button_frame, text="Genetic Algorithms", width=20, height=2, font=("Arial", 14), command=open_genetic_window, bg="#1CFFD0")
-    genetic_button.pack(side=tk.LEFT, padx=20, pady=10)
-    
-    # Button to open the Hill Climbing window
-    hill_button = tk.Button(button_frame, text="Hill Climbing", width=20, height=2, font=("Arial", 14), command=lambda: open_window("Hill Climbing", "Hill Climbing", "#1CFFD0"), bg="#1CFFD0")
-    hill_button.pack(side=tk.RIGHT, padx=20, pady=10)
 
 def open_genetic_window():
     # Create the Genetic Algorithms window
@@ -83,6 +64,18 @@ def open_genetic_window():
     scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
     output_text.config(yscrollcommand=scrollbar.set)
 
+def open_hillClimbing_window():
+    import graph_guiHC
+    hc_window = tk.Toplevel()
+    hc_window.title("Genetic Algorithms")
+    hc_window.geometry("800x500")
+    hc_window.config(bg="#0E153A")
+    
+    hc_window.geometry("{}x{}+0+0".format(hc_window.winfo_screenwidth(), hc_window.winfo_screenheight()))
+    app = graph_guiHC.Application(master=hc_window)
+    app.mainloop()
+
+
 def run_logic(window, pageTitle):
     window.title(pageTitle)
     window.geometry('800x500+250+50')
@@ -100,6 +93,6 @@ def run_logic(window, pageTitle):
     genetic_button.pack(side=tk.LEFT, padx=20, pady=10)
 
     # Button to open the Hill Climbing window
-    hill_button = tk.Button(button_frame, text="Hill Climbing", width=20, height=2, font=("Arial", 14), command=lambda: open_window("Hill Climbing", "Hill Climbing", "#1CFFD0"), bg="#1CFFD0")
+    hill_button = tk.Button(button_frame, text="Hill Climbing", width=20, height=2, font=("Arial", 14),command=open_hillClimbing_window, bg="#1CFFD0")
     hill_button.pack(side=tk.RIGHT, padx=20, pady=10)
     window.mainloop()
