@@ -27,6 +27,9 @@ def on_leave(event):
     button.config(bg='#95F8E4')
 
 def open_window(windowTitle , pageTitle ,colrCode):
+        if windowTitle == "CSP":
+            CSPLogic.run_logic(pageTitle)     
+            exit  
         # Create the new window
         window = tk.Toplevel(root)
         window.title(windowTitle)
@@ -45,9 +48,6 @@ def open_window(windowTitle , pageTitle ,colrCode):
             LocalSearchLogic.run_logic(window, pageTitle)
         elif windowTitle == "Games":
             Games.run_logic(window, pageTitle)
-        elif windowTitle == "CSP":
-            CSPLogic.run_logic(window, pageTitle)
-
 
 
 
@@ -66,7 +66,7 @@ button = tk.Button(root, text="Play Game", width= 20 , height=2 , command=lambda
 button.bind('<Leave>', on_leave)
 button.place( x = 540, y = 330)
 
-button = tk.Button(root, text="CS problems", width= 20 , height=2 , command=lambda:open_window("CSP" , " Constraints Satisfaction Problems" , '#95F8E4') , bg="#1CFFD0")
+button = tk.Button(root, text="CS problem \n 'Color Map' ", width= 20 , height=2 , command=lambda:open_window("CSP" , " Constraints Satisfaction Problems" , '#95F8E4') , bg="#1CFFD0")
 button.bind('<Leave>', on_leave)
 button.place( x = 540, y = 380)
 
