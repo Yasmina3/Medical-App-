@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tabibak/widgets/app_bar/custom_app_bar.dart';
@@ -10,7 +9,6 @@ import 'package:tabibak/widgets/custom_elevated_button.dart';
 import 'package:tabibak/core/app_export.dart';
 import 'controller/choose_gender_age_controller.dart';
 
-
 class ChooseGenderAgeScreen extends StatefulWidget {
   const ChooseGenderAgeScreen({Key? key}) : super(key: key);
 
@@ -20,6 +18,7 @@ class ChooseGenderAgeScreen extends StatefulWidget {
 
 class _ChooseGenderAgeScreenState extends State<ChooseGenderAgeScreen> {
   int _selectedOption = 0; // 0 for none, 1 for the first option, 2 for the second option
+  int _selectedAge = 60; // Default selected age
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +50,7 @@ class _ChooseGenderAgeScreenState extends State<ChooseGenderAgeScreen> {
                 _buildGenderOptions(),
                 SizedBox(height: 65.v),
                 Text("lbl20".tr, style: theme.textTheme.headlineLarge),
-                // ... Your other widgets here
+                _buildAgeSelector(), // Add the Age Selector here
               ],
             ),
           ),
@@ -61,6 +60,8 @@ class _ChooseGenderAgeScreenState extends State<ChooseGenderAgeScreen> {
     );
   }
 
+  // Other methods such as _buildGenderOptions, _buildGenderOption, _buildAppBar, and _buildTf
+  // would remain unchanged and should be included here.
   Widget _buildGenderOptions() {
     // Replace with your actual colors and labels
     return Padding(
@@ -74,7 +75,6 @@ class _ChooseGenderAgeScreenState extends State<ChooseGenderAgeScreen> {
       ),
     );
   }
-
   Widget _buildGenderOption(int id, String label, Color color) {
     bool isSelected = _selectedOption == id;
     return GestureDetector(
@@ -85,7 +85,7 @@ class _ChooseGenderAgeScreenState extends State<ChooseGenderAgeScreen> {
         decoration: BoxDecoration(
           color: isSelected ? color.withOpacity(0.5) : color,
           borderRadius: BorderRadius.circular(52.h),
-          border: isSelected ? Border.all(color: Color.fromARGB(255, 44, 31, 161), width: 4) : null,
+          border: isSelected ? Border.all(color: Color.fromARGB(255, 74, 63, 171), width: 4) : null,
         ),
         alignment: Alignment.bottomCenter,
         child: Padding(
@@ -128,6 +128,71 @@ class _ChooseGenderAgeScreenState extends State<ChooseGenderAgeScreen> {
   onTaptf() {
     Get.toNamed(
       AppRoutes.chooseHeightWeightScreen,
+    );
+  }
+  
+  Widget _buildAgeSelector() {
+    return AgeSelector(
+      initialAge: _selectedAge,
+      onAgeSelected: (age) {
+        setState(() {
+          _selectedAge = age;
+        });
+      },
+    );
+  }
+}
+
+class AgeSelector extends StatefulWidget {
+  final int initialAge;
+  final ValueChanged<int> onAgeSelected;
+
+  AgeSelector({Key? key, this.initialAge = 60, required this.onAgeSelected}) : super(key: key);
+
+  @override
+  _AgeSelectorState createState() => _AgeSelectorState();
+}
+
+class _AgeSelectorState extends State<AgeSelector> {
+  late FixedExtentScrollController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = FixedExtentScrollController(initialItem: widget.initialAge);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListWheelScrollView.useDelegate(
+      controller: _controller,
+      itemExtent: 60,
+      physics: FixedExtentScrollPhysics(),
+      onSelectedItemChanged: widget.onAgeSelected,
+      childDelegate: ListWheelChildBuilderDelegate(
+        builder: (BuildContext context, int index) {
+          final isSelected = index == _controller.selectedItem;
+          return Center(
+            child: Text(
+              index.toString(),
+              style: TextStyle(
+                fontSize: isSelected ? 24 : 18,
+                color: isSelected ? Colors.blue : Colors.black,
+              ),
+            ),
+          );
+        },
+        childCount: 121, // Ages 0 - 120
+      ),
+      useMagnifier: true,
+      magnification: 1.5,
+      diameterRatio: 1.5,
     );
   }
 }
