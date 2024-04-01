@@ -1,138 +1,117 @@
-import '../models/doctor_item_model.dart';
-import '../controller/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/app_export.dart';
 
 // ignore: must_be_immutable
 class DoctorItemWidget extends StatelessWidget {
-  DoctorItemWidget(
-    this.doctorItemModelObj, {
-    Key? key,
-  }) : super(
-          key: key,
-        );
-
-  DoctorItemModel doctorItemModelObj;
-
-  var controller = Get.find<HomeController>();
+  //var controller = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 120.h,
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: SizedBox(
-          height: 173.v,
-          width: 120.h,
-          child: Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  margin: EdgeInsets.only(right: 2.h),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 9.h,
-                    vertical: 11.v,
-                  ),
-                  decoration: AppDecoration.outlineBlueGray.copyWith(
-                    borderRadius: BorderRadiusStyle.roundedBorder10,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 8.v),
-                      Obx(
-                        () => CustomImageView(
-                          imagePath: doctorItemModelObj.widget!.value,
-                          height: 71.adaptSize,
-                          width: 71.adaptSize,
-                          radius: BorderRadius.circular(
-                            35.h,
-                          ),
+    return GestureDetector(
+      onTap: onTapDoctore, // Call onTapProfile function
+      child: SizedBox(
+        width: 120.h,
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: SizedBox(
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    margin: EdgeInsets.only(right: 2.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 9.h,
+                      vertical: 5.v,
+                    ),
+                    decoration: AppDecoration.outlineBlueGray.copyWith(
+                      borderRadius: BorderRadiusStyle.roundedBorder10,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 8.v),
+                        CustomImageView(
+                          imagePath:
+                              "assets/images/img_pexels_cedric_f_115x115.png",
+                          height: 80.adaptSize,
+                          width: 80.adaptSize,
+                          radius: BorderRadius.circular(35.h),
                           alignment: Alignment.center,
                         ),
-                      ),
-                      SizedBox(height: 38.v),
-                      Obx(
-                        () => Text(
-                          doctorItemModelObj.widget1!.value,
+                        SizedBox(height: 5.v),
+                        Align(
+                          child: Text(
+                            "Dr. Marcus Horizon",
+                            style: CustomTextStyles.labelLargeGray700,
+                          ),
+                        ),
+                        SizedBox(height: 5.v),
+                        Text(
+                          "lbl38".tr,
                           style: theme.textTheme.labelLarge,
                         ),
-                      ),
-                      SizedBox(height: 3.v),
-                      Row(
-                        children: [
-                          Container(
-                            width: 28.h,
-                            decoration: AppDecoration.fillBlueGray.copyWith(
-                              borderRadius: BorderRadiusStyle.roundedBorder3,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                CustomImageView(
-                                  imagePath: ImageConstant.imgSignal,
-                                  height: 10.adaptSize,
-                                  width: 10.adaptSize,
-                                  margin: EdgeInsets.symmetric(vertical: 1.v),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: 1.v),
-                                  child: Obx(
-                                    () => Text(
-                                      doctorItemModelObj.fortySeven!.value,
+                        SizedBox(height: 5.v),
+                        Row(
+                          children: [
+                            Container(
+                              width: 28.h,
+                              decoration: AppDecoration.fillBlueGray.copyWith(
+                                borderRadius: BorderRadiusStyle.roundedBorder3,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomImageView(
+                                    imagePath: ImageConstant.imgSignal,
+                                    height: 10.adaptSize,
+                                    width: 10.adaptSize,
+                                    margin: EdgeInsets.symmetric(vertical: 1.v),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 1.v, bottom: 1.h),
+                                    child: Text(
+                                      "4,7",
                                       style: theme.textTheme.labelSmall,
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          Obx(
-                            () => CustomImageView(
-                              imagePath: doctorItemModelObj.widget2!.value,
-                              height: 10.adaptSize,
-                              width: 10.adaptSize,
+                            Spacer(),
+                            CustomImageView(
+                              imagePath: "assets/images/img_linkedin.svg",
+                              height: 12.adaptSize,
+                              width: 12.adaptSize,
                               margin: EdgeInsets.only(left: 8.h),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: 2.h,
-                              top: 3.v,
-                            ),
-                            child: Obx(
-                              () => Text(
-                                doctorItemModelObj.eightHundred!.value,
+                            Padding(
+                              padding: EdgeInsets.only(left: 2.h, top: 3.v),
+                              child: Text(
+                                "يبعد عنك 800م",
                                 style: CustomTextStyles.interGray500,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 49.v),
-                  child: Obx(
-                    () => Text(
-                      doctorItemModelObj.drMarcusHorizon!.value,
-                      style: CustomTextStyles.labelLargeGray700,
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  onTapDoctore() {
+    Get.toNamed(
+      AppRoutes.doctorDetailScreen,
     );
   }
 }
