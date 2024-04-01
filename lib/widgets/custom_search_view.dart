@@ -102,19 +102,6 @@ class CustomSearchView extends StatelessWidget {
   InputDecoration get decoration => InputDecoration(
         hintText: hintText ?? "",
         hintStyle: hintStyle ?? CustomTextStyles.titleSmallBold,
-        prefixIcon: Padding(
-          padding: EdgeInsets.all(
-            15.h,
-          ),
-          child: Icon(
-            Icons.search,
-            color: Colors.grey.shade600,
-          ),
-        ),
-        prefixIconConstraints: prefixConstraints ??
-            BoxConstraints(
-              maxHeight: 40.v,
-            ),
         suffixIcon: suffix ??
             Container(
               margin: EdgeInsets.fromLTRB(18.h, 11.v, 15.h, 11.v),
