@@ -130,7 +130,7 @@ class TextThemes {
   static TextTheme textTheme(ColorScheme colorScheme) => TextTheme(
         bodyLarge: TextStyle(
           color: colorScheme.primaryContainer,
-          fontSize: 18.fSize,
+          fontSize: 16.fSize,
           fontFamily: 'Inter',
           fontWeight: FontWeight.w400,
         ),
