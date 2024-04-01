@@ -27,20 +27,20 @@ class TimeItemWidget extends StatelessWidget {
           timeItemModelObj.am!.value,
           style: TextStyle(
             color: (timeItemModelObj.isSelected?.value ?? false)
-                ? theme.colorScheme.onPrimaryContainer
-                : appTheme.teal50,
+                ? Colors.white
+                : Colors.black.withOpacity(0.6),
             fontSize: 12.fSize,
             fontFamily: 'Inter',
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
           ),
         ),
         selected: (timeItemModelObj.isSelected?.value ?? false),
         backgroundColor: theme.colorScheme.onPrimary.withOpacity(1),
-        selectedColor: theme.colorScheme.onPrimary.withOpacity(1),
+        selectedColor: theme.colorScheme.primary.withOpacity(1),
         shape: (timeItemModelObj.isSelected?.value ?? false)
             ? RoundedRectangleBorder(
                 side: BorderSide(
-                  color: appTheme.teal100,
+                  color: theme.colorScheme.primary.withOpacity(1),
                   width: 1.h,
                 ),
                 borderRadius: BorderRadius.circular(
