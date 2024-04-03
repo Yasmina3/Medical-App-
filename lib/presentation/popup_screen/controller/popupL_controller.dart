@@ -1,5 +1,6 @@
 import '../../../core/app_export.dart';
-import '../models/popupL_model.dart';
+import '../models/popup_model.dart';
+import '../models/popup_model.dart';
 
 /// A controller class for the PopupScreen.
 ///

@@ -1,7 +1,8 @@
 import 'package:tabibak/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/app_export.dart';
-import 'controller/popupL_controller.dart';
+import '../controller/popup_controller.dart';
+import '../controller/popupL_controller.dart';
 
 // ignore_for_file: must_be_immutable
 class PopupLogout extends GetWidget<PopupController> {

@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         fallbackLocale: Locale('en', 'US'),
         title: 'tabibak',
         initialBinding: InitialBindings(),
-        initialRoute: AppRoutes.chooseAgeScreen,
+        initialRoute: AppRoutes.findDoctorsScreen,
         getPages: AppRoutes.pages,
       );
     });
