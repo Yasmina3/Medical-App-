@@ -57,9 +57,9 @@ class Fortyseven2ItemWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(height: 11.v),
+                        SizedBox(height: 5.v),
                         Padding(
-                          padding: EdgeInsets.only(left: 29.h),
+                          padding: EdgeInsets.only(left: 27.h),
                           child: Obx(
                             () => Text(
                               fortyseven2ItemModelObj.widget!.value,
@@ -157,11 +157,11 @@ class Fortyseven2ItemWidget extends StatelessWidget {
               height: 111.adaptSize,
               width: 111.adaptSize,
               radius: BorderRadius.circular(
-                8.h,
+                7.h,
               ),
               margin: EdgeInsets.only(
-                top: 8.v,
-                bottom: 6.v,
+                top: 7.v,
+                bottom: 5.v,
               ),
             ),
           ),
