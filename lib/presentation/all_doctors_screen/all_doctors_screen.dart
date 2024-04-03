@@ -7,6 +7,7 @@ import 'package:tabibak/widgets/app_bar/appbar_trailing_image.dart';
 import 'controller/all_doctors_controller.dart';
 import 'models/fortyseven2_item_model.dart';
 import 'widgets/fortyseven2_item_widget.dart';
+import 'api.dart';
 class AllDoctorsScreen extends GetWidget<AllDoctorsController> {
   const AllDoctorsScreen({Key? key}) : super(key: key);
 

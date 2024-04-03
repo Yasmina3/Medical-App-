@@ -142,16 +142,6 @@ class FindDoctorsScreen extends GetWidget<FindDoctorsController> {
         },
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-          widget=="جميع التخصصات" ?Container(
-              height: 60.v,
-              width: 80.h,
-              padding: EdgeInsets.symmetric(horizontal: 1.h, vertical: 12.v),
-
-              child: CustomImageView(
-                  imagePath: iconLungs,
-                  height: 80.adaptSize,
-                  width: 80.adaptSize,
-                  alignment: Alignment.centerRight)):
           Container(
               height: 56.v,
               width: 64.h,
