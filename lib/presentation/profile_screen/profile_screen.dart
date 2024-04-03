@@ -134,9 +134,9 @@ class ProfileScreen extends GetWidget<ProfileController> {
                                       EdgeInsets.only(left: 5.h, right: 1.h),
                                   child: _buildOut(
                                     widget: "lbl61".tr,
-                                    // onTapFAQs: () {
-                                    //   onTapOut();
-                                    // }
+                                    onTapFAQs: () {
+                                      onTapOut();
+                                    }
                                   )),
                               SizedBox(height: 89.v),
                             ]))
@@ -274,19 +274,12 @@ class ProfileScreen extends GetWidget<ProfileController> {
         ]));
   }
 
-  /// Navigates to the findDoctorsScreen when the action is triggered.
-  onTapAppointment() {
+  // Navigates to the popup screen when the action is triggered.
+  onTapOut() {
     Get.toNamed(
-      AppRoutes.findDoctorsScreen,
+      AppRoutes.popupLogout,
     );
   }
-
-  /// Navigates to the editProfileScreen when the action is triggered.
-  // onTapOut() {
-  //   Get.toNamed(
-  //     AppRoutes.popupScreen,
-  //   );
-  // }
 
   /// Navigates to the editProfileScreen when the action is triggered.
   onTapFAQs1() {
