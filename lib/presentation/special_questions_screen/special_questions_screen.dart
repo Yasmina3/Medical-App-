@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+import 'package:tabibak/widgets/app_bar/appbar_title.dart';
 import 'package:tabibak/widgets/app_bar/custom_app_bar.dart';
 import 'package:tabibak/widgets/app_bar/appbar_leading_image.dart';
 import 'package:another_stepper/widgets/another_stepper.dart';
@@ -15,7 +17,7 @@ class SpecialQuestionsScreen extends GetWidget<SpecialQuestionsController> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            appBar: _buildAppBar(),
+            appBar: _buildAppBar(context),
             body: Container(
                 width: double.maxFinite,
                 padding: EdgeInsets.symmetric(horizontal: 38.h, vertical: 16.v),
@@ -26,140 +28,56 @@ class SpecialQuestionsScreen extends GetWidget<SpecialQuestionsController> {
                           padding: EdgeInsets.only(right: 6.h),
                           child: AnotherStepper(
                               stepperDirection: Axis.horizontal,
-                              activeIndex: 0,
+                              activeIndex: 3,
                               barThickness: 5,
                               inverted: true,
                               stepperList: [
                                 StepperData(),
                                 StepperData(),
                                 StepperData(),
+                                StepperData(),
                                 StepperData()
                               ])),
                       SizedBox(height: 38.v),
-                      Align(
+                       Align(
                           alignment: Alignment.center,
                           child: Text("lbl24".tr,
                               style: theme.textTheme.headlineLarge)),
-                      Spacer(flex: 46),
-                      Container(
-                          height: 12.adaptSize,
-                          width: 12.adaptSize,
-                          margin: EdgeInsets.only(right: 16.h),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6.h),
-                              border: Border.all(
-                                  color: theme.colorScheme.primary,
-                                  width: 1.h))),
-                      SizedBox(height: 6.v),
-                      Container(
-                          margin: EdgeInsets.only(left: 271.h, right: 16.h),
-                          padding: EdgeInsets.all(2.h),
-                          decoration: AppDecoration.outlinePrimary2.copyWith(
-                              borderRadius: BorderRadiusStyle.circleBorder6),
-                          child: Container(
-                              height: 6.adaptSize,
-                              width: 6.adaptSize,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(3.h),
-                                  gradient: LinearGradient(
-                                      begin: Alignment(0.5, 0),
-                                      end: Alignment(0.5, 1),
-                                      colors: [
-                                        theme.colorScheme.primary,
-                                        theme.colorScheme.primary
-                                      ])))),
-                      SizedBox(height: 37.v),
-                      Container(
-                          width: 194.h,
-                          margin: EdgeInsets.only(right: 5.h),
-                          child: Text("msg15".tr,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: CustomTextStyles.titleSmallNunitoBlack900
-                                  .copyWith(height: 1.13))),
-                      SizedBox(height: 3.v),
-                      _buildGroup243(),
-                      SizedBox(height: 32.v),
-                      Container(
-                          width: 155.h,
-                          margin: EdgeInsets.only(right: 6.h),
-                          child: Text("msg16".tr,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: CustomTextStyles.titleSmallNunitoBlack900
-                                  .copyWith(height: 1.13))),
-                      SizedBox(height: 2.v),
-                      _buildGroup244(),
-                      Spacer(flex: 53)
+                      Spacer(flex: 30),
+                      YesNoQuestionWidget(
+                      question: 'هل تعاني من أي حساسية؟',
+                        ),
+                      
+                      SizedBox(height: 30.v),
+                      YesNoQuestionWidget(
+                      question: "msg15".tr,
+                        ),
+                      SizedBox(height: 30.v),
+                      
+                      YesNoQuestionWidget(
+                      question: "msg16".tr,
+                        ),
                     ])),
             bottomNavigationBar: _buildTf()));
   }
 
   /// Section Widget
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-        leadingWidth: 374.h,
-        leading: AppbarLeadingImage(
-            imagePath: ImageConstant.imgIconChevronLeftGray900,
-            margin: EdgeInsets.fromLTRB(22.h, 15.v, 328.h, 16.v)));
-  }
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  return AppBar(
+    leading: IconButton(
+      icon: Icon(Icons.arrow_back), // Use Material Icons' arrow_back icon
+      onPressed: () => Navigator.of(context).pop(), // Navigate back on press
+    ),
+    actions: <Widget>[
+      AppbarTitle(
+              text: "lbl".tr,
+              margin: EdgeInsets.fromLTRB(27.h, 13.v, 27.h, 10.v))
+    ],
+  );
+}
 
-  /// Section Widget
-  Widget _buildGroup243() {
-    return Padding(
-        padding: EdgeInsets.only(left: 235.h, right: 15.h),
-        child: Obx(() => Column(children: [
-              CustomRadioButton(
-                  width: 48.h,
-                  text: "lbl25".tr,
-                  value: controller
-                      .specialQuestionsModelObj.value.radioList.value[0],
-                  groupValue: controller.radioGroup.value,
-                  isRightCheck: true,
-                  onChange: (value) {
-                    controller.radioGroup.value = value;
-                  }),
-              Padding(
-                  padding: EdgeInsets.only(left: 9.h),
-                  child: CustomRadioButton(
-                      text: "lbl26".tr,
-                      value: controller
-                          .specialQuestionsModelObj.value.radioList.value[1],
-                      groupValue: controller.radioGroup.value,
-                      onChange: (value) {
-                        controller.radioGroup.value = value;
-                      }))
-            ])));
-  }
 
-  /// Section Widget
-  Widget _buildGroup244() {
-    return Padding(
-        padding: EdgeInsets.only(left: 235.h, right: 15.h),
-        child: Obx(() => Column(children: [
-              CustomRadioButton(
-                  width: 48.h,
-                  text: "lbl25".tr,
-                  value: controller
-                      .specialQuestionsModelObj.value.radioList1.value[0],
-                  groupValue: controller.radioGroup1.value,
-                  isRightCheck: true,
-                  onChange: (value) {
-                    controller.radioGroup1.value = value;
-                  }),
-              Padding(
-                  padding: EdgeInsets.only(left: 9.h),
-                  child: CustomRadioButton(
-                      text: "lbl26".tr,
-                      value: controller
-                          .specialQuestionsModelObj.value.radioList1.value[1],
-                      groupValue: controller.radioGroup1.value,
-                      onChange: (value) {
-                        controller.radioGroup1.value = value;
-                      }))
-            ])));
-  }
-
+  /// Section Widge
   /// Section Widget
   Widget _buildTf() {
     return CustomElevatedButton(
@@ -181,3 +99,64 @@ class SpecialQuestionsScreen extends GetWidget<SpecialQuestionsController> {
     );
   }
 }
+
+
+class YesNoQuestionWidget extends StatefulWidget {
+  final String question;
+
+  const YesNoQuestionWidget({
+    Key? key,
+    required this.question,
+  }) : super(key: key);
+
+  @override
+  _YesNoQuestionWidgetState createState() => _YesNoQuestionWidgetState();
+}
+
+class _YesNoQuestionWidgetState extends State<YesNoQuestionWidget> {
+  String? _selectedAnswer;
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.ltr, // Force left-to-right direction
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end, // Align to the left
+        children: [
+          Text(
+            widget.question,
+            style: TextStyle(fontSize: 22, color: Colors.black),
+            textAlign: TextAlign.right,
+          ),
+          SizedBox(height: 8), // Add some spacing between the question and options
+          _buildOption("lbl25".tr, 'no'),
+          _buildOption("lbl26".tr, 'yes'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOption(String title, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end, // Align the Row's children to the left
+      children: [
+                Text(
+          title,
+          style: TextStyle(fontSize: 16, color: Colors.black),
+        ),
+        Radio<String>(
+          value: value,
+          groupValue: _selectedAnswer,
+          onChanged: (String? newValue) {
+            setState(() {
+              _selectedAnswer = newValue;
+            });
+          },
+          activeColor: Colors.blue,
+        ),
+
+      ],
+    );
+  }
+}
+
