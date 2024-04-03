@@ -350,21 +350,24 @@ class DoctorDetailScreen extends GetWidget<DoctorDetailController> {
 
   /// Section Widget
   Widget _buildTime() {
-    return Wrap(
-      runSpacing: 13.v,
-      spacing: 13.h,
-      children: List<Widget>.generate(
-        controller.doctorDetailModelObj.value.timeItemList.value.length,
-        (index) {
-          TimeItemModel model =
-              controller.doctorDetailModelObj.value.timeItemList.value[index];
+    return Container(
+      width: 500.v,
+      child: Center(
+       child: Wrap(
+          runSpacing: 13.v,
+          spacing: 13.h,
+          children: List<Widget>.generate(
+            controller.doctorDetailModelObj.value.timeItemList.value.length,
+            (index) {
+              TimeItemModel model = controller
+                  .doctorDetailModelObj.value.timeItemList.value[index];
 
-          return TimeItemWidget(
-            model,
-          );
-        },
-      ),
-    );
+              return TimeItemWidget(
+                model,
+              );
+            },
+          ),
+        )));
   }
 
   /// Section Widget
