@@ -48,11 +48,11 @@ class EditProfileScreen extends GetWidget<EditProfileController> {
                                                 height: 80.adaptSize,
                                                 width: 80.adaptSize,
                                                 radius:
-                                                    BorderRadius.circular(40.h),
+                                                BorderRadius.circular(40.h),
                                                 alignment: Alignment.center),
                                             Align(
                                                 alignment:
-                                                    Alignment.bottomRight,
+                                                Alignment.bottomRight,
                                                 child: Container(
                                                     height: 16.adaptSize,
                                                     width: 16.adaptSize,
@@ -60,20 +60,20 @@ class EditProfileScreen extends GetWidget<EditProfileController> {
                                                         right: 4.h,
                                                         bottom: 5.v),
                                                     padding:
-                                                        EdgeInsets.all(3.h),
+                                                    EdgeInsets.all(3.h),
                                                     decoration: AppDecoration
                                                         .fillOnPrimary
                                                         .copyWith(
-                                                            borderRadius:
-                                                                BorderRadiusStyle
-                                                                    .circleBorder6),
+                                                        borderRadius:
+                                                        BorderRadiusStyle
+                                                            .circleBorder6),
                                                     child: CustomImageView(
                                                         imagePath: ImageConstant
                                                             .imgCamera,
                                                         height: 10.adaptSize,
                                                         width: 10.adaptSize,
                                                         alignment:
-                                                            Alignment.center)))
+                                                        Alignment.center)))
                                           ]))),
                               SizedBox(height: 21.v),
                               Align(
@@ -114,72 +114,101 @@ class EditProfileScreen extends GetWidget<EditProfileController> {
   /// Section Widget
   Widget _buildInput() {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.h),
-        child: CustomTextFormField(
-            controller: controller.inputController,
-            hintText: "lbl63".tr,
-            hintStyle: CustomTextStyles.titleMediumGray900Medium,
-            suffix: Container(
-                margin: EdgeInsets.fromLTRB(17.h, 10.v, 30.h, 22.v),
-                child: CustomImageView(
-                    imagePath: ImageConstant.imgSettingsPrimary,
-                    height: 24.adaptSize,
-                    width: 24.adaptSize)),
-            suffixConstraints: BoxConstraints(maxHeight: 56.v)));
+      padding: EdgeInsets.symmetric(horizontal: 10.h),
+      child: CustomTextFormField(
+        controller: controller.inputController,
+        hintText: "أدخل اسمك الشخصي", // Set the hint text in Arabic
+        obscureText: false, // Allow deleting text when typing
+        suffix: GestureDetector(
+          onTap: () {
+            // Clear the text field when the suffix is tapped
+            controller.inputController.clear();
+          },
+          child: Container(
+            margin: EdgeInsets.fromLTRB(17.h, 10.v, 30.h, 22.v),
+            child: CustomImageView(
+              imagePath: ImageConstant.imgSettingsPrimary,
+              height: 24.adaptSize,
+              width: 24.adaptSize,
+            ),
+          ),
+        ),
+        suffixConstraints: BoxConstraints(maxHeight: 56.v),
+      ),
+    );
   }
+
 
   /// Section Widget
   Widget _buildEmail() {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.h),
-        child: CustomTextFormField(
-            controller: controller.emailController,
-            hintText: "msg_ameliarenata_gmail_com".tr,
-            textInputType: TextInputType.emailAddress,
-            suffix: Container(
-                margin: EdgeInsets.fromLTRB(16.h, 16.v, 30.h, 16.v),
-                child: CustomImageView(
-                    imagePath: ImageConstant.imgSms,
-                    height: 24.adaptSize,
-                    width: 24.adaptSize)),
-            suffixConstraints: BoxConstraints(maxHeight: 56.v),
-            validator: (value) {
-              if (value == null || (!isValidEmail(value, isRequired: true))) {
-                return "err_msg_please_enter_valid_email".tr;
-              }
-              return null;
-            }));
+      padding: EdgeInsets.symmetric(horizontal: 10.h),
+      child: CustomTextFormField(
+        controller: controller.emailController,
+        hintText: "أدخل بريدك الإلكتروني", // Set the hint text in Arabic
+        textInputType: TextInputType.emailAddress,
+        obscureText: false, // Allow deleting text when typing
+        suffix: Container(
+          margin: EdgeInsets.fromLTRB(16.h, 16.v, 30.h, 16.v),
+          child: CustomImageView(
+            imagePath: ImageConstant.imgSms,
+            height: 24.adaptSize,
+            width: 24.adaptSize,
+          ),
+        ),
+        suffixConstraints: BoxConstraints(maxHeight: 56.v),
+        validator: (value) {
+          if (value == null || (!isValidEmail(value, isRequired: true))) {
+            return "الرجاء إدخال بريد إلكتروني صالح"; // Display error message in Arabic
+          }
+          return null;
+        },
+      ),
+    );
   }
+
 
   /// Section Widget
   Widget _buildInput1() {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.h),
-        child: Obx(() => CustomTextFormField(
-            controller: controller.inputController1,
-            textInputAction: TextInputAction.done,
-            prefix: Container(
-                margin: EdgeInsets.symmetric(horizontal: 18.h, vertical: 13.v),
-                child: CustomImageView(
-                    imagePath: ImageConstant.imgIconEyeSlash,
-                    height: 24.adaptSize,
-                    width: 24.adaptSize)),
-            prefixConstraints: BoxConstraints(maxHeight: 56.v),
-            suffix: InkWell(
-                onTap: () {
-                  controller.isShowPassword.value =
-                      !controller.isShowPassword.value;
-                },
-                child: Container(
-                    margin:
-                        EdgeInsets.symmetric(horizontal: 26.h, vertical: 13.v),
-                    child: CustomImageView(
-                        imagePath: ImageConstant.imgIconPassword,
-                        height: 24.adaptSize,
-                        width: 24.adaptSize))),
-            suffixConstraints: BoxConstraints(maxHeight: 56.v),
-            obscureText: controller.isShowPassword.value)));
+      padding: EdgeInsets.symmetric(horizontal: 10.h),
+      child: Obx(() => CustomTextFormField(
+        controller: controller.inputController1,
+        hintText: "ادخل كلمة المرور",
+        textInputAction: TextInputAction.done,
+        prefix: GestureDetector(
+          onTap: () {
+            controller.isShowPassword.value = !controller.isShowPassword.value;
+          },
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 18.h, vertical: 13.v),
+            child: CustomImageView(
+              imagePath: ImageConstant.imgIconEyeSlash, // Keep it consistent
+              height: 24.adaptSize,
+              width: 24.adaptSize,
+            ),
+          ),
+        ),
+        prefixConstraints: BoxConstraints(maxHeight: 56.v),
+        suffix: InkWell(
+          onTap: () {
+            controller.isShowPassword.value = !controller.isShowPassword.value;
+          },
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 26.h, vertical: 13.v),
+            child: CustomImageView(
+              imagePath: ImageConstant.imgIconPassword,
+              height: 24.adaptSize,
+              width: 24.adaptSize,
+            ),
+          ),
+        ),
+        suffixConstraints: BoxConstraints(maxHeight: 56.v),
+        obscureText: !controller.isShowPassword.value,
+      )),
+    );
   }
+
 
   /// Section Widget
   Widget _buildTermsofServicePrivacyAgreement() {

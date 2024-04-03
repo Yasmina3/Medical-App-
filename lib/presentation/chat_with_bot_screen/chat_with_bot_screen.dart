@@ -6,13 +6,12 @@ import 'package:tabibak/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/app_export.dart';
 import 'controller/chat_with_bot_controller.dart';
-
 // ignore_for_file: must_be_immutable
 class ChatWithBotScreen extends GetWidget<ChatWithBotController> {
   const ChatWithBotScreen({Key? key})
       : super(
-          key: key,
-        );
+    key: key,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +50,7 @@ class ChatWithBotScreen extends GetWidget<ChatWithBotController> {
                           Text(
                             "lbl_bot".tr,
                             style:
-                                CustomTextStyles.titleSmallOnPrimaryContainer,
+                            CustomTextStyles.titleSmallOnPrimaryContainer,
                           ),
                           SizedBox(height: 4.v),
                           Text(
@@ -70,16 +69,19 @@ class ChatWithBotScreen extends GetWidget<ChatWithBotController> {
                   left: 1.h,
                   right: 78.h,
                 ),
-                child: CustomTextFormField(
-                  controller: controller.chatOneController,
-                  hintText: "msg31".tr,
-                  hintStyle: CustomTextStyles.bodyLargeGray700,
-                  contentPadding: EdgeInsets.symmetric(
+                child: Container(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 15.h,
                     vertical: 8.v,
                   ),
-                  borderDecoration: TextFormFieldStyleHelper.fillPrimary,
-                  fillColor: theme.colorScheme.primary.withOpacity(0.1),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: theme.colorScheme.primary.withOpacity(0.1),
+                  ),
+                  child: Text(
+                    "msg31".tr,
+                    style: CustomTextStyles.bodyLargeGray700,
+                  ),
                 ),
               ),
               SizedBox(height: 15.v),
@@ -110,7 +112,7 @@ class ChatWithBotScreen extends GetWidget<ChatWithBotController> {
                           Text(
                             "lbl_bot".tr,
                             style:
-                                CustomTextStyles.titleSmallOnPrimaryContainer,
+                            CustomTextStyles.titleSmallOnPrimaryContainer,
                           ),
                           SizedBox(height: 4.v),
                           Text(
@@ -186,7 +188,7 @@ class ChatWithBotScreen extends GetWidget<ChatWithBotController> {
                           Text(
                             "lbl_bot".tr,
                             style:
-                                CustomTextStyles.titleSmallOnPrimaryContainer,
+                            CustomTextStyles.titleSmallOnPrimaryContainer,
                           ),
                           SizedBox(height: 3.v),
                           Text(
@@ -283,33 +285,41 @@ class ChatWithBotScreen extends GetWidget<ChatWithBotController> {
   /// Section Widget
   Widget _buildTypeMessage() {
     return Padding(
-      padding: EdgeInsets.only(
-        left: 21.h,
-        right: 21.h,
-        bottom: 26.v,
-      ),
-      child: CustomTextFormField(
-        controller: controller.typeMessageController,
-        hintText: "lbl42".tr,
-        textInputAction: TextInputAction.done,
-        suffix: Container(
-          margin: EdgeInsets.fromLTRB(30.h, 15.v, 28.h, 15.v),
-          child: CustomImageView(
-            imagePath: ImageConstant.imgClose40x40,
-            height: 20.v,
+      padding: EdgeInsets.only(left: 21.h, right: 21.h, bottom: 26.v),
+      child: Row(
+        children: [
+          Expanded(
+            child: CustomTextFormField(
+              controller: controller.typeMessageController,
+              hintText: "lbl42".tr,
+              textInputAction: TextInputAction.done,
+              contentPadding: EdgeInsets.only(left: 30.h, top: 15.v, bottom: 15.v),
+            ),
           ),
-        ),
-        suffixConstraints: BoxConstraints(
-          maxHeight: 50.v,
-        ),
-        contentPadding: EdgeInsets.only(
-          left: 30.h,
-          top: 15.v,
-          bottom: 15.v,
-        ),
+          SizedBox(width: 10.h), // Adjust spacing between icons
+          IconButton(
+            icon: Icon(Icons.attach_file), // Built-in attach icon
+            onPressed: () {
+              // Add action for attaching files
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.send), // Built-in send icon
+            onPressed: () {
+              // Add action for sending message
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.mic), // Built-in microphone icon
+            onPressed: () {
+              // Add action for using microphone
+            },
+          ),
+        ],
       ),
     );
   }
+
 
   /// Common widget
   Widget _buildChat4({required String widget}) {
