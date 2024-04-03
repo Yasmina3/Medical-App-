@@ -8,31 +8,29 @@ import 'package:flutter/material.dart';
 import 'package:tabibak/core/app_export.dart';
 import 'controller/onboarding_two_controller.dart';
 
-// ignore_for_file: must_be_immutable
-class OnboardingTwoScreen extends GetWidget<OnboardingTwoController> {
-  const OnboardingTwoScreen({Key? key})
-      : super(
-          key: key,
-        );
+class OnboardingTwoScreen extends StatelessWidget {
+  const OnboardingTwoScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: Container(
-          height: 704.v,
-          width: double.maxFinite,
-          padding: EdgeInsets.symmetric(horizontal: 22.h),
-          child: Stack(
-            alignment: Alignment.bottomCenter,
+    final ThemeData theme = Theme.of(context);
+
+    return Scaffold(
+      appBar: _buildAppBar(theme),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 22),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(height: 20), // Adjust spacing as needed
               CustomImageView(
                 imagePath: ImageConstant.img7xm5,
-                width: 321.h,
+                width: double.infinity,
                 alignment: Alignment.topLeft,
               ),
-              _buildHeadline(),
+              SizedBox(height: 20), // Adjust spacing as needed
+              _buildHeadline(theme),
             ],
           ),
         ),
@@ -40,87 +38,45 @@ class OnboardingTwoScreen extends GetWidget<OnboardingTwoController> {
     );
   }
 
-  /// Section Widget
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
+  PreferredSizeWidget _buildAppBar(ThemeData theme) {
+    return AppBar(
       actions: [
         AppbarSubtitleFive(
           text: "lbl_skip".tr,
-          margin: EdgeInsets.symmetric(
-            horizontal: 22.h,
-            vertical: 19.v,
-          ),
+          margin: EdgeInsets.symmetric(horizontal: 22, vertical: 19),
         ),
       ],
     );
   }
 
-  /// Section Widget
-  Widget _buildHeadline() {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Container(
-        height: 226.v,
-        width: 321.h,
-        margin: EdgeInsets.only(bottom: 5.v),
-        child: Stack(
-          alignment: Alignment.bottomRight,
-          children: [
-            Obx(
-              () => CarouselSlider.builder(
-                options: CarouselOptions(
-                  height: 226.v,
-                  initialPage: 0,
-                  autoPlay: true,
-                  viewportFraction: 1.0,
-                  enableInfiniteScroll: false,
-                  scrollDirection: Axis.horizontal,
-                  onPageChanged: (
-                    index,
-                    reason,
-                  ) {
-                    controller.sliderIndex.value = index;
-                  },
-                ),
-                itemCount: controller
-                    .onboardingTwoModelObj.value.headlineItemList.value.length,
-                itemBuilder: (context, index, realIndex) {
-                  HeadlineItemModel model = controller.onboardingTwoModelObj
-                      .value.headlineItemList.value[index];
-                  return HeadlineItemWidget(
-                    model,
-                  );
-                },
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Obx(
-                () => Container(
-                  height: 4.v,
-                  margin: EdgeInsets.only(
-                    right: 14.h,
-                    bottom: 48.v,
-                  ),
-                  child: AnimatedSmoothIndicator(
-                    activeIndex: controller.sliderIndex.value,
-                    count: controller.onboardingTwoModelObj.value
-                        .headlineItemList.value.length,
-                    axisDirection: Axis.horizontal,
-                    effect: ScrollingDotsEffect(
-                      spacing: 3,
-                      activeDotColor: theme.colorScheme.primary,
-                      dotColor: theme.colorScheme.primary.withOpacity(0.46),
-                      dotHeight: 4.v,
-                      dotWidth: 12.h,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+Widget _buildHeadline(ThemeData theme) {
+  return SizedBox(
+    height: 300, // Adjust the height as needed
+    child: CarouselSlider.builder(
+      options: CarouselOptions(
+        height: 300, // Adjust as needed
+        initialPage: 0,
+        autoPlay: true,
+        viewportFraction: 1.0,
+        enableInfiniteScroll: false,
+        scrollDirection: Axis.horizontal,
+        onPageChanged: (
+          index,
+          reason,
+        ) {
+          // Assuming you have access to the controller
+          // controller.sliderIndex.value = index;
+        },
       ),
-    );
-  }
+      itemCount: 5, // Adjust as needed
+      itemBuilder: (context, index, realIndex) {
+        // Replace with your actual data
+        return SingleChildScrollView(
+          child: HeadlineItemWidget(HeadlineItemModel()),
+        );
+      },
+    ),
+  );
+}
+
 }
