@@ -33,8 +33,8 @@ import '../presentation/create_new_password_screen/create_new_password_screen.da
 import '../presentation/create_new_password_screen/binding/create_new_password_binding.dart';
 import '../presentation/popup_screen/popup_screen.dart';
 import '../presentation/popup_screen/binding/popup_binding.dart';
-import '../presentation/popupLogout/popup_logout.dart';
-import '../presentation/popupLogout/binding/popup_binding.dart';
+import '../presentation/popup_screen/popup_logout.dart';
+import '../presentation/popup_screen/binding/popupL_binding.dart';
 import '../presentation/home_screen/home_screen.dart';
 import '../presentation/home_screen/binding/home_binding.dart';
 import '../presentation/top_doctor_screen/top_doctor_screen.dart';
