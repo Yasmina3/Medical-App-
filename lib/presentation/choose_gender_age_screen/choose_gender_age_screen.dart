@@ -1,15 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tabibak/widgets/app_bar/custom_app_bar.dart';
-import 'package:tabibak/widgets/app_bar/appbar_leading_image.dart';
+import 'package:tabibak/widgets/AgeWidget.dart';
 import 'package:tabibak/widgets/app_bar/appbar_title.dart';
 import 'package:another_stepper/widgets/another_stepper.dart';
 import 'package:another_stepper/dto/stepper_data.dart';
 import 'package:tabibak/widgets/custom_elevated_button.dart';
 import 'package:tabibak/core/app_export.dart';
-import 'controller/choose_gender_age_controller.dart';
-
 
 class ChooseGenderAgeScreen extends StatefulWidget {
   const ChooseGenderAgeScreen({Key? key}) : super(key: key);
@@ -51,7 +48,7 @@ class _ChooseGenderAgeScreenState extends State<ChooseGenderAgeScreen> {
                 _buildGenderOptions(),
                 SizedBox(height: 65.v),
                 Text("lbl20".tr, style: theme.textTheme.headlineLarge),
-                // ... Your other widgets here
+                AgeWidget(),
               ],
             ),
           ),
@@ -60,6 +57,7 @@ class _ChooseGenderAgeScreenState extends State<ChooseGenderAgeScreen> {
       ),
     );
   }
+
 
   Widget _buildGenderOptions() {
     // Replace with your actual colors and labels
@@ -97,18 +95,20 @@ class _ChooseGenderAgeScreenState extends State<ChooseGenderAgeScreen> {
   }
   /// Section Widget
   PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      height: 70.0,
-        leadingWidth: 46.h,
-        leading: AppbarLeadingImage(
-            imagePath: ImageConstant.imgIconChevronLeft,
-            margin: EdgeInsets.only(left: 22.h, top: 12.v, bottom: 19.v)),
-        actions: [
-          AppbarTitle(
-              text: "lbl".tr,
-              margin: EdgeInsets.symmetric(horizontal: 26.h, vertical: 12.v))
-        ]);
-  }
+  return AppBar(
+    leading: IconButton(
+      icon: Icon(Icons.arrow_back), // Assuming you're using an icon here; adjust if it's an image
+      onPressed: () => Navigator.of(context).pop(),
+    ),
+    actions: <Widget>[
+            AppbarTitle(
+        text: "lbl".tr,
+        margin: EdgeInsets.symmetric(horizontal: 26.h, vertical: 12.v),
+      ),
+    ],
+  );
+}
+
 
   /// Section Widget
   Widget _buildTf() {
