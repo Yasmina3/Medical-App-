@@ -19,18 +19,17 @@ class DoctorDetailScreen extends GetWidget<DoctorDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: _buildAppBar(context),
-        body: Container(
-          width: double.maxFinite,
+    return Scaffold(
+      appBar: _buildAppBar(context),
+      body: SingleChildScrollView(
+        child: Container(
           padding: EdgeInsets.symmetric(vertical: 31.v),
           child: Column(
             children: [
               _buildWidget(),
               SizedBox(height: 25.v),
               _buildDescription(),
-              Spacer(),
+              SizedBox(height: 25.v),
               _buildCalendar(),
               SizedBox(height: 30.v),
               Divider(
@@ -43,8 +42,8 @@ class DoctorDetailScreen extends GetWidget<DoctorDetailController> {
             ],
           ),
         ),
-        bottomNavigationBar: _buildTf(),
       ),
+      bottomNavigationBar: _buildTf(),
     );
   }
 
@@ -245,8 +244,8 @@ class DoctorDetailScreen extends GetWidget<DoctorDetailController> {
                 showHeader: false,
               ),
               dayProps: EasyDayProps(
-                width: 46.h,
-                height: 70.v,
+                width: 70,
+                height: 70,
               ),
               onDateChange: (selectedDate) {
                 controller.selectedDatesFromCalendar1.value = selectedDate;
@@ -255,7 +254,7 @@ class DoctorDetailScreen extends GetWidget<DoctorDetailController> {
                   isSelected) {
                 return isSelected
                     ? Container(
-                        width: 46.h,
+                        width: 70,
                         padding: EdgeInsets.symmetric(
                           horizontal: 11.h,
                           vertical: 13.v,
@@ -297,7 +296,7 @@ class DoctorDetailScreen extends GetWidget<DoctorDetailController> {
                         ),
                       )
                     : Container(
-                        width: 46.h,
+                        width: 70,
                         padding: EdgeInsets.symmetric(
                           horizontal: 10.h,
                           vertical: 13.v,
@@ -351,9 +350,9 @@ class DoctorDetailScreen extends GetWidget<DoctorDetailController> {
   /// Section Widget
   Widget _buildTime() {
     return Container(
-      width: 500.v,
-      child: Center(
-       child: Wrap(
+        width: 500.v,
+        child: Center(
+            child: Wrap(
           runSpacing: 13.v,
           spacing: 13.h,
           children: List<Widget>.generate(
