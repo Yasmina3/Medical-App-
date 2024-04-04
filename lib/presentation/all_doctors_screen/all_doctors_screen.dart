@@ -7,32 +7,33 @@ import 'package:tabibak/widgets/app_bar/appbar_trailing_image.dart';
 import 'controller/all_doctors_controller.dart';
 import 'models/fortyseven2_item_model.dart';
 import 'widgets/fortyseven2_item_widget.dart';
+
 class AllDoctorsScreen extends GetWidget<AllDoctorsController> {
   const AllDoctorsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
+    final Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: _buildAppBar(),
-      body: Padding(
-        padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02, horizontal: screenWidth * 0.02),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
+      body: SingleChildScrollView( 
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: screenSize.height * 0.02, horizontal: screenSize.width * 0.02),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(), // Disable scrolling of the ListView
                 itemCount: controller.allDoctorsModelObj.value.fortyseven2ItemList.value.length,
                 itemBuilder: (context, index) {
                   Fortyseven2ItemModel model = controller.allDoctorsModelObj.value.fortyseven2ItemList.value[index];
-                  return Fortyseven2ItemWidget(model, onTapDoctor: onTapDoctor);
+                  return Fortyseven2ItemWidget(model, onTapDoctor: onTapDoctor, screenSize: screenSize);
                 },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
