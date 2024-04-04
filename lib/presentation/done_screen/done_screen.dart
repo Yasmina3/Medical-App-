@@ -1,4 +1,5 @@
-
+import 'package:tabibak/widgets/app_bar/custom_app_bar.dart';
+import 'package:tabibak/widgets/app_bar/appbar_leading_image.dart';
 import 'package:tabibak/widgets/app_bar/appbar_title.dart';
 import 'package:another_stepper/widgets/another_stepper.dart';
 import 'package:another_stepper/dto/stepper_data.dart';
@@ -14,18 +15,17 @@ class DoneScreen extends GetWidget<DoneController> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            appBar: _buildAppBar(context),
+            appBar: _buildAppBar(),
             body: Container(
                 width: double.maxFinite,
                 padding: EdgeInsets.symmetric(horizontal: 38.h, vertical: 17.v),
                 child: Column(children: [
                   AnotherStepper(
                       stepperDirection: Axis.horizontal,
-                      activeIndex: 4,
+                      activeIndex: 0,
                       barThickness: 5,
                       inverted: true,
                       stepperList: [
-                        StepperData(),
                         StepperData(),
                         StepperData(),
                         StepperData(),
@@ -52,19 +52,19 @@ class DoneScreen extends GetWidget<DoneController> {
   }
 
   /// Section Widget
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-  return AppBar(
-    leading: IconButton(
-      icon: Icon(Icons.arrow_back), // Use Material Icons' arrow_back icon
-      onPressed: () => Navigator.of(context).pop(), // Navigate back on press
-    ),
-    actions: <Widget>[
-      AppbarTitle(
+  PreferredSizeWidget _buildAppBar() {
+    return CustomAppBar(
+        leadingWidth: 40.h,
+        leading: AppbarLeadingImage(
+            imagePath: ImageConstant.imgIconChevronLeft,
+            margin: EdgeInsets.only(left: 16.h, top: 12.v, bottom: 19.v)),
+        actions: [
+          AppbarTitle(
               text: "lbl".tr,
-              margin: EdgeInsets.fromLTRB(27.h, 13.v, 27.h, 10.v))
-    ],
-  );
-}
+              margin: EdgeInsets.symmetric(horizontal: 22.h, vertical: 12.v))
+        ]);
+  }
+
   /// Section Widget
   Widget _buildTf() {
     return CustomElevatedButton(

@@ -13,15 +13,30 @@ import 'controller/find_doctors_controller.dart';
 class FindDoctorsScreen extends GetWidget<FindDoctorsController> {
   const FindDoctorsScreen({Key? key}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
+    List<List<List<String>>> matrix = [
+      [
+        ["lbl48",ImageConstant.imgIconDoctor],
+        ["lbl49",ImageConstant.imgIconLungs],
+        ["lbl50",ImageConstant.imgIconDentist],
+
+      ],
+      [
+        ["قلب",ImageConstant.imgIconCardiologist],
+        ["جراحة",ImageConstant.imgIconSyringe],
+        ["جميع التخصصات",ImageConstant.imgFloatingIcon],
+      ],
+    ];
+
     return SafeArea(
         child: Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: _buildAppBar(),
             body: Container(
                 width: double.maxFinite,
-                padding: EdgeInsets.symmetric(horizontal: 13.h, vertical: 20.v),
+                padding: EdgeInsets.symmetric(horizontal: 5.h, vertical: 20.v),
                 child: Column(children: [
                   Padding(
                       padding: EdgeInsets.symmetric(horizontal: 11.h),
@@ -36,9 +51,7 @@ class FindDoctorsScreen extends GetWidget<FindDoctorsController> {
                           child: Text("lbl47".tr,
                               style: CustomTextStyles.titleLargeSemiBold))),
                   SizedBox(height: 18.v),
-                  _buildRow1(),
-                  SizedBox(height: 8.v),
-                  _buildNineteen(),
+                  _buildNineteen(matrix),
                   SizedBox(height: 24.v),
                   Align(
                       alignment: Alignment.centerRight,
@@ -67,70 +80,31 @@ class FindDoctorsScreen extends GetWidget<FindDoctorsController> {
         ]);
   }
 
-  /// Section Widget
-  Widget _buildRow1() {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.h),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildLungs(
-                  iconLungs: ImageConstant.imgIconDoctor,
-                  widget: "lbl48".tr,
-                  onTapLungs: () {
-                    onTapGeneral();
-                  }),
-              _buildLungs(
-                  iconLungs: ImageConstant.imgIconLungs,
-                  widget: "lbl49".tr,
-                  onTapLungs: () {
-                    onTapLungs();
-                  }),
-              Padding(
-                  padding: EdgeInsets.only(bottom: 5.v),
-                  child: _buildPsychiatrist(
-                      settings: ImageConstant.imgIconDentist,
-                      widget: "lbl50".tr,
-                      onTapPsychiatrist: () {
-                        onTapDentist();
-                      })),
-              Padding(
-                  padding: EdgeInsets.only(bottom: 3.v),
-                  child: _buildPsychiatrist(
-                      settings: ImageConstant.imgSettings,
-                      widget: "lbl38".tr,
-                      onTapPsychiatrist: () {
-                        onTapPsychiatrist();
-                      }))
-            ]));
-  }
 
   /// Section Widget
-  Widget _buildNineteen() {
+  Widget _buildNineteen(var matrix) {
     return Padding(
-        padding: EdgeInsets.only(left: 11.h),
-        child: Obx(() => GridView.builder(
+        padding: EdgeInsets.only(left: 11.h,bottom: 10.h),
+        child:  GridView.builder(
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisExtent: 84.v,
-                crossAxisCount: 1,
-                mainAxisSpacing: 1.h,
-                crossAxisSpacing: 1.h),
+
+                crossAxisCount: matrix[0].length,
+                mainAxisSpacing: 10.h,
+                crossAxisSpacing: 20.h),
             physics: NeverScrollableScrollPhysics(),
-            itemCount: controller
-                .findDoctorsModelObj.value.nineteenItemList.value.length,
+            itemCount:6 ,
             itemBuilder: (context, index) {
-              NineteenItemModel model = controller
-                  .findDoctorsModelObj.value.nineteenItemList.value[index];
-              return NineteenItemWidget(model, onTapCovid: () {
-                onTapCovid();
-              }, onTapSurgeon: () {
-                onTapSurgeon();
-              }, onTapCardiologist: () {
-                onTapCardiologist();
-              });
-            })));
+              int row = index ~/ 3;
+              int column = index % 3;
+
+              print("row={$row} col={$column}");
+
+              List<String> widget = matrix[row][column] ;
+              return _buildSpeciality(iconLungs: widget[1], widget: widget[0].tr);
+            }
+        )
+    );
   }
 
   /// Section Widget
@@ -155,27 +129,30 @@ class FindDoctorsScreen extends GetWidget<FindDoctorsController> {
   }
 
   /// Common widget
-  Widget _buildLungs({
+  Widget _buildSpeciality({
     required String iconLungs,
     required String widget,
     Function? onTapLungs,
   }) {
     return GestureDetector(
         onTap: () {
-          onTapLungs?.call();
+          Get.toNamed(
+            AppRoutes.allDoctorsScreen,
+          );
         },
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+
           Container(
               height: 56.v,
               width: 64.h,
               padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 12.v),
-              decoration: AppDecoration.outlineBlack
-                  .copyWith(borderRadius: BorderRadiusStyle.roundedBorder16),
+
               child: CustomImageView(
                   imagePath: iconLungs,
                   height: 32.adaptSize,
                   width: 32.adaptSize,
                   alignment: Alignment.center)),
+
           SizedBox(height: 10.v),
           Padding(
               padding: EdgeInsets.only(left: 16.h),
@@ -185,34 +162,7 @@ class FindDoctorsScreen extends GetWidget<FindDoctorsController> {
         ]));
   }
 
-  /// Common widget
-  Widget _buildPsychiatrist({
-    required String settings,
-    required String widget,
-    Function? onTapPsychiatrist,
-  }) {
-    return GestureDetector(
-        onTap: () {
-          onTapPsychiatrist?.call();
-        },
-        child: Column(children: [
-          Container(
-              height: 56.v,
-              width: 64.h,
-              padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 12.v),
-              decoration: AppDecoration.outlineBlack
-                  .copyWith(borderRadius: BorderRadiusStyle.roundedBorder16),
-              child: CustomImageView(
-                  imagePath: settings,
-                  height: 32.adaptSize,
-                  width: 32.adaptSize,
-                  alignment: Alignment.center)),
-          SizedBox(height: 12.v),
-          Text(widget,
-              style: theme.textTheme.bodyMedium!
-                  .copyWith(color: theme.colorScheme.primaryContainer))
-        ]));
-  }
+
 
   /// Navigates to the homeScreen when the action is triggered.
   onTapArrowRight() {

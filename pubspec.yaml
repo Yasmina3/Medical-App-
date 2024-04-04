@@ -7,6 +7,7 @@ dependencies:
   flutter: 
     sdk: flutter
   get: ^4.6.6
+  http: ^0.13.3
   connectivity_plus: ^5.0.2
   shared_preferences: ^2.2.2
   cached_network_image: ^3.3.0
