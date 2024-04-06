@@ -33,24 +33,75 @@ class Headline1ItemWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 47.v),
-            Padding(
-              padding: EdgeInsets.only(left: 72.h),
-              child: Text(
-                "lbl3".tr,
-                style: theme.textTheme.titleLarge,
-              ),
+            SizedBox(height: 15.h),
+            Row(
+              children: [
+                Spacer(),
+                Text(
+                  "lbl3".tr,
+                  style: theme.textTheme.titleLarge,
+                ),
+                SizedBox(width: 10.v)
+              ],
             ),
-            SizedBox(height: 67.v),
-            CustomIconButton(
-              height: 56.adaptSize,
-              width: 56.adaptSize,
-              padding: EdgeInsets.all(15.h),
-              decoration: IconButtonStyleHelper.outlineBlack,
-              child: CustomImageView(
-                imagePath: ImageConstant.imgArrowDown,
+            SizedBox(height: 65.v),
+            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: CustomIconButton(
+                  height: 56.adaptSize,
+                  width: 56.adaptSize,
+                  padding: EdgeInsets.all(15.h),
+                  decoration: IconButtonStyleHelper.outlineBlack,
+                  child: CustomImageView(
+                    imagePath: ImageConstant.imgArrowDown,
+                  ),
+                ),
               ),
-            ),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 18.0,
+                    height: 5.0,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primaryContainer
+                          .withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(2.5),
+                    ),
+                  ),
+                  SizedBox(width: 3.0),
+                  Container(
+                    width: 18.0,
+                    height: 5.0,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primaryContainer
+                          .withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(2.5),
+                    ),
+                  ),
+                  SizedBox(width: 3.0),
+                  Container(
+                    width: 18.0,
+                    height: 5.0,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: BorderRadius.circular(2.5),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 10.h,
+              )
+            ]),
           ],
         ),
       ),

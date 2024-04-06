@@ -98,14 +98,29 @@ class OnboardingOneScreen extends GetWidget<OnboardingOneController> {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      height: 17.v,
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
       actions: [
-        AppbarSubtitleFive(
-          text: "lbl_skip".tr,
-          margin: EdgeInsets.symmetric(horizontal: 26.h),
+        GestureDetector(
+          onTap: () {
+            Get.toNamed(AppRoutes.onboardingTwoScreen);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 26.0, vertical: 19),
+            child: Text(
+              'Skip',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
+              ),
+            ),
+          ),
         ),
       ],
     );
   }
+
+
+
 }

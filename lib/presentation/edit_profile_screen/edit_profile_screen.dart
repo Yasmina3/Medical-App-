@@ -48,11 +48,11 @@ class EditProfileScreen extends GetWidget<EditProfileController> {
                                                 height: 80.adaptSize,
                                                 width: 80.adaptSize,
                                                 radius:
-                                                    BorderRadius.circular(40.h),
+                                                BorderRadius.circular(40.h),
                                                 alignment: Alignment.center),
                                             Align(
                                                 alignment:
-                                                    Alignment.bottomRight,
+                                                Alignment.bottomRight,
                                                 child: Container(
                                                     height: 16.adaptSize,
                                                     width: 16.adaptSize,
@@ -60,20 +60,20 @@ class EditProfileScreen extends GetWidget<EditProfileController> {
                                                         right: 4.h,
                                                         bottom: 5.v),
                                                     padding:
-                                                        EdgeInsets.all(3.h),
+                                                    EdgeInsets.all(3.h),
                                                     decoration: AppDecoration
                                                         .fillOnPrimary
                                                         .copyWith(
-                                                            borderRadius:
-                                                                BorderRadiusStyle
-                                                                    .circleBorder6),
+                                                        borderRadius:
+                                                        BorderRadiusStyle
+                                                            .circleBorder6),
                                                     child: CustomImageView(
                                                         imagePath: ImageConstant
                                                             .imgCamera,
                                                         height: 10.adaptSize,
                                                         width: 10.adaptSize,
                                                         alignment:
-                                                            Alignment.center)))
+                                                        Alignment.center)))
                                           ]))),
                               SizedBox(height: 21.v),
                               Align(

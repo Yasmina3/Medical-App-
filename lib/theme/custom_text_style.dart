@@ -232,6 +232,10 @@ class CustomTextStyles {
         color: theme.colorScheme.onPrimary.withOpacity(1),
         fontWeight: FontWeight.w700,
       );
+  static get titleMediumRed900Bold => theme.textTheme.titleMedium!.copyWith(
+        color: Colors.red,
+        fontWeight: FontWeight.w700,
+      );
   static get titleMediumOnPrimary_1 => theme.textTheme.titleMedium!.copyWith(
         color: theme.colorScheme.onPrimary.withOpacity(1),
       );

@@ -82,7 +82,7 @@ class LoginScreen extends GetWidget<LoginController> {
   /// Section Widget
   PreferredSizeWidget _buildAppBar() {
     return CustomAppBar(
-        height: 49.v,
+        height: 60.v,
         centerTitle: true,
         title: AppbarSubtitleTwo(text: "lbl5".tr),
         actions: [

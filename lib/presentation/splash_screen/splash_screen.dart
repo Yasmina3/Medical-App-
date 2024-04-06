@@ -9,7 +9,7 @@ class SplashScreen extends GetWidget<SplashController> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            backgroundColor: appTheme.black900.withOpacity(0.2),
+            backgroundColor: appTheme.blueA700,
             body: SizedBox(
                 width: double.maxFinite,
                 child: Column(

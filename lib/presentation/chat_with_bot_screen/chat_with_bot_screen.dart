@@ -10,8 +10,8 @@ import 'controller/chat_with_bot_controller.dart';
 class ChatWithBotScreen extends GetWidget<ChatWithBotController> {
   const ChatWithBotScreen({Key? key})
       : super(
-          key: key,
-        );
+    key: key,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class ChatWithBotScreen extends GetWidget<ChatWithBotController> {
                           Text(
                             "lbl_bot".tr,
                             style:
-                                CustomTextStyles.titleSmallOnPrimaryContainer,
+                            CustomTextStyles.titleSmallOnPrimaryContainer,
                           ),
                           SizedBox(height: 4.v),
                           Text(
@@ -112,7 +112,7 @@ class ChatWithBotScreen extends GetWidget<ChatWithBotController> {
                           Text(
                             "lbl_bot".tr,
                             style:
-                                CustomTextStyles.titleSmallOnPrimaryContainer,
+                            CustomTextStyles.titleSmallOnPrimaryContainer,
                           ),
                           SizedBox(height: 4.v),
                           Text(
@@ -188,7 +188,7 @@ class ChatWithBotScreen extends GetWidget<ChatWithBotController> {
                           Text(
                             "lbl_bot".tr,
                             style:
-                                CustomTextStyles.titleSmallOnPrimaryContainer,
+                            CustomTextStyles.titleSmallOnPrimaryContainer,
                           ),
                           SizedBox(height: 3.v),
                           Text(

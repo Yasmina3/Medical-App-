@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         fallbackLocale: Locale('en', 'US'),
         title: 'tabibak',
         initialBinding: InitialBindings(),
-        initialRoute: AppRoutes.onboardingTwoScreen,
+        initialRoute: AppRoutes.doctorDetailScreen,
         getPages: AppRoutes.pages,
       );
     });
