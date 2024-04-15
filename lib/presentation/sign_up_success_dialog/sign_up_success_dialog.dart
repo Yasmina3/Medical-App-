@@ -2,12 +2,15 @@ import 'package:tabibak/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/app_export.dart';
 import 'controller/sign_up_success_controller.dart';
+import 'package:get/get.dart';
+import "../UserController.dart";
 
 // ignore_for_file: must_be_immutable
 class SignUpSuccessDialog extends StatelessWidget {
   SignUpSuccessDialog(this.controller, {Key? key}) : super(key: key);
 
   SignUpSuccessController controller;
+
 
   @override
   Widget build(BuildContext context) {

@@ -91,7 +91,7 @@ class WidgetItemWidget extends StatelessWidget {
                 height: 45.v,
                 margin: EdgeInsets.only(
                   left: 8.h,
-                  top: 33.v,
+                  top: 10.v,
                   bottom: 9.v,
                 ),
               ),

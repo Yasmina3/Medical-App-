@@ -15,6 +15,7 @@ class AllSpecialtiesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
         appBar: _buildAppBar(),
@@ -40,7 +41,7 @@ class AllSpecialtiesScreen extends StatelessWidget {
       padding: EdgeInsets.only(left: 19.h, top: 27.v, right: 19.h),
       child: Obx(
             () => ListView.separated(
-          physics: NeverScrollableScrollPhysics(),
+        //  physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           separatorBuilder: (context, index) {
             return SizedBox(height: 23.v);

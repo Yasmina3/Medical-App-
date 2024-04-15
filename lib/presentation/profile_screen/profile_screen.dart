@@ -2,9 +2,12 @@ import 'package:tabibak/widgets/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/app_export.dart';
 import 'controller/profile_controller.dart';
+import "../UserController.dart";
 
 class ProfileScreen extends GetWidget<ProfileController> {
   const ProfileScreen({Key? key}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {

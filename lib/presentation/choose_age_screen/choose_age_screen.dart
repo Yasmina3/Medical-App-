@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tabibak/widgets/app_bar/custom_app_bar.dart';
 import 'package:tabibak/widgets/app_bar/appbar_title.dart';
 import 'package:another_stepper/widgets/another_stepper.dart';
@@ -7,12 +8,19 @@ import 'package:another_stepper/dto/stepper_data.dart';
 import 'package:tabibak/widgets/custom_elevated_button.dart';
 import 'package:tabibak/core/app_export.dart';
 import 'controller/choose_age_controller.dart';
+import "../UserController.dart" ;
 
 class ChooseAgeScreen extends GetWidget<ChooseAgeController> {
-  const ChooseAgeScreen({Key? key}) : super(key: key);
+  ChooseAgeScreen({Key? key}) : super(key: key);
+
+  TextEditingController nameController = TextEditingController();
+ // UserController Ucontroller = Get.find<UserController>();
+  bool empty_name = false;
+
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
         appBar: _buildAppBar(),
@@ -88,8 +96,17 @@ class ChooseAgeScreen extends GetWidget<ChooseAgeController> {
           ),
           child: IconButton(
             icon: Icon(Icons.edit, color: Colors.white),
-            onPressed: () {
-              // Add your edit picture functionality here
+            onPressed: () async {
+              final pickedFile = await ImagePicker().getImage(source: ImageSource.gallery);
+              if (pickedFile != null) {
+                // Use the picked file (upload it, display it, etc.)
+                // For example, if you want to display the image, you can use the Image.file constructor:
+                // setState(() {
+                //   _imageFile = File(pickedFile.path);
+                // });
+              } else {
+                // User canceled the image picker
+              }
             },
           ),
         ),
@@ -98,37 +115,67 @@ class ChooseAgeScreen extends GetWidget<ChooseAgeController> {
   }
 
   Widget _buildNameTextField() {
-    return TextField(
-      decoration: InputDecoration(
-        hintText: "lbl_momoh_mdj".tr,
-        hintStyle: CustomTextStyles.titleMediumNunitoOnPrimary,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
+    return Column(
+      children: [
+        TextField(
+          controller: nameController,
+          decoration: InputDecoration(
+            hintText: "enter your name",
+            hintStyle: CustomTextStyles.titleMediumNunitoOnPrimary,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            fillColor: Color(0XCE1D24CA),
+            filled: true,
+            contentPadding: EdgeInsets.symmetric(
+              vertical: 10.v,
+              horizontal: 20.h,
+            ),
+          ),
+          style: CustomTextStyles.titleMediumNunitoOnPrimary,
         ),
-        fillColor: Color(0XCE1D24CA),
-        filled: true,
-        contentPadding: EdgeInsets.symmetric(
-          vertical: 10.v,
-          horizontal: 20.h,
-        ),
-      ),
-      style: CustomTextStyles.titleMediumNunitoOnPrimary,
+        empty_name == true ? Container(
+          padding: EdgeInsets.only(top:30.v),
+          child : Text(
+            "Enter a valid name, at least 6 characters",
+            style : TextStyle(
+              fontSize: 13,
+              color: Colors.red,
+            )
+          )
+        ):
+            SizedBox(),
+      ],
     );
   }
 
   Widget _buildTf() {
+    final UserController userController = Get.find<UserController>();
+
     return CustomElevatedButton(
-      height: 59.v,
-      width: 149.h,
+      height: 59,
+      width: 149,
       text: "lbl16".tr,
-      margin: EdgeInsets.only(left: 113.h, right: 113.h, bottom: 44.v),
+      margin: EdgeInsets.only(left: 16, right: 16, bottom: 20),
       buttonStyle: CustomButtonStyles.outlineBlack,
       buttonTextStyle: CustomTextStyles.titleMediumNunitoOnPrimaryExtraBold,
       onPressed: () {
-        onTaptf();
+        String name = nameController.text;
+        if (name.length >= 6) {
+          print("im in if");
+          userController.name.value = nameController.text;
+          print(" email = ${userController.email.value} and password = ${userController.password.value}");
+          if (onTaptf != null) {
+            onTaptf();
+          }
+        } else{
+          print("im in else");
+
+        }
       },
     );
   }
+
 
   void onTaptf() {
     Get.toNamed(
