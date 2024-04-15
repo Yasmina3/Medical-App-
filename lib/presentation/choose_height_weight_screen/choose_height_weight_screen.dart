@@ -6,6 +6,7 @@ import 'package:another_stepper/dto/stepper_data.dart';
 import 'package:tabibak/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/app_export.dart';
+import '../UserController.dart';
 import 'controller/choose_height_weight_controller.dart';
 
 class ChooseHeightWeightScreen extends GetWidget<ChooseHeightWeightController> {
@@ -61,6 +62,8 @@ Widget build(BuildContext context) {
                       child: HeightSelector(
                         initialHeight: 160, // Default or previously selected height
                         onHeightSelected: (height) {
+                          UserController usr = Get.find<UserController>();
+                          usr.height.value = height;
                           print('Selected Height: $height');
                           // Perform actions with the selected height
                         },
@@ -70,6 +73,8 @@ Widget build(BuildContext context) {
                       child: WeightSelector(
                         initialWeight: 70, // Default or previously selected weight
                         onWeightSelected: (weight) {
+                          UserController usr = Get.find<UserController>();
+                          usr.weight.value = weight;
                           print('Selected Weight: $weight');
                           // Perform actions with the selected weight
                         },
@@ -113,6 +118,12 @@ Widget build(BuildContext context) {
         buttonStyle: CustomButtonStyles.outlineBlack,
         buttonTextStyle: CustomTextStyles.titleMediumNunitoOnPrimaryExtraBold,
         onPressed: () {
+          UserController controller = Get.find<UserController>();
+          print(" name =${controller.name.value}"
+              " Gender = ${controller.gender.value} "
+              "and Age = ${controller.age.value}  "
+              " and Height : ${controller.height.value}"
+              "and weight : ${controller.weight.value}");
           onTaptf();
         });
   }

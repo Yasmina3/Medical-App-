@@ -9,12 +9,17 @@ import 'package:tabibak/core/app_export.dart';
 import 'controller/sign_up_one_controller.dart';
 import 'package:tabibak/presentation/sign_up_success_dialog/sign_up_success_dialog.dart';
 import 'package:tabibak/presentation/sign_up_success_dialog/controller/sign_up_success_controller.dart';
+import 'package:tabibak/presentation/UserController.dart';
 
 // ignore_for_file: must_be_immutable
 class SignUpOneScreen extends GetWidget<SignUpOneController> {
   SignUpOneScreen({Key? key}) : super(key: key);
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +45,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
                               SizedBox(height: 16.v),
                               _buildInput2(),
                               SizedBox(height: 88.v),
-                              _buildTf(),
+                              _buildTf(context),
                               SizedBox(height: 27.v),
                               GestureDetector(
                                   onTap: () {
@@ -48,7 +53,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
                                   },
                                   child: Text("msg12".tr,
                                       style:
-                                          CustomTextStyles.bodyMediumGray600)),
+                                      CustomTextStyles.bodyMediumGray600)),
                               SizedBox(height: 5.v)
                             ])))))));
   }
@@ -69,7 +74,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
   /// Section Widget
   Widget _buildInput() {
     return CustomTextFormField(
-        controller: controller.inputController,
+        controller: _emailController,
         hintText: "lbl13".tr,
         hintStyle: CustomTextStyles.bodyLarge16,
         suffix: Container(
@@ -84,7 +89,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
   /// Section Widget
   Widget _buildInput1() {
     return CustomTextFormField(
-        controller: controller.inputController1,
+        controller: _passwordController,
         hintText: "msg3".tr,
         hintStyle: CustomTextStyles.bodyLarge16,
         suffix: Container(
@@ -100,7 +105,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
   /// Section Widget
   Widget _buildInput2() {
     return Obx(() => CustomTextFormField(
-        controller: controller.inputController2,
+        controller: _confirmPasswordController,
         hintText: "msg4".tr,
         hintStyle: CustomTextStyles.bodyLarge16,
         textInputAction: TextInputAction.done,
@@ -115,7 +120,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
         suffix: InkWell(
             onTap: () {
               controller.isShowPassword.value =
-                  !controller.isShowPassword.value;
+              !controller.isShowPassword.value;
             },
             child: Container(
                 margin: EdgeInsets.fromLTRB(26.h, 16.v, 23.h, 16.v),
@@ -134,15 +139,43 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
         contentPadding: EdgeInsets.symmetric(vertical: 18.v)));
   }
 
-  /// Section Widget
-  Widget _buildTf() {
+  Widget _buildTf(BuildContext context) {
     return CustomElevatedButton(
-        text: "lbl6".tr,
-        buttonTextStyle: CustomTextStyles.titleMediumOnPrimaryBold,
-        onPressed: () {
-          onTaptf();
-        });
+      text: "lbl6".tr,
+      buttonTextStyle: CustomTextStyles.titleMediumOnPrimaryBold,
+      onPressed: () async {
+        UserController Ucnt = Get.find<UserController>();
+        Ucnt.email.value = _emailController.text;
+        Ucnt.password.value = _passwordController.text;
+
+        Get.toNamed(AppRoutes.chooseAgeScreen);
+        // Perform signup
+        /*
+        bool success = await signUp(
+          _emailController.text,
+          _passwordController.text,
+          _confirmPasswordController.text,
+        );
+
+        // Check if signup was successful
+        if (success) {
+          // Navigate to chooseAgeScreen route
+          Get.toNamed(AppRoutes.chooseAgeScreen);
+        } else {
+          // Handle signup failure
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Signup failed. Please try again.'),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
+        */
+      },
+    );
   }
+
+
 
   /// Displays a dialog with the [SignUpSuccessDialog] content.
   onTaptf() {

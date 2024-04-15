@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:tabibak/presentation/UserController.dart';
 import 'package:tabibak/widgets/app_bar/appbar_title.dart';
 import 'package:tabibak/widgets/app_bar/custom_app_bar.dart';
 import 'package:tabibak/widgets/app_bar/appbar_leading_image.dart';
@@ -45,17 +46,17 @@ class SpecialQuestionsScreen extends GetWidget<SpecialQuestionsController> {
                               style: theme.textTheme.headlineLarge)),
                       Spacer(flex: 30),
                       YesNoQuestionWidget(
-                      question: 'هل تعاني من أي حساسية؟',
+                      question: 'هل تعاني من أي حساسية؟',cases : "Allergy"
                         ),
                       
                       SizedBox(height: 30.v),
                       YesNoQuestionWidget(
-                      question: "msg15".tr,
+                      question: "msg15".tr,cases : "long-term Disease"
                         ),
                       SizedBox(height: 30.v),
                       
                       YesNoQuestionWidget(
-                      question: "msg16".tr,
+                      question: "msg16".tr,cases : "rare disease"
                         ),
                     ])),
             bottomNavigationBar: _buildTf()));
@@ -88,6 +89,8 @@ class SpecialQuestionsScreen extends GetWidget<SpecialQuestionsController> {
         buttonStyle: CustomButtonStyles.outlineBlack,
         buttonTextStyle: CustomTextStyles.titleMediumNunitoOnPrimaryExtraBold,
         onPressed: () {
+          List<String> specs = Get.find<UserController>().special_cases.value;
+          print("specs = ${specs}");
           onTaptf();
         });
   }
@@ -103,10 +106,12 @@ class SpecialQuestionsScreen extends GetWidget<SpecialQuestionsController> {
 
 class YesNoQuestionWidget extends StatefulWidget {
   final String question;
+  final String cases;
 
   const YesNoQuestionWidget({
     Key? key,
     required this.question,
+    required this.cases,
   }) : super(key: key);
 
   @override
@@ -129,18 +134,18 @@ class _YesNoQuestionWidgetState extends State<YesNoQuestionWidget> {
             textAlign: TextAlign.right,
           ),
           SizedBox(height: 8), // Add some spacing between the question and options
-          _buildOption("lbl25".tr, 'no'),
-          _buildOption("lbl26".tr, 'yes'),
+          _buildOption("lbl25".tr, 'no',widget.cases),
+          _buildOption("lbl26".tr, 'yes',widget.cases),
         ],
       ),
     );
   }
 
-  Widget _buildOption(String title, String value) {
+  Widget _buildOption(String title, String value,String chosen_case) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end, // Align the Row's children to the left
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-                Text(
+        Text(
           title,
           style: TextStyle(fontSize: 16, color: Colors.black),
         ),
@@ -150,13 +155,31 @@ class _YesNoQuestionWidgetState extends State<YesNoQuestionWidget> {
           onChanged: (String? newValue) {
             setState(() {
               _selectedAnswer = newValue;
+              print("value =$_selectedAnswer");
+              print("case = ${chosen_case}");
+              if (chosen_case == "Allergy") {
+
+                _selectedAnswer == "no"
+                    ? Get.find<UserController>().special_cases.value[0] = "2"
+                    : Get.find<UserController>().special_cases.value[0] = "1";
+              } else if (chosen_case == "long-term Disease") {
+                print("long-term ");
+                _selectedAnswer == "no"
+                    ? Get.find<UserController>().special_cases.value[1] = "2"
+                    : Get.find<UserController>().special_cases.value[1] = "1";
+              } else {
+                print("rare disease ");
+                _selectedAnswer == "no"
+                    ? Get.find<UserController>().special_cases.value[2] = "2"
+                    : Get.find<UserController>().special_cases.value[2] = "1";
+              }
             });
           },
           activeColor: Colors.blue,
         ),
-
       ],
     );
   }
+
 }
 

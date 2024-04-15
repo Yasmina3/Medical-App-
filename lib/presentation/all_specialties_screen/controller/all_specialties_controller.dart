@@ -5,8 +5,11 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../../core/utils/api_urls.dart';
 import '../models/widget_item_model.dart';
+import '../../../core/utils/specialties.dart';
 
 class AllSpecialtiesController extends GetxController {
+
+
   Rx<AllSpecialtiesModel> allSpecialtiesModelObj = AllSpecialtiesModel().obs;
 
   Future<void> fetchSpecialties() async {
@@ -23,9 +26,23 @@ class AllSpecialtiesController extends GetxController {
         print("fetch specs ${responseData}");
 
         // Map the response data to your model format
-        List<WidgetItemModel> specialties = responseData.map((data) => WidgetItemModel(
-          widget: Rx(data['specialty_name']),
-        )).toList();
+        List<WidgetItemModel> specialties = responseData.map((data) {
+          if(all_specs.containsKey(data["specialty_name"]))
+          {
+            String name = data["specialty_name"];
+            String ar_name = all_specs[name]["ar"];
+            print("name is $name in arabic $ar_name");
+            return WidgetItemModel(
+              widget: Rx(ar_name),
+              widget2 : Rx(all_specs[name]["img"]),
+
+            );
+          } else {
+            return WidgetItemModel(
+
+            );
+          }
+        }).toList();
 
         // Update the model with the mapped data
         allSpecialtiesModelObj.value.widgetItemList.value = specialties;
