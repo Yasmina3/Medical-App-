@@ -9,11 +9,11 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name="speciality",
-            fields=[
-                ("speciality_id", models.AutoField(primary_key=True, serialize=False)),
-                ("speciality_name", models.TextField()),
-            ],
-        ),
+        # migrations.CreateModel(
+        #     name="Speciality",
+        #     fields=[
+        #         ("speciality_id", models.AutoField(primary_key=True, serialize=False)),
+        #         ("name", models.TextField()),
+        #     ],
+        # ),
     ]

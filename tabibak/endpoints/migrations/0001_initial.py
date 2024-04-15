@@ -9,13 +9,13 @@ class Migration(migrations.Migration):
     dependencies = []
 
     operations = [
-        migrations.CreateModel(
-            name="doctor",
-            fields=[
-                ("doctor_id", models.AutoField(primary_key=True, serialize=False)),
-                ("doctor_name", models.TextField()),
-                ("doctor_location", models.TextField()),
-                ("doctor_speciality", models.TextField()),
-            ],
-        ),
+        # migrations.CreateModel(
+        #     name="Doctor",
+        #     fields=[
+        #         ("doctor_id", models.AutoField(primary_key=True, serialize=False)),
+        #         ("full_name", models.TextField()),
+        #         ("location", models.TextField()),
+        #         ("speciality", models.TextField()),
+        #     ],
+        # ),
     ]
