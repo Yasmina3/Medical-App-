@@ -5,8 +5,8 @@ from .models import *
 # Create your views here.
 
 def all_doctors(request):
-    all_doctors = doctor.objects.all().values()
+    all_doctors = Doctors.objects.all().values()
     return JsonResponse(list(all_doctors), safe=False)
 def all_specialties(request) : 
-    all_specs = specialty.objects.all().values()
+    all_specs = Speciality.objects.all().values()
     return JsonResponse(list(all_specs), safe=False)
