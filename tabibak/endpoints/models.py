@@ -2,15 +2,43 @@ from django.db import models
 
 # Create your models here.
 
-class doctor(models.Model):
-    doctor_id =  models.AutoField(primary_key=True)
-    doctor_name = models.TextField()
-    doctor_location = models.TextField()
-    doctor_speciality = models.TextField()# (only for testing),normally it is a foreign key from Speciality_entity
 
-class specialty(models.Model):
-    specialty_id = models.AutoField(primary_key=True)
-    specialty_name = models.TextField()
+class Specialty(models.Model):
+    spec_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    
+    def __str__(self):
+        return self.name
+
+
+
+
+class Disease(models.Model):
+    Disease_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    speciality = models.ForeignKey(Specialty, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
+    
+class Doctors(models.Model):
+    Doctor_id = models.AutoField(primary_key=True)
+    full_name = models.CharField(max_length=200)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=100)
+    speciality = models.ForeignKey(Specialty, on_delete=models.CASCADE)
+    location = models.CharField(max_length=200)
+    rating = models.DecimalField(max_digits=3, decimal_places=2)
+    phone_number = models.CharField(max_length=20)
+    description = models.TextField()
+  #  picture = models.ImageField(upload_to='doctor_pictures/')
+    gps_location_x = models.FloatField()
+    gps_location_y = models.FloatField()
+    
+    def __str__(self):
+        return self.full_name
+
+
 
 
 class Patient(models.Model):
@@ -27,4 +55,3 @@ class Patient(models.Model):
 
     def __str__(self):
         return self.full_name
-
