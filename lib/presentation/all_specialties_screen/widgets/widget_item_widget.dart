@@ -6,12 +6,12 @@ import 'package:tabibak/core/app_export.dart';
 // ignore: must_be_immutable
 class WidgetItemWidget extends StatelessWidget {
   WidgetItemWidget(
-    this.widgetItemModelObj, {
-    Key? key,
-    this.onTapDoctor,
-  }) : super(
-          key: key,
-        );
+      this.widgetItemModelObj, {
+        Key? key,
+        this.onTapDoctor,
+      }) : super(
+    key: key,
+  );
 
   WidgetItemModel widgetItemModelObj;
 
@@ -45,7 +45,7 @@ class WidgetItemWidget extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(right: 2.h),
                     child: Obx(
-                      () => Text(
+                          () => Text(
                         widgetItemModelObj.widget!.value,
                         style: theme.textTheme.titleMedium,
                       ),
@@ -55,7 +55,7 @@ class WidgetItemWidget extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(right: 17.h),
                     child: Obx(
-                      () => Text(
+                          () => Text(
                         widgetItemModelObj.twelveThousand!.value,
                         style: theme.textTheme.titleSmall,
                       ),
@@ -66,7 +66,7 @@ class WidgetItemWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Obx(
-                        () => Text(
+                            () => Text(
                           widgetItemModelObj.widget1!.value,
                           style: theme.textTheme.titleSmall,
                         ),
@@ -86,12 +86,12 @@ class WidgetItemWidget extends StatelessWidget {
               ),
             ),
             Obx(
-              () => CustomImageView(
+                  () => CustomImageView(
                 imagePath: widgetItemModelObj.widget2!.value,
                 height: 45.v,
                 margin: EdgeInsets.only(
                   left: 8.h,
-                  top: 33.v,
+                  top: 10.v,
                   bottom: 9.v,
                 ),
               ),

@@ -10,6 +10,8 @@ import 'package:tabibak/core/app_export.dart';
 import 'controller/login_controller.dart';
 import 'package:tabibak/presentation/login_success_dialog/login_success_dialog.dart';
 import 'package:tabibak/presentation/login_success_dialog/controller/login_success_controller.dart';
+import 'api.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 // ignore_for_file: must_be_immutable
 class LoginScreen extends GetWidget<LoginController> {
@@ -136,7 +138,7 @@ class LoginScreen extends GetWidget<LoginController> {
                     width: 24.adaptSize))),
         suffixConstraints: BoxConstraints(maxHeight: 56.v),
         validator: (value) {
-          if (value == null || (!isValidPassword(value, isRequired: true))) {
+          if (value == null ) {
             return "err_msg_please_enter_valid_password".tr;
           }
           return null;
@@ -148,11 +150,58 @@ class LoginScreen extends GetWidget<LoginController> {
   /// Section Widget
   Widget _buildTf() {
     return CustomElevatedButton(
-        text: "lbl5".tr,
-        buttonTextStyle: CustomTextStyles.titleMediumOnPrimary_1,
-        onPressed: () {
-          onTaptf();
-        });
+      text: "تسجيل الدخول",
+      buttonTextStyle: CustomTextStyles.titleMediumOnPrimary_1,
+      onPressed: () async {
+        if (_formKey.currentState!.validate()) {
+          final email = controller.inputController.text;
+          final password = controller.eyeController.text;
+
+          if (email.isEmpty || password.isEmpty) {
+            Fluttertoast.showToast(
+              msg: "Please enter both email and password",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              backgroundColor: Colors.red,
+            );
+            return;
+          }
+
+          final response = await loginUser(email, password);
+
+          if (response != null) {
+            print(email);
+            print(password);
+            if (response['success']) {
+              print('Login successful: ${response['message']}');
+              Fluttertoast.showToast(
+                msg: response['message'],
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                backgroundColor: Colors.green,
+              );
+              onTaptf();
+            } else {
+              final errorMessage = response['message'] ?? "Login failed";
+              print('Login failed: $errorMessage');
+              Fluttertoast.showToast(
+                msg: errorMessage,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                backgroundColor: Colors.red,
+              );
+            }
+          } else {
+            // Handle API error
+            Fluttertoast.showToast(
+              msg: "An error occurred while logging in",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+            );
+          }
+        }
+      },
+    );
   }
 
   /// Section Widget

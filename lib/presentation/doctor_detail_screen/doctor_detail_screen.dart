@@ -14,23 +14,22 @@ import 'controller/doctor_detail_controller.dart';
 class DoctorDetailScreen extends GetWidget<DoctorDetailController> {
   const DoctorDetailScreen({Key? key})
       : super(
-          key: key,
-        );
+    key: key,
+  );
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: _buildAppBar(context),
-        body: Container(
-          width: double.maxFinite,
+    return Scaffold(
+      appBar: _buildAppBar(context),
+      body: SingleChildScrollView(
+        child: Container(
           padding: EdgeInsets.symmetric(vertical: 31.v),
           child: Column(
             children: [
               _buildWidget(),
               SizedBox(height: 25.v),
               _buildDescription(),
-              Spacer(),
+              SizedBox(height: 25.v),
               _buildCalendar(),
               SizedBox(height: 30.v),
               Divider(
@@ -43,8 +42,8 @@ class DoctorDetailScreen extends GetWidget<DoctorDetailController> {
             ],
           ),
         ),
-        bottomNavigationBar: _buildTf(),
       ),
+      bottomNavigationBar: _buildTf(),
     );
   }
 
@@ -147,9 +146,9 @@ class DoctorDetailScreen extends GetWidget<DoctorDetailController> {
                                     vertical: 2.v,
                                   ),
                                   decoration:
-                                      AppDecoration.fillBlueGray.copyWith(
+                                  AppDecoration.fillBlueGray.copyWith(
                                     borderRadius:
-                                        BorderRadiusStyle.roundedBorder3,
+                                    BorderRadiusStyle.roundedBorder3,
                                   ),
                                   child: CustomImageView(
                                     imagePath: ImageConstant.imgSignal,
@@ -234,7 +233,6 @@ class DoctorDetailScreen extends GetWidget<DoctorDetailController> {
         padding: EdgeInsets.only(left: 21.h),
         child: IntrinsicWidth(
           child: SizedBox(
-            height: 100.v,
             width: 354.h,
             child: EasyDateTimeLine(
               initialDate: controller.selectedDatesFromCalendar1.value,
@@ -245,101 +243,84 @@ class DoctorDetailScreen extends GetWidget<DoctorDetailController> {
                 showHeader: false,
               ),
               dayProps: EasyDayProps(
-                width: 46.h,
-                height: 70.v,
+                width: 70,
+                height: 100.v,
               ),
               onDateChange: (selectedDate) {
                 controller.selectedDatesFromCalendar1.value = selectedDate;
               },
-              itemBuilder: (context, dayNumber, dayName, monthName, fullDate,
-                  isSelected) {
+              itemBuilder: (context, dayNumber, dayName, monthName, fullDate, isSelected) {
                 return isSelected
                     ? Container(
-                        width: 46.h,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 11.h,
-                          vertical: 13.v,
-                        ),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary,
-                          borderRadius: BorderRadius.circular(
-                            15.h,
+                  width: 70,
+                  padding: EdgeInsets.symmetric(horizontal: 11.h, vertical: 13.v),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primary,
+                    borderRadius: BorderRadius.circular(15.h),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 2.h),
+                        child: Text(
+                          dayName.toString(),
+                          style: CustomTextStyles.bodySmallInterOnPrimary.copyWith(
+                            color: theme.colorScheme.onPrimary.withOpacity(1),
                           ),
                         ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 2.h),
-                              child: Text(
-                                dayName.toString(),
-                                style: CustomTextStyles.bodySmallInterOnPrimary
-                                    .copyWith(
-                                  color: theme.colorScheme.onPrimary
-                                      .withOpacity(1),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 1.v),
-                              child: Text(
-                                dayNumber.toString(),
-                                style: CustomTextStyles.titleMediumOnPrimary_1
-                                    .copyWith(
-                                  color: theme.colorScheme.onPrimary
-                                      .withOpacity(1),
-                                ),
-                              ),
-                            ),
-                          ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 1.v),
+                        child: Text(
+                          dayNumber.toString(),
+                          style: CustomTextStyles.titleMediumOnPrimary_1.copyWith(
+                            color: theme.colorScheme.onPrimary.withOpacity(1),
+                          ),
                         ),
-                      )
+                      ),
+                    ],
+                  ),
+                )
                     : Container(
-                        width: 46.h,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.h,
-                          vertical: 13.v,
-                        ),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.onPrimary.withOpacity(1),
-                          borderRadius: BorderRadius.circular(
-                            15.h,
+                  width: 70,
+                  padding: EdgeInsets.symmetric(horizontal: 10.h, vertical: 13.v),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.onPrimary.withOpacity(1),
+                    borderRadius: BorderRadius.circular(15.h),
+                    border: Border.all(
+                      color: appTheme.blueGray50,
+                      width: 1.h,
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 3.h),
+                        child: Text(
+                          dayName.toString(),
+                          style: CustomTextStyles.bodySmallInterGray500.copyWith(
+                            color: appTheme.gray500,
                           ),
-                          border: Border.all(
-                            color: appTheme.blueGray50,
-                            width: 1.h,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 2.v),
+                        child: Text(
+                          dayNumber.toString(),
+                          style: CustomTextStyles.titleMediumGray700.copyWith(
+                            color: appTheme.gray700,
                           ),
                         ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 3.h),
-                              child: Text(
-                                dayName.toString(),
-                                style: CustomTextStyles.bodySmallInterGray500
-                                    .copyWith(
-                                  color: appTheme.gray500,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 2.v),
-                              child: Text(
-                                dayNumber.toString(),
-                                style: CustomTextStyles.titleMediumGray700
-                                    .copyWith(
-                                  color: appTheme.gray700,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
+                      ),
+                    ],
+                  ),
+                );
               },
             ),
           ),
@@ -348,26 +329,27 @@ class DoctorDetailScreen extends GetWidget<DoctorDetailController> {
     );
   }
 
+
   /// Section Widget
   Widget _buildTime() {
     return Container(
-      width: 500.v,
-      child: Center(
-       child: Wrap(
-          runSpacing: 13.v,
-          spacing: 13.h,
-          children: List<Widget>.generate(
-            controller.doctorDetailModelObj.value.timeItemList.value.length,
-            (index) {
-              TimeItemModel model = controller
-                  .doctorDetailModelObj.value.timeItemList.value[index];
+        width: 500.v,
+        child: Center(
+            child: Wrap(
+              runSpacing: 13.v,
+              spacing: 13.h,
+              children: List<Widget>.generate(
+                controller.doctorDetailModelObj.value.timeItemList.value.length,
+                    (index) {
+                  TimeItemModel model = controller
+                      .doctorDetailModelObj.value.timeItemList.value[index];
 
-              return TimeItemWidget(
-                model,
-              );
-            },
-          ),
-        )));
+                  return TimeItemWidget(
+                    model,
+                  );
+                },
+              ),
+            )));
   }
 
   /// Section Widget

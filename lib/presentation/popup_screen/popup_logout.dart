@@ -5,7 +5,7 @@ import 'controller/popupL_controller.dart';
 import 'controller/popup_controller.dart';
 
 // ignore_for_file: must_be_immutable
-class PopupLogout extends GetWidget<PopupController> {
+class PopupLogout extends GetWidget<PopupLController> {
   const PopupLogout({Key? key})
       : super(
           key: key,

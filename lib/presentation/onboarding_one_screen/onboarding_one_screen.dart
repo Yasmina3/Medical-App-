@@ -9,8 +9,8 @@ import 'controller/onboarding_one_controller.dart';
 class OnboardingOneScreen extends GetWidget<OnboardingOneController> {
   const OnboardingOneScreen({Key? key})
       : super(
-          key: key,
-        );
+    key: key,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ class OnboardingOneScreen extends GetWidget<OnboardingOneController> {
                               spacing: 3,
                               activeDotColor: theme.colorScheme.primary,
                               dotColor:
-                                  theme.colorScheme.primary.withOpacity(0.46),
+                              theme.colorScheme.primary.withOpacity(0.46),
                               dotHeight: 4.v,
                               dotWidth: 12.h,
                             ),
@@ -98,14 +98,29 @@ class OnboardingOneScreen extends GetWidget<OnboardingOneController> {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      height: 17.v,
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
       actions: [
-        AppbarSubtitleFive(
-          text: "lbl_skip".tr,
-          margin: EdgeInsets.symmetric(horizontal: 26.h),
+        GestureDetector(
+          onTap: () {
+            Get.toNamed(AppRoutes.onboardingTwoScreen);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 26.0, vertical: 19),
+            child: Text(
+              'Skip',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
+              ),
+            ),
+          ),
         ),
       ],
     );
   }
+
+
+
 }

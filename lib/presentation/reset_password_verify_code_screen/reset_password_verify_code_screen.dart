@@ -3,14 +3,20 @@ import 'package:tabibak/widgets/app_bar/appbar_trailing_image.dart';
 import 'package:tabibak/widgets/custom_pin_code_text_field.dart';
 import 'package:tabibak/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tabibak/core/app_export.dart';
 import 'controller/reset_password_verify_code_controller.dart';
+import 'api.dart';  // Import your api.dart file
 
 class ResetPasswordVerifyCodeScreen extends GetWidget<ResetPasswordVerifyCodeController> {
   const ResetPasswordVerifyCodeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final email = Get.arguments as String;  // Retrieve email from arguments
+
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -46,7 +52,7 @@ class ResetPasswordVerifyCodeScreen extends GetWidget<ResetPasswordVerifyCodeCon
                 CustomElevatedButton(
                   text: "lbl30".tr,
                   onPressed: () {
-                    onTaptf();
+                    verifyOtp(email, controller.otpController.value.text);  // Pass email and OTP
                   },
                 ),
                 SizedBox(height: 22.v),
@@ -86,7 +92,42 @@ class ResetPasswordVerifyCodeScreen extends GetWidget<ResetPasswordVerifyCodeCon
     );
   }
 
-  void onTaptf() {
-    Get.toNamed(AppRoutes.createNewPasswordScreen);
+  void onTaptf() async {
+    final email = Get.arguments as String?;
+
+    if (email == null || email.isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Email is missing',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.red,
+      );
+      return;
+    }
+
+    final otp = controller.otpController.value.text;
+
+    try {
+      final response = await verifyOtp(email, otp);
+
+      if (response['success']) {
+        Get.toNamed(AppRoutes.createNewPasswordScreen);
+      } else {
+        Fluttertoast.showToast(
+          msg: response['message'] ?? 'Invalid OTP',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: 'An error occurred while verifying OTP',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.red,
+      );
+    }
   }
+
 }

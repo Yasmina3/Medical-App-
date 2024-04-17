@@ -1,5 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:tabibak/presentation/UserController.dart';
+
 
 class AgeWidget extends StatefulWidget {
   @override
@@ -9,6 +13,7 @@ class AgeWidget extends StatefulWidget {
 class _AgeWidgetState extends State<AgeWidget> {
   int _selectedAge = 60; // Initialize with the middle age
   late FixedExtentScrollController _controller;
+
 
   @override
   void initState() {
@@ -34,8 +39,17 @@ class _AgeWidgetState extends State<AgeWidget> {
         itemExtent: itemHeight,
         physics: FixedExtentScrollPhysics(),
         onSelectedItemChanged: (index) {
+          print("on selected item changed  with index=${index}");
           setState(() {
+            print("insdie setstae");
             _selectedAge = index;
+
+
+            UserController usr = Get.find<UserController>();
+            usr.age.value = _selectedAge;
+
+            print("age in widget = ${usr.age}  ");
+
           });
         },
         childDelegate: ListWheelChildBuilderDelegate(

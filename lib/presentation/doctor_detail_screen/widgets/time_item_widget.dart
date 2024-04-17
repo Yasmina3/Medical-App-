@@ -5,18 +5,18 @@ import 'package:tabibak/core/app_export.dart';
 // ignore: must_be_immutable
 class TimeItemWidget extends StatelessWidget {
   TimeItemWidget(
-    this.timeItemModelObj, {
-    Key? key,
-  }) : super(
-          key: key,
-        );
+      this.timeItemModelObj, {
+        Key? key,
+      }) : super(
+    key: key,
+  );
 
   TimeItemModel timeItemModelObj;
 
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => RawChip(
+          () => RawChip(
         padding: EdgeInsets.symmetric(
           horizontal: 23.h,
           vertical: 11.v,
@@ -39,23 +39,23 @@ class TimeItemWidget extends StatelessWidget {
         selectedColor: theme.colorScheme.primary.withOpacity(1),
         shape: (timeItemModelObj.isSelected?.value ?? false)
             ? RoundedRectangleBorder(
-                side: BorderSide(
-                  color: theme.colorScheme.primary.withOpacity(1),
-                  width: 1.h,
-                ),
-                borderRadius: BorderRadius.circular(
-                  15.h,
-                ),
-              )
+          side: BorderSide(
+            color: theme.colorScheme.primary.withOpacity(1),
+            width: 1.h,
+          ),
+          borderRadius: BorderRadius.circular(
+            15.h,
+          ),
+        )
             : RoundedRectangleBorder(
-                side: BorderSide(
-                  color: appTheme.teal50,
-                  width: 1.h,
-                ),
-                borderRadius: BorderRadius.circular(
-                  15.h,
-                ),
-              ),
+          side: BorderSide(
+            color: appTheme.teal50,
+            width: 1.h,
+          ),
+          borderRadius: BorderRadius.circular(
+            15.h,
+          ),
+        ),
         onSelected: (value) {
           timeItemModelObj.isSelected!.value = value;
         },

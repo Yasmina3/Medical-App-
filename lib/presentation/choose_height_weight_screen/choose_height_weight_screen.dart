@@ -6,102 +6,107 @@ import 'package:another_stepper/dto/stepper_data.dart';
 import 'package:tabibak/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/app_export.dart';
+import '../UserController.dart';
 import 'controller/choose_height_weight_controller.dart';
 
 class ChooseHeightWeightScreen extends GetWidget<ChooseHeightWeightController> {
   const ChooseHeightWeightScreen({Key? key}) : super(key: key);
 
-@override
-Widget build(BuildContext context) {
-  return SafeArea(
-    child: Scaffold(
-      appBar: _buildAppBar(context),
-      body: SingleChildScrollView( // Wrap the Column in a SingleChildScrollView
-        child: Container(
-          width: double.maxFinite,
-          padding: EdgeInsets.symmetric(horizontal: 38.h, vertical: 11.v),
-          child: Column(
-            children: [
-              AnotherStepper(
-                stepperDirection: Axis.horizontal,
-                activeIndex: 2,
-                barThickness: 5,
-                inverted: true,
-                stepperList: [
-                  StepperData(),
-                  StepperData(),
-                  StepperData(),
-                  StepperData(),
-                  StepperData()
-                ]
-              ),
-              SizedBox(height: 39.v),
-              Text("lbl21".tr, style: theme.textTheme.headlineLarge),
-              SizedBox(height: 81.v),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 21.h, right: 33.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("lbl22".tr, style: theme.textTheme.headlineLarge),
-                      Text("lbl23".tr, style: theme.textTheme.headlineLarge)
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: _buildAppBar(context),
+        body: SingleChildScrollView( // Wrap the Column in a SingleChildScrollView
+          child: Container(
+            width: double.maxFinite,
+            padding: EdgeInsets.symmetric(horizontal: 38.h, vertical: 11.v),
+            child: Column(
+              children: [
+                AnotherStepper(
+                    stepperDirection: Axis.horizontal,
+                    activeIndex: 2,
+                    barThickness: 5,
+                    inverted: true,
+                    stepperList: [
+                      StepperData(),
+                      StepperData(),
+                      StepperData(),
+                      StepperData(),
+                      StepperData()
                     ]
-                  )
-                )
-              ),
-              SizedBox(height: 51.v),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.4, // 40% of screen height for selectors
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: HeightSelector(
-                        initialHeight: 160, // Default or previously selected height
-                        onHeightSelected: (height) {
-                          print('Selected Height: $height');
-                          // Perform actions with the selected height
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: WeightSelector(
-                        initialWeight: 70, // Default or previously selected weight
-                        onWeightSelected: (weight) {
-                          print('Selected Weight: $weight');
-                          // Perform actions with the selected weight
-                        },
-                      ),
-                    ),
-                  ],
                 ),
-              ),
-              SizedBox(height: 5.v)
-            ],
+                SizedBox(height: 39.v),
+                Text("lbl21".tr, style: theme.textTheme.headlineLarge),
+                SizedBox(height: 81.v),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 21.h, right: 33.h),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("lbl22".tr, style: theme.textTheme.headlineLarge),
+                              Text("lbl23".tr, style: theme.textTheme.headlineLarge)
+                            ]
+                        )
+                    )
+                ),
+                SizedBox(height: 51.v),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.4, // 40% of screen height for selectors
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: HeightSelector(
+                          initialHeight: 160, // Default or previously selected height
+                          onHeightSelected: (height) {
+                            UserController usr = Get.find<UserController>();
+                            usr.height.value = height;
+                            print('Selected Height: $height');
+                            // Perform actions with the selected height
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: WeightSelector(
+                          initialWeight: 70, // Default or previously selected weight
+                          onWeightSelected: (weight) {
+                            UserController usr = Get.find<UserController>();
+                            usr.weight.value = weight;
+                            print('Selected Weight: $weight');
+                            // Perform actions with the selected weight
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 5.v)
+              ],
+            ),
           ),
         ),
+        bottomNavigationBar: _buildTf(),
       ),
-      bottomNavigationBar: _buildTf(),
-    ),
-  );
-}
+    );
+  }
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-  return AppBar(
-    leading: IconButton(
-      icon: Icon(Icons.arrow_back), // Use Material Icons' arrow_back icon
-      onPressed: () => Navigator.of(context).pop(), // Navigate back on press
-    ),
-    actions: <Widget>[
-      AppbarTitle(
-              text: "lbl".tr,
-              margin: EdgeInsets.fromLTRB(27.h, 13.v, 27.h, 10.v))
-    ],
-  );
-}
+    return AppBar(
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back), // Use Material Icons' arrow_back icon
+        onPressed: () => Navigator.of(context).pop(), // Navigate back on press
+      ),
+      actions: <Widget>[
+        AppbarTitle(
+            text: "lbl".tr,
+            margin: EdgeInsets.fromLTRB(27.h, 13.v, 27.h, 10.v))
+      ],
+    );
+  }
 
   /// Section Widget
   Widget _buildTf() {
@@ -113,6 +118,12 @@ Widget build(BuildContext context) {
         buttonStyle: CustomButtonStyles.outlineBlack,
         buttonTextStyle: CustomTextStyles.titleMediumNunitoOnPrimaryExtraBold,
         onPressed: () {
+          UserController controller = Get.find<UserController>();
+          print(" name =${controller.name.value}"
+              " Gender = ${controller.gender.value} "
+              "and Age = ${controller.age.value}  "
+              " and Height : ${controller.height.value}"
+              "and weight : ${controller.weight.value}");
           onTaptf();
         });
   }
@@ -272,4 +283,3 @@ class _WeightSelectorState extends State<WeightSelector> {
     );
   }
 }
-

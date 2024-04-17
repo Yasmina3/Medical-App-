@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tabibak/presentation/UserController.dart';
 import 'package:tabibak/widgets/AgeWidget.dart';
 import 'package:tabibak/widgets/app_bar/appbar_title.dart';
 import 'package:another_stepper/widgets/another_stepper.dart';
@@ -20,6 +21,8 @@ class _ChooseGenderAgeScreenState extends State<ChooseGenderAgeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    UserController Ucontroller = Get.find<UserController>();
+    print(" look how widget is created with value = ${Ucontroller.name.value}");
     return SafeArea(
       child: Scaffold(
         appBar: _buildAppBar(),
@@ -76,7 +79,8 @@ class _ChooseGenderAgeScreenState extends State<ChooseGenderAgeScreen> {
   Widget _buildGenderOption(int id, String label, Color color) {
     bool isSelected = _selectedOption == id;
     return GestureDetector(
-      onTap: () => setState(() => _selectedOption = id),
+      onTap: () => setState(() => Get.find<UserController>().gender.value= id
+      ),
       child: Container(
         height: 93.v,
         width: 105.h,
@@ -95,19 +99,19 @@ class _ChooseGenderAgeScreenState extends State<ChooseGenderAgeScreen> {
   }
   /// Section Widget
   PreferredSizeWidget _buildAppBar() {
-  return AppBar(
-    leading: IconButton(
-      icon: Icon(Icons.arrow_back), // Assuming you're using an icon here; adjust if it's an image
-      onPressed: () => Navigator.of(context).pop(),
-    ),
-    actions: <Widget>[
-            AppbarTitle(
-        text: "lbl".tr,
-        margin: EdgeInsets.symmetric(horizontal: 26.h, vertical: 12.v),
+    return AppBar(
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back), // Assuming you're using an icon here; adjust if it's an image
+        onPressed: () => Navigator.of(context).pop(),
       ),
-    ],
-  );
-}
+      actions: <Widget>[
+        AppbarTitle(
+          text: "lbl".tr,
+          margin: EdgeInsets.symmetric(horizontal: 26.h, vertical: 12.v),
+        ),
+      ],
+    );
+  }
 
 
   /// Section Widget
@@ -120,6 +124,10 @@ class _ChooseGenderAgeScreenState extends State<ChooseGenderAgeScreen> {
         buttonStyle: CustomButtonStyles.outlineBlack,
         buttonTextStyle: CustomTextStyles.titleMediumNunitoOnPrimaryExtraBold,
         onPressed: () {
+          UserController controller = Get.find<UserController>();
+          print(" name =${controller.name.value}"
+              " Gender = ${controller.gender.value} "
+              "and Age = ${controller.age.value}  ");
           onTaptf();
         });
   }

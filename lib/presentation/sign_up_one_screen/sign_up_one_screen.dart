@@ -9,12 +9,22 @@ import 'package:tabibak/core/app_export.dart';
 import 'controller/sign_up_one_controller.dart';
 import 'package:tabibak/presentation/sign_up_success_dialog/sign_up_success_dialog.dart';
 import 'package:tabibak/presentation/sign_up_success_dialog/controller/sign_up_success_controller.dart';
+import 'package:tabibak/presentation/UserController.dart';
 
 // ignore_for_file: must_be_immutable
 class SignUpOneScreen extends GetWidget<SignUpOneController> {
   SignUpOneScreen({Key? key}) : super(key: key);
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
+  RxBool equal = true.obs; // Define as an observable RxBool
+  RxBool valid_password = true.obs;
+  RxBool valid_email = true.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +44,13 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 24.h, vertical: 30.v),
                             child: Column(children: [
-                              _buildInput(),
-                              SizedBox(height: 16.v),
                               _buildInput1(),
                               SizedBox(height: 16.v),
-                              _buildInput2(),
+                              _buildInput21(),
+                              SizedBox(height: 16.v),
+                              _buildInput22(),
                               SizedBox(height: 88.v),
-                              _buildTf(),
+                              _buildTf(context),
                               SizedBox(height: 27.v),
                               GestureDetector(
                                   onTap: () {
@@ -48,7 +58,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
                                   },
                                   child: Text("msg12".tr,
                                       style:
-                                          CustomTextStyles.bodyMediumGray600)),
+                                      CustomTextStyles.bodyMediumGray600)),
                               SizedBox(height: 5.v)
                             ])))))));
   }
@@ -67,41 +77,99 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
   }
 
   /// Section Widget
-  Widget _buildInput() {
-    return CustomTextFormField(
-        controller: controller.inputController,
-        hintText: "lbl13".tr,
-        hintStyle: CustomTextStyles.bodyLarge16,
-        suffix: Container(
-            margin: EdgeInsets.fromLTRB(30.h, 16.v, 21.h, 16.v),
-            child: CustomImageView(
-                imagePath: ImageConstant.imgLock,
-                height: 24.adaptSize,
-                width: 24.adaptSize)),
-        suffixConstraints: BoxConstraints(maxHeight: 56.v));
-  }
 
   /// Section Widget
   Widget _buildInput1() {
-    return CustomTextFormField(
-        controller: controller.inputController1,
-        hintText: "msg3".tr,
-        hintStyle: CustomTextStyles.bodyLarge16,
-        suffix: Container(
+    return Obx(() => Column(
+      children: [
+        CustomTextFormField(
+          controller: _emailController,
+          hintText: "msg3".tr,
+          hintStyle: CustomTextStyles.bodyLarge16,
+          suffix: Container(
             margin: EdgeInsets.fromLTRB(30.h, 10.v, 21.h, 22.v),
             child: CustomImageView(
-                imagePath: ImageConstant.imgCheckmark,
-                height: 24.adaptSize,
-                width: 24.adaptSize)),
-        suffixConstraints: BoxConstraints(maxHeight: 56.v),
-        contentPadding: EdgeInsets.only(left: 30.h, top: 13.v, bottom: 13.v));
+              imagePath: ImageConstant.imgCheckmark,
+              height: 24.adaptSize,
+              width: 24.adaptSize,
+            ),
+          ),
+          suffixConstraints: BoxConstraints(maxHeight: 56.v),
+          contentPadding: EdgeInsets.only(left: 30.h, top: 13.v, bottom: 13.v),
+        ),
+        if (!valid_email.value)
+          Container(
+            height: 15.adaptSize,
+            child: Text(
+              "Enter A valid email",
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
+          ),
+      ],
+    ));
+  }
+
+  Widget _buildInput21() {
+    return Obx(() => Column(
+      children: [
+
+        CustomTextFormField(
+            controller: _passwordController,
+            hintText: "ادخل كلمة السر الخاصة بك".tr,
+            hintStyle: CustomTextStyles.bodyLarge16,
+            textInputAction: TextInputAction.done,
+            textInputType: TextInputType.visiblePassword,
+            prefix: Container(
+                margin: EdgeInsets.fromLTRB(24.h, 18.v, 26.h, 14.v),
+                child: CustomImageView(
+                    imagePath: ImageConstant.imgEye,
+                    height: 24.adaptSize,
+                    width: 24.adaptSize)),
+            prefixConstraints: BoxConstraints(maxHeight: 56.v),
+            suffix: InkWell(
+                onTap: () {
+                  controller.isShowPassword.value =
+                  !controller.isShowPassword.value;
+                },
+                child: Container(
+                    margin: EdgeInsets.fromLTRB(26.h, 16.v, 23.h, 16.v),
+                    child: CustomImageView(
+                        imagePath: ImageConstant.imgLocation,
+                        height: 24.adaptSize,
+                        width: 24.adaptSize))),
+            suffixConstraints: BoxConstraints(maxHeight: 56.v),
+            validator: (value) {
+              if (value == null || (!isValidPassword(value, isRequired: true))) {
+
+
+                print("err_msg_please_enter_valid_password".tr);
+              }
+              valid_password.update((val) { });
+              return null;
+            },
+            obscureText: controller.isShowPassword.value,
+            contentPadding: EdgeInsets.symmetric(vertical: 18.v)),
+        Container(
+            height: 15.v,
+            child : !valid_password.value ? Text(
+                " Enter a valid password",
+                style : TextStyle(
+                  color: Colors.red,
+                )
+            ) :
+            SizedBox()
+        ),
+      ],
+    ));
   }
 
   /// Section Widget
-  Widget _buildInput2() {
+  Widget _buildInput22() {
     return Obx(() => CustomTextFormField(
-        controller: controller.inputController2,
-        hintText: "msg4".tr,
+        controller: _confirmPasswordController,
+        hintText: "اكد كلمة السر الخاصة بك".tr,
         hintStyle: CustomTextStyles.bodyLarge16,
         textInputAction: TextInputAction.done,
         textInputType: TextInputType.visiblePassword,
@@ -115,7 +183,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
         suffix: InkWell(
             onTap: () {
               controller.isShowPassword.value =
-                  !controller.isShowPassword.value;
+              !controller.isShowPassword.value;
             },
             child: Container(
                 margin: EdgeInsets.fromLTRB(26.h, 16.v, 23.h, 16.v),
@@ -126,6 +194,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
         suffixConstraints: BoxConstraints(maxHeight: 56.v),
         validator: (value) {
           if (value == null || (!isValidPassword(value, isRequired: true))) {
+
             return "err_msg_please_enter_valid_password".tr;
           }
           return null;
@@ -134,15 +203,66 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
         contentPadding: EdgeInsets.symmetric(vertical: 18.v)));
   }
 
-  /// Section Widget
-  Widget _buildTf() {
-    return CustomElevatedButton(
-        text: "lbl6".tr,
-        buttonTextStyle: CustomTextStyles.titleMediumOnPrimaryBold,
-        onPressed: () {
-          onTaptf();
-        });
+  Widget _buildTf(BuildContext context) {
+    return Column(
+      children: [
+        Obx(() {
+          return !equal.value ? Container(
+            height: 20.adaptSize,
+            child: Text(
+              "-Password does not equal to confirm password",
+              style: TextStyle(
+                fontSize: 12.adaptSize,
+                color: Colors.red,
+              ),
+            ),
+          ) : SizedBox(); // Hide the error message when equal is true
+        }),
+        Padding(
+          padding: EdgeInsets.only(top: equal.value ? 20.v : 0),
+          child: CustomElevatedButton(
+            text: "تسجيل".tr,
+            buttonTextStyle: CustomTextStyles.titleMediumOnPrimaryBold,
+            onPressed: () async {
+              UserController Ucnt = Get.find<UserController>();
+              String password = _passwordController.text;
+              String confirm_password = _confirmPasswordController.text;
+              String email =_emailController.text;
+              if(!isValidEmail(email,isRequired: true)){
+                valid_email.value = false;
+                valid_email.update((val) { });
+              }
+              else if(!isValidPassword(password,isRequired: true)){
+                valid_email.value = true;
+
+                valid_password.value = false;
+                valid_password.update((val) { });
+
+              }
+              else if (password != confirm_password) {
+                valid_email.value = true;
+                valid_password.value = true;
+                equal.value = false; // Update equal value
+                equal.update((val) { });
+                return;
+              } else {
+                valid_password.value = true;
+                equal.value = true; // Reset equal to true if passwords match
+                Ucnt.email.value = _emailController.text;
+                Ucnt.password.value = _passwordController.text;
+
+                Get.toNamed(AppRoutes.chooseAgeScreen);
+                // Perform signup
+              }
+            },
+          ),
+        ),
+      ],
+    );
   }
+
+
+
 
   /// Displays a dialog with the [SignUpSuccessDialog] content.
   onTaptf() {

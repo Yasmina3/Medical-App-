@@ -2,9 +2,12 @@ import 'package:tabibak/widgets/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/app_export.dart';
 import 'controller/profile_controller.dart';
+import "../UserController.dart";
 
 class ProfileScreen extends GetWidget<ProfileController> {
   const ProfileScreen({Key? key}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +19,9 @@ class ProfileScreen extends GetWidget<ProfileController> {
                       begin: Alignment(0.5, 0),
                       end: Alignment(0, 0.47),
                       colors: [
-                    theme.colorScheme.primary,
-                    theme.colorScheme.primary.withOpacity(0.51)
-                  ])),
+                        theme.colorScheme.primary,
+                        theme.colorScheme.primary.withOpacity(0.51)
+                      ])),
               child: SizedBox(
                   width: double.maxFinite,
                   child: Column(children: [
@@ -47,16 +50,16 @@ class ProfileScreen extends GetWidget<ProfileController> {
                                                         children: [
                                                           CustomImageView(
                                                               imagePath:
-                                                                  ImageConstant
-                                                                      .imgEllipse27,
+                                                              ImageConstant
+                                                                  .imgEllipse27,
                                                               height: 114.v,
                                                               radius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          62.h),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  62.h),
                                                               alignment:
-                                                                  Alignment
-                                                                      .center),
+                                                              Alignment
+                                                                  .center),
                                                           Align(
                                                               alignment: Alignment
                                                                   .bottomRight,
@@ -65,13 +68,13 @@ class ProfileScreen extends GetWidget<ProfileController> {
                                                                   width: 24.h,
                                                                   margin: EdgeInsets.only(
                                                                       right:
-                                                                          6.h,
+                                                                      6.h,
                                                                       bottom:
-                                                                          7.v),
+                                                                      7.v),
                                                                   child: Stack(
                                                                       alignment:
-                                                                          Alignment
-                                                                              .center,
+                                                                      Alignment
+                                                                          .center,
                                                                       children: [
                                                                         Align(
                                                                             alignment: Alignment
@@ -82,7 +85,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
                                                                                 decoration: BoxDecoration(color: theme.colorScheme.onPrimary.withOpacity(1), borderRadius: BorderRadius.circular(12.h)))),
                                                                         CustomImageView(
                                                                             imagePath:
-                                                                                ImageConstant.imgCamera,
+                                                                            ImageConstant.imgCamera,
                                                                             height: 14.v,
                                                                             alignment: Alignment.center)
                                                                       ])))
@@ -120,7 +123,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
                               SizedBox(height: 13.v),
                               Padding(
                                   padding:
-                                      EdgeInsets.only(left: 5.h, right: 1.h),
+                                  EdgeInsets.only(left: 5.h, right: 1.h),
                                   child: _buildPriv(
                                       widget: "lbl60".tr,
                                       onTapFAQs: () {
@@ -131,12 +134,12 @@ class ProfileScreen extends GetWidget<ProfileController> {
                               SizedBox(height: 13.v),
                               Padding(
                                   padding:
-                                      EdgeInsets.only(left: 5.h, right: 1.h),
+                                  EdgeInsets.only(left: 5.h, right: 1.h),
                                   child: _buildOut(
-                                    widget: "lbl61".tr,
-                                    onTapFAQs: () {
-                                      onTapOut();
-                                    }
+                                      widget: "lbl61".tr,
+                                      onTapFAQs: () {
+                                        onTapOut();
+                                      }
                                   )),
                               SizedBox(height: 89.v),
                             ]))
@@ -167,7 +170,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
             Spacer(),
             GestureDetector(
               onTap:
-                  onTapImgAIEssentialsIcon, // Call onTapImgAIEssentialsIcon function
+              onTapImgAIEssentialsIcon, // Call onTapImgAIEssentialsIcon function
               child: CustomImageView(
                 imagePath: ImageConstant.imgAvatar,
                 height: 49.adaptSize,
@@ -264,7 +267,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
           Padding(
               padding: EdgeInsets.only(left: 17.h, top: 14.v, bottom: 7.v),
               child:
-                  Text(widget, style: CustomTextStyles.titleMediumRed900Bold)),
+              Text(widget, style: CustomTextStyles.titleMediumRed900Bold)),
           Spacer(),
           CustomImageView(
               imagePath: ImageConstant.imgArrowRightGray700,

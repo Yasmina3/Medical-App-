@@ -1,3 +1,4 @@
+import 'package:tabibak/presentation/UserController.dart';
 import 'package:tabibak/widgets/app_bar/custom_app_bar.dart';
 import 'package:tabibak/widgets/app_bar/appbar_leading_image.dart';
 import 'package:tabibak/widgets/app_bar/appbar_title.dart';
@@ -7,6 +8,7 @@ import 'package:tabibak/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/app_export.dart';
 import 'controller/done_controller.dart';
+import "api.dart";
 
 class DoneScreen extends GetWidget<DoneController> {
   const DoneScreen({Key? key}) : super(key: key);
@@ -72,6 +74,26 @@ class DoneScreen extends GetWidget<DoneController> {
         text: "lbl11".tr,
         margin: EdgeInsets.only(left: 96.h, right: 96.h, bottom: 45.v),
         onPressed: () {
+          UserController Ucnt = Get.find<UserController>();
+          print(" Ucontroller = specs = ${Ucnt.special_cases} height = ${Ucnt.height} gender =${Ucnt.gender} name =${Ucnt.name} weight=${Ucnt.weight} age=${Ucnt.age}");
+          String full_name = Ucnt.name.toString();
+          String email = Ucnt.email.toString();
+          String password = Ucnt.password.toString();
+          int age = Ucnt.age.toInt();
+          int gender  = Ucnt.gender.toInt();
+          int height = Ucnt.height.toInt();
+          int weight = Ucnt.weight.toInt();
+          String wilaya = "algiers";
+
+          List<String> specs = Ucnt.special_cases as List<String>;
+          String special_cases = "";
+          special_cases += specs[0];
+          special_cases += specs[1];
+          special_cases += specs[2];
+
+          endpoint_api_add_patient(full_name,password , email, gender, height, weight, age, special_cases, wilaya);
+
+
           onTaptf();
         });
   }
