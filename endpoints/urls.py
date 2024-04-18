@@ -9,4 +9,5 @@ urlpatterns = [
     path("login/", login_user),
     path("reset_password/", reset_password, name='reset_password'),
     path("verify_otp/", verify_otp, name='verify_otp'), 
+    path("search/doctors/", search_doctors),
 ]

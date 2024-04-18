@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import check_password
 from django.core.mail import send_mail
 from django.conf import settings
 import random
+from django.db.models import Q
 from .models import *
 
 # Create your views here.
@@ -194,3 +195,22 @@ def get_users(request):
     all_patients = Patient.objects.all().values()
     return JsonResponse(list(all_patients), safe=False)
 
+
+def search_doctors(request):
+    query = request.GET.get('query', '')
+    print(f"Query received: '{query}'")  # Debug output
+    if query:
+        doctors = Doctors.objects.filter(
+            Q(full_name__icontains=query) | 
+            Q(email__icontains=query) |
+            Q(speciality__name__icontains=query) |
+            Q(location__icontains=query) |
+            Q(phone_number__icontains=query) |
+            Q(description__icontains=query)
+        ).values(
+            'Doctor_id', 'full_name', 'email', 'speciality__name', 'location', 
+            'rating', 'phone_number', 'description', 'gps_location_x', 'gps_location_y'
+        )
+        return JsonResponse(list(doctors), safe=False)
+    else:
+        return JsonResponse({'message': 'No query provided'}, status=400)
