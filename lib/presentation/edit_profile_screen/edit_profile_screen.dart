@@ -48,11 +48,11 @@ class EditProfileScreen extends GetWidget<EditProfileController> {
                                                 height: 80.adaptSize,
                                                 width: 80.adaptSize,
                                                 radius:
-                                                BorderRadius.circular(40.h),
+                                                    BorderRadius.circular(40.h),
                                                 alignment: Alignment.center),
                                             Align(
                                                 alignment:
-                                                Alignment.bottomRight,
+                                                    Alignment.bottomRight,
                                                 child: Container(
                                                     height: 16.adaptSize,
                                                     width: 16.adaptSize,
@@ -60,20 +60,20 @@ class EditProfileScreen extends GetWidget<EditProfileController> {
                                                         right: 4.h,
                                                         bottom: 5.v),
                                                     padding:
-                                                    EdgeInsets.all(3.h),
+                                                        EdgeInsets.all(3.h),
                                                     decoration: AppDecoration
                                                         .fillOnPrimary
                                                         .copyWith(
-                                                        borderRadius:
-                                                        BorderRadiusStyle
-                                                            .circleBorder6),
+                                                            borderRadius:
+                                                                BorderRadiusStyle
+                                                                    .circleBorder6),
                                                     child: CustomImageView(
                                                         imagePath: ImageConstant
                                                             .imgCamera,
                                                         height: 10.adaptSize,
                                                         width: 10.adaptSize,
                                                         alignment:
-                                                        Alignment.center)))
+                                                            Alignment.center)))
                                           ]))),
                               SizedBox(height: 21.v),
                               Align(
@@ -138,7 +138,6 @@ class EditProfileScreen extends GetWidget<EditProfileController> {
     );
   }
 
-
   /// Section Widget
   Widget _buildEmail() {
     return Padding(
@@ -167,48 +166,49 @@ class EditProfileScreen extends GetWidget<EditProfileController> {
     );
   }
 
-
   /// Section Widget
   Widget _buildInput1() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.h),
       child: Obx(() => CustomTextFormField(
-        controller: controller.inputController1,
-        hintText: "ادخل كلمة المرور",
-        textInputAction: TextInputAction.done,
-        prefix: GestureDetector(
-          onTap: () {
-            controller.isShowPassword.value = !controller.isShowPassword.value;
-          },
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 18.h, vertical: 13.v),
-            child: CustomImageView(
-              imagePath: ImageConstant.imgIconEyeSlash, // Keep it consistent
-              height: 24.adaptSize,
-              width: 24.adaptSize,
+            controller: controller.inputController1,
+            hintText: "ادخل كلمة المرور",
+            textInputAction: TextInputAction.done,
+            prefix: GestureDetector(
+              onTap: () {
+                controller.isShowPassword.value =
+                    !controller.isShowPassword.value;
+              },
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 18.h, vertical: 13.v),
+                child: CustomImageView(
+                  imagePath:
+                      ImageConstant.imgIconEyeSlash, // Keep it consistent
+                  height: 24.adaptSize,
+                  width: 24.adaptSize,
+                ),
+              ),
             ),
-          ),
-        ),
-        prefixConstraints: BoxConstraints(maxHeight: 56.v),
-        suffix: InkWell(
-          onTap: () {
-            controller.isShowPassword.value = !controller.isShowPassword.value;
-          },
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 26.h, vertical: 13.v),
-            child: CustomImageView(
-              imagePath: ImageConstant.imgIconPassword,
-              height: 24.adaptSize,
-              width: 24.adaptSize,
+            prefixConstraints: BoxConstraints(maxHeight: 56.v),
+            suffix: InkWell(
+              onTap: () {
+                controller.isShowPassword.value =
+                    !controller.isShowPassword.value;
+              },
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 26.h, vertical: 13.v),
+                child: CustomImageView(
+                  imagePath: ImageConstant.imgIconPassword,
+                  height: 24.adaptSize,
+                  width: 24.adaptSize,
+                ),
+              ),
             ),
-          ),
-        ),
-        suffixConstraints: BoxConstraints(maxHeight: 56.v),
-        obscureText: !controller.isShowPassword.value,
-      )),
+            suffixConstraints: BoxConstraints(maxHeight: 56.v),
+            obscureText: !controller.isShowPassword.value,
+          )),
     );
   }
-
 
   /// Section Widget
   Widget _buildTermsofServicePrivacyAgreement() {
@@ -226,12 +226,14 @@ class EditProfileScreen extends GetWidget<EditProfileController> {
   /// Section Widget
   Widget _buildTf() {
     return CustomElevatedButton(
-        text: "lbl64".tr,
-        margin: EdgeInsets.symmetric(horizontal: 10.h),
-        buttonTextStyle: CustomTextStyles.titleMediumOnPrimary_1,
-        onPressed: () {
-          onTaptf();
-        });
+      text: "lbl64".tr,
+      margin: EdgeInsets.symmetric(horizontal: 10.h),
+      buttonTextStyle: CustomTextStyles.titleMediumOnPrimary_1,
+      onPressed: () {
+        // Call the saveProfileChanges method when the button is pressed
+        controller.saveProfileChanges();
+      },
+    );
   }
 
   /// Navigates to the profileScreen when the action is triggered.
