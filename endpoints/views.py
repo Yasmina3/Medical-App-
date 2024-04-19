@@ -8,6 +8,9 @@ from django.conf import settings
 import random
 from django.db.models import Q
 from .models import *
+from django.contrib.auth.hashers import check_password  # Import the password checking function
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.validators import validate_email
 
 # Create your views here.
 
@@ -69,6 +72,44 @@ def login_user(request):
         response = {'success': False, 'message': 'Invalid request method'}
         return JsonResponse(response)
 
+@csrf_exempt
+def edit_profile(request, patient_id):
+    fields = request.POST
+    full_name = fields['full_name']
+    email = fields['email']
+    password = fields['password']
+    
+    try:
+        # Retrieve the patient from the database
+        patient = Patient.objects.get(patient_id=patient_id)
+        print(patient.patient_id)
+        # Verify the password
+        if password != patient.password:
+            return JsonResponse({"Error": "Incorrect password provided"}, status=403)
+
+        # Validate email format
+        if email:
+            try:
+                validate_email(email)   
+            except ValidationError:
+                return JsonResponse({"Error": "Invalid email format"}, status=400)
+
+        # Update the patient's information
+        if full_name:
+            patient.full_name = full_name
+        if email:
+            patient.email = email
+        # You can add more fields to update as needed
+
+        # Save the changes
+        patient.save()
+        print('saved')
+        return JsonResponse({"Response": "Patient profile updated successfully"})
+    except ObjectDoesNotExist:
+        return JsonResponse({"Error": "Patient not found"}, status=404)
+    except KeyError as e:
+        return JsonResponse({"Error": f"Missing field: {e}"}, status=400)
+        
 @csrf_exempt
 def reset_password(request):
     if request.method == 'POST':
