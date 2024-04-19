@@ -10,4 +10,5 @@ urlpatterns = [
     path("reset_password/", reset_password, name='reset_password'),
     path("verify_otp/", verify_otp, name='verify_otp'), 
     path("search/doctors/", search_doctors),
+    path("edit_profile/<int:patient_id>/",edit_profile),
 ]
