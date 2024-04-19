@@ -6,5 +6,6 @@ urlpatterns = [
     path("All_specialties/",all_specialties),
     path("register_user/",register_user),
     path("all_users/",get_users),
+    path("edit_profile/<int:patient_id>/",edit_profile),
 
 ]
