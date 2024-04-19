@@ -13,20 +13,18 @@ def all_doctors(request):
 def all_specialties(request) : 
     all_specs = Specialty.objects.all().values()
     return JsonResponse(list(all_specs), safe=False)
+
+@csrf_exempt
 def edit_profile(request, patient_id):
     fields = request.POST
-    full_name = fields.get("full_name")
-    email = fields.get("email")
-    password = fields.get("password")
+    full_name = fields['full_name']
+    email = fields['email']
+    password = fields['password']
     
-    # full_name = fields["full_name"]
-    # email = fields["email"]
-    # password = fields["password"]
-
     try:
         # Retrieve the patient from the database
         patient = Patient.objects.get(patient_id=patient_id)
-
+        print(patient.patient_id)
         # Verify the password
         if password != patient.password:
             return JsonResponse({"Error": "Incorrect password provided"}, status=403)
@@ -34,7 +32,7 @@ def edit_profile(request, patient_id):
         # Validate email format
         if email:
             try:
-                validate_email(email)
+                validate_email(email)   
             except ValidationError:
                 return JsonResponse({"Error": "Invalid email format"}, status=400)
 
@@ -47,7 +45,7 @@ def edit_profile(request, patient_id):
 
         # Save the changes
         patient.save()
-
+        print('saved')
         return JsonResponse({"Response": "Patient profile updated successfully"})
     except ObjectDoesNotExist:
         return JsonResponse({"Error": "Patient not found"}, status=404)
