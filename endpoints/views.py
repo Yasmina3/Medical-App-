@@ -21,8 +21,21 @@ def all_specialties(request) :
     all_specs = Specialty.objects.all().values()
     return JsonResponse(list(all_specs), safe=False)
 
+
+def get_doctor_info(request, doctor_id):
+    try:
+        doctor_info = Doctors.objects.filter(Doctor_id=doctor_id).values().first()
+        if doctor_info:
+            return JsonResponse(doctor_info)
+        else:
+            return JsonResponse({'error': 'Doctor not found'}, status=404)
+    except ValueError:
+        return JsonResponse({'error': 'Invalid doctor ID'}, status=400)
+
+
 @csrf_exempt
 def login_user(request):
+    print('hello')
     if request.method == 'POST':
         try:
             data = request.POST
@@ -31,15 +44,18 @@ def login_user(request):
 
             # Check if email and password are provided
             if not email or not password:
-                response = {'success': False, 'message': 'Email and password are required'}
+                response = {'success': False, 'message': 'البريد الإلكتروني وكلمة المرور مطلوبة'}
                 return JsonResponse(response)
-
+            print('hello')
             # Query the user by email
             try:
+                print('hello')
                 user = Patient.objects.get(email=email)
+                print('hello')
             except Patient.DoesNotExist:
                 # User not found
-                response = {'success': False, 'message': 'User not found'}
+                print('hello')
+                response = {'success': False, 'message': 'المستخدم غير موجود'}
                 return JsonResponse(response)
 
             # Check the password
@@ -55,11 +71,11 @@ def login_user(request):
                     "weight": user.weight,
                     "wilaya": user.wilaya,
                 }
-                response = {'success': True, 'message': 'Login successful', 'credentials': creds}
+                response = {'success': True, 'message': 'تم تسجيل الدخول بنجاح', 'credentials': creds}
                 return JsonResponse(response)
             else:
                 # Incorrect password
-                response = {'success': False, 'message': 'Incorrect password'}
+                response = {'success': False, 'message': 'كلمة المرور غير صحيحة'}
                 return JsonResponse(response)
 
         except Exception as e:
@@ -235,6 +251,31 @@ def register_user(request):
 def get_users(request):
     all_patients = Patient.objects.all().values()
     return JsonResponse(list(all_patients), safe=False)
+
+from django.http import JsonResponse
+from .models import Doctors
+
+def get_top_doctors(request):
+    top_doctors = Doctors.objects.select_related('speciality').order_by('-rating')[:10]
+    doctors = []
+    for doc in top_doctors:
+        doctor_info = {
+            'Doctor_id': doc.Doctor_id,
+            'full_name': doc.full_name,
+            'email': doc.email,
+            'password': doc.password,
+            'speciality': doc.speciality_id,
+            'speciality_name': doc.speciality.name if doc.speciality else "Unknown",
+            'location': doc.location,
+            'gender': doc.gender,
+            'rating': str(doc.rating),
+            'phone_number': doc.phone_number,
+            'description': doc.description,
+            'gps_location_x': str(doc.gps_location_x),
+            'gps_location_y': str(doc.gps_location_y),
+        }
+        doctors.append(doctor_info)
+    return JsonResponse(doctors, safe=False)
 
 
 def search_doctors(request):
