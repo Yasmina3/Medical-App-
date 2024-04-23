@@ -6,6 +6,7 @@ import 'widgets/doctor_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/app_export.dart';
 import 'controller/home_controller.dart';
+import 'api.dart';
 
 class HomeScreen extends GetWidget<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,33 +20,43 @@ class HomeScreen extends GetWidget<HomeController> {
           children: <Widget>[
             SizedBox(height: 19.v),
             Padding(
-                padding: EdgeInsets.only(left: 25.h, right: 26.h),
-                child: CustomSearchView(
-                    controller: controller.searchController,
-                    hintText: "msg29".tr)),
+              padding: EdgeInsets.only(left: 25.h, right: 26.h),
+              child: CustomSearchView(
+                controller: controller.searchController,
+                hintText: "msg29".tr,
+              ),
+            ),
             SizedBox(height: 22.v),
             _buildCTA(),
             SizedBox(height: 20.v),
             _buildText(),
             SizedBox(height: 20.v),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: EdgeInsets.only(right: 23.0, left: 23.0),
-                child: Row(
-                  children: [
-                    _buildDoctor(),
-                    SizedBox(width: 20.0), // Adjust width as needed
-                    _buildDoctor(),
-                    SizedBox(width: 20.0), // Adjust width as needed
-                    _buildDoctor(),
-                    SizedBox(width: 20.0), // Adjust width as needed
-                    _buildDoctor(),
-                    SizedBox(width: 20.0), // Adjust width as needed
-                    _buildDoctor(),
-                  ],
-                ),
-              ),
+            FutureBuilder<List<Map<String, dynamic>>?>(
+              future: endpoint_api_top_doctors(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Text('No data available');
+                } else {
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 23.0, left: 23.0),
+                      child: Row(
+                        children: snapshot.data!.map((doctor) {
+                          return Padding(
+                            padding: EdgeInsets.only(right: 20.0),
+                            child: _buildDoctor(doctor),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  );
+                }
+              },
             ),
             SizedBox(height: 21.v),
             _buildText1(),
@@ -64,17 +75,13 @@ class HomeScreen extends GetWidget<HomeController> {
     return CustomAppBar(
       height: 84.v,
       leadingWidth: 41.h,
-      leading: AppbarLeadingImage(
-          imagePath: ImageConstant.imgUser,
-          margin: EdgeInsets.only(left: 5, right: 5, bottom: 5)),
-      title: Spacer(),
       actions: [
         Text(
           "msg28".tr,
           style: TextStyle(
               color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
         ),
-        Padding(padding: EdgeInsets.only(right: 10.h)),
+        Padding(padding: EdgeInsets.only(right: 10.h, top: 20.v)),
       ],
     );
   }
@@ -96,6 +103,13 @@ class HomeScreen extends GetWidget<HomeController> {
                     SizedBox(
                         width: 113.h,
                         child: Text("msg30".tr,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.titleMedium!
+                                .copyWith(height: 1.39))),
+                    SizedBox(
+                        width: 113.h,
+                        child: Text("msg311".tr,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.titleMedium!
@@ -143,7 +157,7 @@ class HomeScreen extends GetWidget<HomeController> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           GestureDetector(
               onTap: () {
-                onTapTxtWidget();
+                onTapTxtWidget2();
               },
               child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 2.v),
@@ -154,8 +168,10 @@ class HomeScreen extends GetWidget<HomeController> {
   }
 
   /// Section Widget
-  Widget _buildDoctor() {
-    return DoctorItemWidget();
+  Widget _buildDoctor(Map<String, dynamic> doctorData) {
+    return DoctorItemWidget(
+      doctorData: doctorData,
+    );
   }
 
   /// Section Widget
@@ -277,8 +293,12 @@ class HomeScreen extends GetWidget<HomeController> {
   /// Navigates to the topDoctorScreen when the action is triggered.
   onTapTxtWidget() {
     Get.toNamed(
-      AppRoutes.topDoctorScreen,
+      AppRoutes.findDoctorsScreen,
     );
+  }
+
+  onTapTxtWidget2() {
+    Get.toNamed(AppRoutes.topDoctorScreen);
   }
 
   /// Navigates to the chatWithBotScreen when the action is triggered.
