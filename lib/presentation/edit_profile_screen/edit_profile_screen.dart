@@ -90,6 +90,9 @@ class EditProfileScreen extends GetWidget<EditProfileController> {
                               SizedBox(height: 16.v),
                               _buildInput1(),
                               SizedBox(height: 16.v),
+
+                              _buildInput1(),
+                              SizedBox(height: 16.v),
                               _buildTermsofServicePrivacyAgreement(),
                               SizedBox(height: 40.v),
                               _buildTf(),

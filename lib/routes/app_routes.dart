@@ -59,6 +59,7 @@ import '../presentation/edit_profile_screen/edit_profile_screen.dart';
 import '../presentation/edit_profile_screen/binding/edit_profile_binding.dart';
 import '../presentation/app_navigation_screen/app_navigation_screen.dart';
 import '../presentation/app_navigation_screen/binding/app_navigation_binding.dart';
+import '../presentation/reservations.dart';
 
 class AppRoutes {
   static const String splashScreen = '/splash_screen';
@@ -127,6 +128,9 @@ class AppRoutes {
 
   static const String initialRoute = '/initialRoute';
 
+  static const String seeReservations = '/seeReservations';
+
+
   static List<GetPage> pages = [
     GetPage(
       name: splashScreen,
@@ -134,6 +138,11 @@ class AppRoutes {
       bindings: [
         SplashBinding(),
       ],
+    ),
+
+    GetPage(
+      name: seeReservations,
+      page: () => Tops(),
     ),
     GetPage(
       name: onboardingOneScreen,

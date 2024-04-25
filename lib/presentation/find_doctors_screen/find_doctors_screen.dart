@@ -26,7 +26,7 @@ class FindDoctorsScreen extends GetWidget<FindDoctorsController> {
       [
         ["قلب",ImageConstant.imgIconCardiologist],
         ["جراحة",ImageConstant.imgIconSyringe],
-        ["جميع التخصصات",ImageConstant.imgFloatingIcon],
+        ["الكل",ImageConstant.imgFloatingIcon],
       ],
     ];
 
@@ -137,7 +137,7 @@ class FindDoctorsScreen extends GetWidget<FindDoctorsController> {
     return GestureDetector(
         onTap: () {
           Get.toNamed(
-            AppRoutes.allDoctorsScreen,
+      AppRoutes.allSpecialtiesScreen,
           );
         },
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -174,49 +174,49 @@ class FindDoctorsScreen extends GetWidget<FindDoctorsController> {
   /// Navigates to the allDoctorsScreen when the action is triggered.
   onTapGeneral() {
     Get.toNamed(
-      AppRoutes.allDoctorsScreen,
+AppRoutes.allSpecialtiesScreen,
     );
   }
 
   /// Navigates to the allDoctorsScreen when the action is triggered.
   onTapLungs() {
     Get.toNamed(
-      AppRoutes.allDoctorsScreen,
+AppRoutes.allSpecialtiesScreen,
     );
   }
 
   /// Navigates to the allDoctorsScreen when the action is triggered.
   onTapDentist() {
     Get.toNamed(
-      AppRoutes.allDoctorsScreen,
+AppRoutes.allSpecialtiesScreen,
     );
   }
 
   /// Navigates to the allDoctorsScreen when the action is triggered.
   onTapPsychiatrist() {
     Get.toNamed(
-      AppRoutes.allDoctorsScreen,
+      AppRoutes.allSpecialtiesScreen,
     );
   }
 
   /// Navigates to the allDoctorsScreen when the action is triggered.
   onTapCovid() {
     Get.toNamed(
-      AppRoutes.allDoctorsScreen,
+AppRoutes.allSpecialtiesScreen,
     );
   }
 
   /// Navigates to the allDoctorsScreen when the action is triggered.
   onTapSurgeon() {
     Get.toNamed(
-      AppRoutes.allDoctorsScreen,
+AppRoutes.allSpecialtiesScreen,
     );
   }
 
   /// Navigates to the allDoctorsScreen when the action is triggered.
   onTapCardiologist() {
     Get.toNamed(
-      AppRoutes.allDoctorsScreen,
+AppRoutes.allSpecialtiesScreen,
     );
   }
 

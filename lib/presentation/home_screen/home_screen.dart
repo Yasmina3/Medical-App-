@@ -277,7 +277,7 @@ class HomeScreen extends GetWidget<HomeController> {
   /// Navigates to the topDoctorScreen when the action is triggered.
   onTapTxtWidget() {
     Get.toNamed(
-      AppRoutes.topDoctorScreen,
+      AppRoutes.findDoctorsScreen,
     );
   }
 

@@ -27,14 +27,16 @@ class AllSpecialtiesController extends GetxController {
 
         // Map the response data to your model format
         List<WidgetItemModel> specialties = responseData.map((data) {
-          if(all_specs.containsKey(data["specialty_name"]))
+          if(all_specs.containsKey(data["name"]))
           {
-            String name = data["specialty_name"];
+            String name = data["name"];
+            int id = data["spec_id"];
             String ar_name = all_specs[name]["ar"];
             print("name is $name in arabic $ar_name");
             return WidgetItemModel(
               widget: Rx(ar_name),
               widget2 : Rx(all_specs[name]["img"]),
+              id : Rx(id),
 
             );
           } else {

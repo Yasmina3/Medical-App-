@@ -8,34 +8,54 @@ import 'controller/all_doctors_controller.dart';
 import 'models/fortyseven2_item_model.dart';
 import 'widgets/fortyseven2_item_widget.dart';
 import 'api.dart';
+
 class AllDoctorsScreen extends GetWidget<AllDoctorsController> {
-  const AllDoctorsScreen({Key? key}) : super(key: key);
+   AllDoctorsScreen({Key? key}) : super(key: key);
+  final AllDoctorsController controller = Get.put(AllDoctorsController());
+  final int? specId = Get.arguments?['spec_id'];
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: _buildAppBar(),
-      body: SingleChildScrollView( 
+      body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: screenSize.height * 0.02, horizontal: screenSize.width * 0.02),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(), // Disable scrolling of the ListView
-                itemCount: controller.allDoctorsModelObj.value.fortyseven2ItemList.value.length,
-                itemBuilder: (context, index) {
-                  Fortyseven2ItemModel model = controller.allDoctorsModelObj.value.fortyseven2ItemList.value[index];
-                  return Fortyseven2ItemWidget(model, onTapDoctor: onTapDoctor, screenSize: screenSize);
-                },
-              ),
-            ],
+          padding: EdgeInsets.only(top:0),
+          child: FutureBuilder<void>(
+            future: controller.fetchSpecialists(specId!), // Using controller.fetchSpecialists as the future
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else {
+                return _buildListView(context);
+              }
+            },
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildListView(context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: controller.allDoctorsModelObj.value
+              .fortyseven2ItemList.value.length,
+          itemBuilder: (context, index) {
+            Fortyseven2ItemModel model =
+            controller.allDoctorsModelObj.value.fortyseven2ItemList.value[index];
+            return Fortyseven2ItemWidget(
+                model, onTapDoctor: onTapDoctor, screenSize: screenSize);
+          },
+        ),
+      ],
     );
   }
 
@@ -59,7 +79,7 @@ class AllDoctorsScreen extends GetWidget<AllDoctorsController> {
   }
 
   void onTapIconChevronLeft() {
-    Get.toNamed(AppRoutes.homeScreen);
+    Get.back();
   }
 
   void onTapDoctor() {

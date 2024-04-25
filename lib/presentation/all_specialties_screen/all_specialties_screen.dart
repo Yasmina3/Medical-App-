@@ -67,6 +67,9 @@ class AllSpecialtiesScreen extends StatelessWidget {
       title: AppbarSubtitleThree(text: "lbl53".tr),
       actions: [
         AppbarTrailingImage(
+          onTap: (){
+            Get.back();
+          },
           imagePath: ImageConstant.imgArrowRight,
           margin: EdgeInsets.all(16.h),
         ),

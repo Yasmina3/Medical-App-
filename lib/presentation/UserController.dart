@@ -8,6 +8,7 @@ class UserController extends GetxController{
   var gender = 0.obs;
   var height = 0.obs;
   var weight = 0.obs;
+  var selected_Slot = 0.obs;
   var special_cases = ["1","1","1"].obs; // 1 tends for no , 2 tends for 2  implies  : allergy : No , Long-Term disease : Yes,  Rare disease : No
 
   static UserController get to => Get.find<UserController>(); // Add this line
@@ -20,6 +21,7 @@ class UserController extends GetxController{
     weight.refresh();
     gender.refresh();
     age.refresh();
+    selected_Slot.refresh();
     special_cases.refresh();
     update();
   }

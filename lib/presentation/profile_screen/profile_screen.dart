@@ -110,7 +110,17 @@ class ProfileScreen extends GetWidget<ProfileController> {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
+
                               SizedBox(height: 32.v),
+
+                              Padding(
+                                  padding: EdgeInsets.only(left: 5.h),
+                                  child: _buildInfo(
+                                      widget: "مواعيد",
+                                      onTapFAQs: () {
+                                        onTapFAQs2();
+                                      })),
+
                               Padding(
                                   padding: EdgeInsets.only(left: 5.h),
                                   child: _buildInfo(
@@ -288,6 +298,12 @@ class ProfileScreen extends GetWidget<ProfileController> {
   onTapFAQs1() {
     Get.toNamed(
       AppRoutes.editProfileScreen,
+    );
+  }
+
+  onTapFAQs2() {
+    Get.toNamed(
+      AppRoutes.seeReservations,
     );
   }
 

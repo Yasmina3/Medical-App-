@@ -23,7 +23,10 @@ class WidgetItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onTapDoctor?.call();
+        Rx<int>? id = widgetItemModelObj.id;
+        Get.toNamed(AppRoutes.allDoctorsScreen, arguments: {
+          'spec_id': id?.value ?? 0, // Provide a default value if id is null
+        });
       },
       child: Container(
         padding: EdgeInsets.symmetric(

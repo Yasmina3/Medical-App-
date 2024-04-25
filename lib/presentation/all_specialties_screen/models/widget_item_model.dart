@@ -13,7 +13,7 @@ class WidgetItemModel {
     twelveThousand = twelveThousand ?? Rx("أكثر من 12000 طبيب أسنان");
     widget1 = widget1 ?? Rx("الأقرب على بُعد 800 متر من موقعك");
     widget2 = widget2 ?? Rx(ImageConstant.imgDentist);
-    id = id ?? Rx("");
+    id = id ?? Rx(0);
   }
 
   Rx<String>? widget;
@@ -24,5 +24,5 @@ class WidgetItemModel {
 
   Rx<String>? widget2;
 
-  Rx<String>? id;
+  Rx<int>? id;
 }

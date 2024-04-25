@@ -1,7 +1,9 @@
+import 'package:tabibak/presentation/UserController.dart';
+
 import '../models/time_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/app_export.dart';
-
+import '../models/doctor_detail_model.dart';
 // ignore: must_be_immutable
 class TimeItemWidget extends StatelessWidget {
   TimeItemWidget(
@@ -13,8 +15,10 @@ class TimeItemWidget extends StatelessWidget {
 
   TimeItemModel timeItemModelObj;
 
+
   @override
   Widget build(BuildContext context) {
+    Get.put(UserController());
     return Obx(
       () => RawChip(
         padding: EdgeInsets.symmetric(
@@ -26,7 +30,7 @@ class TimeItemWidget extends StatelessWidget {
         label: Text(
           timeItemModelObj.am!.value,
           style: TextStyle(
-            color: (timeItemModelObj.isSelected?.value ?? false)
+            color: (timeItemModelObj.isSelected?.value ?? true)
                 ? Colors.white
                 : Colors.black.withOpacity(0.6),
             fontSize: 12.fSize,
@@ -57,6 +61,12 @@ class TimeItemWidget extends StatelessWidget {
                 ),
               ),
         onSelected: (value) {
+          if(value==true){
+            int? session_id = timeItemModelObj.session_id?.value;
+            Get.find<UserController>().selected_Slot.value = session_id as int;
+
+          }
+          print("value = $value and ${Get.find<UserController>().selected_Slot.value}");
           timeItemModelObj.isSelected!.value = value;
         },
       ),

@@ -20,7 +20,7 @@ class Fortyseven2ItemModel {
     distance = distance ?? Rx("800m de chez vous");
     drMarcusHorizon2 =
         drMarcusHorizon2 ?? Rx(ImageConstant.imgPexelsCedricF111x111);
-    id = id ?? Rx("");
+    id = id ?? Rx(0);
   }
 
   Rx<String>? drMarcusHorizon;
@@ -37,5 +37,5 @@ class Fortyseven2ItemModel {
 
   Rx<String>? drMarcusHorizon2;
 
-  Rx<String>? id;
+  Rx<int>? id;
 }
