@@ -108,6 +108,7 @@ final Map<String, String> enUs = {
   "msg28": "ابحث عن الطبيب الذي يناسبك",
   "msg29": "بحث عن طبيب، عنوان...",
   "msg30": "الأطباء متاحون لخدمتكم",
+  "msg311": "اكتشف تخصصاتنا",
   "msg_the_25_healthiest":
       "The 25 Healthiest Fruits You Can Eat, According to a Nutritionist",
 
@@ -195,7 +196,7 @@ final Map<String, String> enUs = {
   "lbl37": "أفضل الأطباء",
   "lbl38": "طبيب نفسي",
   "lbl5": "تسجيل الدخول",
-  "lblOut":"؟هل أنت متأكد من أنك تريد تسجيل الخروج",
+  "lblOut": "؟هل أنت متأكد من أنك تريد تسجيل الخروج",
   "lbl5out": "تسجيل الخروج",
   "lbl50": "طبيب أسنان",
   "lbl52": "طبيب قلب",
