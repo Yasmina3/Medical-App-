@@ -98,7 +98,7 @@ class AppRoutes {
   static const String createNewPasswordScreen = '/create_new_password_screen';
 
   static const String popupScreen = '/popup_screen';
-  
+
   static const String popupLogout = '/popup_logout';
 
   static const String homeScreen = '/home_screen';
@@ -263,10 +263,7 @@ class AppRoutes {
     ),
     GetPage(
       name: topDoctorScreen,
-      page: () => TopDoctorScreen(),
-      bindings: [
-        TopDoctorBinding(),
-      ],
+      page: () => TopDoctorsScreen(),
     ),
     GetPage(
       name: chatWithBotScreen,
