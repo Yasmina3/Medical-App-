@@ -24,6 +24,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
   TextEditingController _confirmPasswordController = TextEditingController();
   RxBool equal = true.obs; // Define as an observable RxBool
   RxBool valid_password = true.obs;
+
   RxBool valid_email = true.obs;
 
   @override
@@ -99,9 +100,9 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
         ),
         if (!valid_email.value)
           Container(
-            height: 15.adaptSize,
+            height: 18.adaptSize,
             child: Text(
-              "Enter A valid email",
+              "ادخل بريد إلكتروني صالح",
               style: TextStyle(
                 color: Colors.red,
               ),
@@ -124,7 +125,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
             prefix: Container(
                 margin: EdgeInsets.fromLTRB(24.h, 18.v, 26.h, 14.v),
                 child: CustomImageView(
-                    imagePath: ImageConstant.imgEye,
+                    imagePath: ImageConstant.imgLocation,
                     height: 24.adaptSize,
                     width: 24.adaptSize)),
             prefixConstraints: BoxConstraints(maxHeight: 56.v),
@@ -136,7 +137,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
                 child: Container(
                     margin: EdgeInsets.fromLTRB(26.h, 16.v, 23.h, 16.v),
                     child: CustomImageView(
-                        imagePath: ImageConstant.imgLocation,
+                        imagePath: ImageConstant.imgEye,
                         height: 24.adaptSize,
                         width: 24.adaptSize))),
             suffixConstraints: BoxConstraints(maxHeight: 56.v),
@@ -152,14 +153,15 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
             obscureText: controller.isShowPassword.value,
             contentPadding: EdgeInsets.symmetric(vertical: 18.v)),
         Container(
-            height: 15.v,
+            height: 17.v,
             child : !valid_password.value ? Text(
-                " Enter a valid password",
+                "أدخل كلمة مرور صالحة " ,
                 style : TextStyle(
                   color: Colors.red,
                 )
             ) :
-            SizedBox()
+            SizedBox(),
+            
         ),
       ],
     ));
@@ -176,7 +178,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
         prefix: Container(
             margin: EdgeInsets.fromLTRB(24.h, 18.v, 26.h, 14.v),
             child: CustomImageView(
-                imagePath: ImageConstant.imgEye,
+                imagePath: ImageConstant.imgLocation,
                 height: 24.adaptSize,
                 width: 24.adaptSize)),
         prefixConstraints: BoxConstraints(maxHeight: 56.v),
@@ -188,7 +190,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
             child: Container(
                 margin: EdgeInsets.fromLTRB(26.h, 16.v, 23.h, 16.v),
                 child: CustomImageView(
-                    imagePath: ImageConstant.imgLocation,
+                    imagePath: ImageConstant.imgEye,
                     height: 24.adaptSize,
                     width: 24.adaptSize))),
         suffixConstraints: BoxConstraints(maxHeight: 56.v),
@@ -210,7 +212,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
           return !equal.value ? Container(
             height: 20.adaptSize,
             child: Text(
-              "-Password does not equal to confirm password",
+              "كلمة المرور غير مطابقة لتأكيد كلمة المرور",
               style: TextStyle(
                 fontSize: 12.adaptSize,
                 color: Colors.red,
@@ -219,7 +221,7 @@ class SignUpOneScreen extends GetWidget<SignUpOneController> {
           ) : SizedBox(); // Hide the error message when equal is true
         }),
         Padding(
-          padding: EdgeInsets.only(top: equal.value ? 20.v : 0),
+          padding: EdgeInsets.only(top: equal.value ? 14.v : 0),
           child: CustomElevatedButton(
             text: "تسجيل".tr,
             buttonTextStyle: CustomTextStyles.titleMediumOnPrimaryBold,

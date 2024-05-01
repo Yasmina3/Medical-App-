@@ -22,17 +22,7 @@ class DoneScreen extends GetWidget<DoneController> {
                 width: double.maxFinite,
                 padding: EdgeInsets.symmetric(horizontal: 38.h, vertical: 17.v),
                 child: Column(children: [
-                  AnotherStepper(
-                      stepperDirection: Axis.horizontal,
-                      activeIndex: 0,
-                      barThickness: 5,
-                      inverted: true,
-                      stepperList: [
-                        StepperData(),
-                        StepperData(),
-                        StepperData(),
-                        StepperData()
-                      ]),
+                 
                   Spacer(flex: 55),
                   Container(
                       height: 102.adaptSize,

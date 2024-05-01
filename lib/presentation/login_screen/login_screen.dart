@@ -138,7 +138,7 @@ class LoginScreen extends GetWidget<LoginController> {
                     width: 24.adaptSize))),
         suffixConstraints: BoxConstraints(maxHeight: 56.v),
         validator: (value) {
-          if (value == null) {
+          if (value == null ) {
             return "err_msg_please_enter_valid_password".tr;
           }
           return null;
@@ -159,7 +159,7 @@ class LoginScreen extends GetWidget<LoginController> {
 
           if (email.isEmpty || password.isEmpty) {
             Fluttertoast.showToast(
-              msg: "الرجاء إدخال البريد الإلكتروني وكلمة المرور",
+              msg: "Please enter both email and password",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               backgroundColor: Colors.red,

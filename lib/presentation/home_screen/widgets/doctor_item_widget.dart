@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/app_export.dart';
 
+// ignore: must_be_immutable
 class DoctorItemWidget extends StatelessWidget {
-  final Map<String, dynamic> doctorData;
-
-  DoctorItemWidget({required this.doctorData});
+  //var controller = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTapDoctor, // Call onTapDoctor function
+      onTap: onTapDoctore, // Call onTapProfile function
       child: SizedBox(
         width: 120.h,
         child: Align(
@@ -34,9 +33,8 @@ class DoctorItemWidget extends StatelessWidget {
                       children: [
                         SizedBox(height: 8.v),
                         CustomImageView(
-                          imagePath: doctorData['gender'] == 'F'
-                              ? "assets/images/DocF.png" // Path for female
-                              : "assets/images/DocM.png", // Path for male
+                          imagePath:
+                              "assets/images/img_pexels_cedric_f_115x115.png",
                           height: 80.adaptSize,
                           width: 80.adaptSize,
                           radius: BorderRadius.circular(35.h),
@@ -45,13 +43,13 @@ class DoctorItemWidget extends StatelessWidget {
                         SizedBox(height: 5.v),
                         Align(
                           child: Text(
-                            doctorData['full_name'] ?? "",
+                            "Dr. Marcus Horizon",
                             style: CustomTextStyles.labelLargeGray700,
                           ),
                         ),
                         SizedBox(height: 5.v),
                         Text(
-                          doctorData['speciality_name'] ?? "",
+                          "lbl38".tr,
                           style: theme.textTheme.labelLarge,
                         ),
                         SizedBox(height: 5.v),
@@ -76,7 +74,7 @@ class DoctorItemWidget extends StatelessWidget {
                                     padding:
                                         EdgeInsets.only(top: 1.v, bottom: 1.h),
                                     child: Text(
-                                      doctorData['rating'].toString() ?? "",
+                                      "4,7",
                                       style: theme.textTheme.labelSmall,
                                     ),
                                   ),
@@ -93,7 +91,7 @@ class DoctorItemWidget extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(left: 2.h, top: 3.v),
                               child: Text(
-                                doctorData['location'] ?? "",
+                                "يبعد عنك 800م",
                                 style: CustomTextStyles.interGray500,
                               ),
                             ),
@@ -111,16 +109,9 @@ class DoctorItemWidget extends StatelessWidget {
     );
   }
 
-  void onTapDoctor() {
+  onTapDoctore() {
     Get.toNamed(
       AppRoutes.doctorDetailScreen,
     );
   }
-  //   /// Navigates to the doctorDetailScreen when the action is triggered.
-  // onTapDoctor(Map<String, dynamic> doctor) {
-  //   Get.toNamed(
-  //     AppRoutes.doctorDetailScreen,
-  //     arguments: doctor,
-  //   );
-  // }
 }

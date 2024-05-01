@@ -70,33 +70,34 @@ class _ChooseGenderAgeScreenState extends State<ChooseGenderAgeScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _buildGenderOption(1, "lbl18".tr, appTheme.indigo900), // Placeholder label and color
-          _buildGenderOption(2, "lbl19".tr, theme.colorScheme.errorContainer), // Placeholder label and color
+          _buildGenderOption(2, "lbl19".tr, appTheme.indigo900), // Placeholder label and color
         ],
       ),
     );
   }
 
-  Widget _buildGenderOption(int id, String label, Color color) {
-    bool isSelected = _selectedOption == id;
-    return GestureDetector(
-      onTap: () => setState(() => Get.find<UserController>().gender.value= id
+ Widget _buildGenderOption(int id, String label, Color color) {
+  bool isSelected = _selectedOption == id;
+  Color optionColor = isSelected ? color.withOpacity(0.5) : color;
+  return GestureDetector(
+    onTap: () => setState(() => _selectedOption = id),
+    child: Container(
+      height: 93.v,
+      width: 105.h,
+      decoration: BoxDecoration(
+        color: optionColor,
+        borderRadius: BorderRadius.circular(52.h),
+        border: isSelected ? Border.all(color: Color.fromARGB(255, 44, 31, 161), width: 4) : null,
       ),
-      child: Container(
-        height: 93.v,
-        width: 105.h,
-        decoration: BoxDecoration(
-          color: isSelected ? color.withOpacity(0.5) : color,
-          borderRadius: BorderRadius.circular(52.h),
-          border: isSelected ? Border.all(color: Color.fromARGB(255, 44, 31, 161), width: 4) : null,
-        ),
-        alignment: Alignment.bottomCenter,
-        child: Padding(
-          padding: EdgeInsets.only(bottom: 23.v),
-          child: Text(label, style: CustomTextStyles.headlineLargeOnPrimary),
-        ),
+      alignment: Alignment.bottomCenter,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 23.v),
+        child: Text(label, style: CustomTextStyles.headlineLargeOnPrimary),
       ),
-    );
-  }
+    ),
+  );
+}
+
   /// Section Widget
   PreferredSizeWidget _buildAppBar() {
   return AppBar(

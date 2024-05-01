@@ -108,7 +108,6 @@ final Map<String, String> enUs = {
   "msg28": "ابحث عن الطبيب الذي يناسبك",
   "msg29": "بحث عن طبيب، عنوان...",
   "msg30": "الأطباء متاحون لخدمتكم",
-  "msg311": "اكتشف تخصصاتنا",
   "msg_the_25_healthiest":
       "The 25 Healthiest Fruits You Can Eat, According to a Nutritionist",
 
@@ -175,6 +174,7 @@ final Map<String, String> enUs = {
 
   // 26_all doctors Screen
   "lbl58": "قائمة الأطباء",
+  "lbl581":"قائمة المقالات الطبية",
 
   // 36_Profile Screen
   "lbl59": "موعد", "lbl60": "الخصوصية", "lbl61": "تسجيل الخروج",
@@ -205,18 +205,19 @@ final Map<String, String> enUs = {
   "lbl_4_7": "4,7",
   "lbl_800": "يبعد عنك 800م",
   "lbl_chardiologist": "Chardiologist",
-  "lbl_skip": "Skip",
-  "msg12": "هل لديك حساب؟ ادخل الآن",
+  "lbl_skip": "التالي",
+  "msg12": "هل لديك حساب؟  ",
+  "msg121": "ادخل الان  ",
   "msg3": "أدخل بريدك الإلكتروني",
   "msg4": "أدخل كلمة المرور الخاصة بك",
   "msg_800m_de_chez_vous": "800m de chez vous",
   "msg_dr_marcus_horizon": "Dr. Marcus Horizon",
 
 // Network Error String
-  "msg_network_err": "Network Error",
-  "msg_something_went_wrong": "Something Went Wrong!",
+  "msg_network_err": "خطأ في الشبكة",
+  "msg_something_went_wrong": "هناك خطأ!",
 
   // Validation Error String
-  "err_msg_please_enter_valid_password": "Please enter valid password",
-  "err_msg_please_enter_valid_email": "Please enter valid email",
+  "err_msg_please_enter_valid_password": "ادخل كلمة مرور صحيحة",
+  "err_msg_please_enter_valid_email": "ادخل بريد إلكتروني صالح",
 };

@@ -7,50 +7,47 @@ import 'models/fortyseven_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/app_export.dart';
 import 'controller/top_doctor_controller.dart';
-import '../home_screen/api.dart';
 
 // ignore_for_file: must_be_immutable
-class TopDoctorsScreen extends StatelessWidget {
+class TopDoctorScreen extends GetWidget<TopDoctorController> {
+  const TopDoctorScreen({Key? key})
+      : super(
+          key: key,
+        );
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+        appBar: _buildAppBar(),
+        body: Padding(
+          padding: EdgeInsets.only(
+            top: 15.v,
+            right: 11.h,
           ),
-          title: Text(
-            'أفضل الأطباء',
-            style: TextStyle(color: Colors.black),
+          child: Obx(
+            () => ListView.separated(
+              physics: BouncingScrollPhysics(),
+              shrinkWrap: true,
+              separatorBuilder: (
+                context,
+                index,
+              ) {
+                return SizedBox(
+                  height: 24.v,
+                );
+              },
+              itemCount: controller
+                  .topDoctorModelObj.value.fortysevenItemList.value.length,
+              itemBuilder: (context, index) {
+                FortysevenItemModel model = controller
+                    .topDoctorModelObj.value.fortysevenItemList.value[index];
+                return FortysevenItemWidget(
+                  model,
+                );
+              },
+            ),
           ),
-          backgroundColor: Colors.white,
-        ),
-        body: FutureBuilder<List<Map<String, dynamic>>?>(
-          future: endpoint_api_top_doctors(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text('No data available'));
-            } else {
-              return Padding(
-                padding: EdgeInsets.all(8.0),
-                child: ListView.separated(
-                  itemCount: snapshot.data!.length,
-                  separatorBuilder: (context, index) => SizedBox(height: 24.0),
-                  itemBuilder: (context, index) {
-                    Map<String, dynamic> doctorData = snapshot.data![index];
-                    return FortysevenItemWidget(doctorData: doctorData);
-                  },
-                ),
-              );
-            }
-          },
         ),
       ),
     );
@@ -69,7 +66,9 @@ class TopDoctorsScreen extends StatelessWidget {
         ),
       ),
       centerTitle: true,
-      title: AppbarSubtitleOne(text: "أفضل الأطباء"),
+      title: AppbarSubtitleOne(
+        text: "lbl37".tr,
+      ),
       actions: [
         AppbarTrailingImage(
           imagePath: ImageConstant.imgIconChevronLeftGray90024x24,
