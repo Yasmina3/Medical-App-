@@ -53,6 +53,42 @@ class Patient(models.Model):
     weight = models.IntegerField()
     special_cases = models.CharField(max_length=100)
     wilaya = models.CharField(max_length=100,default="Algiers")
+    points = models.IntegerField(default=0)
 
     def __str__(self):
         return self.full_name
+    
+class Donation(models.Model):
+    donation_id = models.AutoField(primary_key=True)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    description = models.TextField()
+    title = models.TextField()
+    image = models.ImageField(upload_to='donation_images/')
+    available = models.BooleanField(default=True)
+    phone_number = models.CharField(max_length=20)
+    wilaya = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"Donation by {self.patient.full_name}"    
+    
+
+class Sessions(models.Model):
+    session_id = models.AutoField(primary_key=True)
+    session_time = models.DateTimeField()
+    doctor_id = models.ForeignKey(Doctors, on_delete=models.CASCADE)
+    STATE_CHOICES = (
+        ('reserved', 'Reserved'),
+        ('not_reserved', 'Not Reserved'),
+        ('requested','requested'),
+    )
+    state = models.CharField(max_length=20, choices=STATE_CHOICES, default='not_reserved')
+
+class Reservation(models.Model):
+    reservation_id = models.AutoField(primary_key=True)
+    session_id = models.ForeignKey(Sessions, on_delete=models.CASCADE)
+    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    STATE_CHOICES = (
+        ('reserved', 'Reserved'),
+        ('not_reserved', 'Not Reserved'),
+    )
+    state = models.CharField(max_length=20,choices=STATE_CHOICES)    

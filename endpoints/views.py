@@ -5,8 +5,13 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import check_password
 from django.core.mail import send_mail
 from django.conf import settings
+from django.utils import timezone
 import random
+import json
+import requests
 from .models import *
+import http.client
+
 
 # Create your views here.
 
@@ -89,7 +94,7 @@ def reset_password(request):
                 return JsonResponse(response)
 
             # Generate OTP
-            otp = ''.join(random.choices('0123456789', k=6))
+            otp = ''.join(random.choices('0123456789', k=4))
 
             # Save the OTP to the user's record (you may need to add a field for OTP in your model)
             user.otp = otp
@@ -152,6 +157,39 @@ def verify_otp(request):
         # Invalid request method
         response = {'success': False, 'message': 'Invalid request method'}
         return JsonResponse(response)
+
+@csrf_exempt
+def create_new_password(request):
+    if request.method == 'POST':
+        try:
+            data = request.POST
+            email = data.get('email')
+            new_password = data.get('new_password')
+
+            # Query the user by email
+            try:
+                user = Patient.objects.get(email=email)
+            except Patient.DoesNotExist:
+                # User not found
+                response = {'success': False, 'message': 'User not found'}
+                return JsonResponse(response)
+
+            # Set new password
+            user.password = new_password
+            user.save()
+
+            response = {'success': True, 'message': 'Password updated successfully'}
+            return JsonResponse(response)
+
+        except Exception as e:
+            # Error handling
+            response = {'success': False, 'message': f'Error: {str(e)}'}
+            return JsonResponse(response)
+
+    else:
+        # Invalid request method
+        response = {'success': False, 'message': 'Invalid request method'}
+        return JsonResponse(response)
     
 @csrf_exempt
 def register_user(request):
@@ -194,3 +232,286 @@ def get_users(request):
     all_patients = Patient.objects.all().values()
     return JsonResponse(list(all_patients), safe=False)
 
+@csrf_exempt
+def chatbot_response(request):
+    if request.method == 'POST':
+        try:
+            # Get the message from the request
+            data = json.loads(request.body)
+            user_message = data.get('message')
+            print(user_message)
+            
+            # Forward the message to your model for processing
+            bot_response = forward_to_model(user_message)
+            
+            # Return the bot response
+            return JsonResponse({'response': bot_response})
+        
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON format'}, status=400)
+        
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+
+MODEL_ENDPOINT = 'http://127.0.0.1:5004/execute_final_result/'
+
+def forward_to_model(query):
+    try:
+        print(f"Forwarding message to model: {query}")
+        
+        # Define headers
+        headers = {'Content-type': 'application/json'}
+        
+        # Define the payload
+        payload = json.dumps({'message': query})
+        
+        # Send POST request to the model's chatbot response endpoint
+        response = requests.post(MODEL_ENDPOINT, data=payload, headers=headers)
+        
+        if response.status_code == 200:
+            response_data = response.json()
+            return response_data.get('response', 'Unknown response from model')
+        else:
+            return f"Failed to get response from model: {response.status_code} {response.reason}"
+        
+    except Exception as e:
+        print(f"An error occurred while forwarding to model: {e}")
+        return f"An error occurred while forwarding to model: {e}"
+
+@csrf_exempt
+def add_donation(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            
+            description = data.get('description')
+            title = data.get('title')
+            image = data.get('image')  # Store this as a file path or URL
+            wilaya = data.get('wilaya')
+            phone_number = data.get('phoneNumber')
+            patientId = data.get('patientId')
+            
+            # Convert patientId to integer
+            patientId = int(patientId)
+
+            # Create a new donation post
+            donation = Donation.objects.create(
+                patient_id=patientId,
+                description=description,
+                title=title,
+                image=image,
+                phone_number=phone_number,
+                wilaya=wilaya,
+                available=True
+            )
+
+            # Return success response
+            response = {'success': True, 'message': 'Donation post added successfully'}
+            return JsonResponse(response)
+
+        except Exception as e:
+            # Error handling
+            response = {'success': False, 'message': f'Error: {str(e)}'}
+            return JsonResponse(response)
+
+    else:
+        # Invalid request method
+        response = {'success': False, 'message': 'Invalid request method'}
+        return JsonResponse(response)
+
+@csrf_exempt
+def get_donations(request):
+    if request.method == 'GET':
+        try:
+            # Remove wilaya filter to display all donations
+            donations = Donation.objects.filter(available=True).values()
+
+            return JsonResponse(list(donations), safe=False)
+
+        except Exception as e:
+            # Error handling
+            response = {'success': False, 'message': f'Error: {str(e)}'}
+            return JsonResponse(response)
+
+    else:
+        # Invalid request method
+        response = {'success': False, 'message': 'Invalid request method'}
+        return JsonResponse(response)
+
+
+@csrf_exempt
+def take_donation(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            donation_id = data.get('donation_id')
+            patient_id = data.get('patient_id')
+
+            # Get the donation object
+            donation = Donation.objects.get(id=donation_id)
+
+            # Update the donation availability and assign it to the patient
+            if donation.available:
+                donation.available = False
+                donation.save()
+
+                # Increase the poster's points
+                poster = Patient.objects.get(patient_id=donation.patient_id)
+                poster.points += 1  # Increase by 1 point
+                poster.save()
+
+                response = {'success': True, 'message': 'Donation taken successfully'}
+                return JsonResponse(response)
+            else:
+                response = {'success': False, 'message': 'Donation not available'}
+                return JsonResponse(response)
+
+        except Exception as e:
+            # Error handling
+            response = {'success': False, 'message': f'Error: {str(e)}'}
+            return JsonResponse(response)
+
+    else:
+        # Invalid request method
+        response = {'success': False, 'message': 'Invalid request method'}
+        return JsonResponse(response)
+    
+@csrf_exempt
+def get_patient_name_by_id(request):
+    if request.method == 'GET':
+        patient_id = request.GET.get('id', None)
+        
+        if not patient_id:
+            return JsonResponse({'success': False, 'message': 'Patient ID is required'})
+
+        try:
+            patient = Patient.objects.get(id=patient_id)
+            return JsonResponse({'success': True, 'name': patient.name})
+        except Patient.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'Patient not found'})
+
+    return JsonResponse({'success': False, 'message': 'Invalid request method'})
+
+@csrf_exempt
+def add_points_to_patient(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        patient_id = data.get('id', None)
+        points = data.get('points', None)
+        
+        if not patient_id or not points:
+            return JsonResponse({'success': False, 'message': 'Patient ID and points are required'})
+
+        try:
+            patient = Patient.objects.get(id=patient_id)
+            patient.points += points
+            patient.save()
+            
+            return JsonResponse({'success': True, 'message': 'Points added successfully'})
+        except Patient.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'Patient not found'})
+
+    return JsonResponse({'success': False, 'message': 'Invalid request method'})
+
+def get_specialists(request):
+    spec_id = request.GET.get("spec_id")
+    
+    # Retrieve specialty name
+    specialty_name = Specialty.objects.filter(spec_id=spec_id).values_list("name", flat=True).first()
+
+    if specialty_name is None:
+        return JsonResponse({"error": "Specialty not found"}, status=404)
+
+    # Retrieve doctors with the given specialty
+    spec_doctors = Doctors.objects.filter(speciality=spec_id).values()
+
+    # Add specialty_name to each doctor dictionary
+    for doctor in spec_doctors:
+        doctor["specialty_name"] = specialty_name
+
+    return JsonResponse(list(spec_doctors), safe=False)
+
+
+def get_time_slots_for_doctor(request):
+    doctor_id = request.GET.get("doctor_id")
+    
+    # Get doctor's information
+    doctor_infos = list(Doctors.objects.filter(Doctor_id=doctor_id).values())
+    
+    # Get current date and time
+    current_datetime = timezone.now()
+
+    # Fetch specialty name for the doctor
+    doctor_specialty_id = doctor_infos[0]["speciality_id"]
+    specialty_name = Specialty.objects.filter(spec_id=doctor_specialty_id).values("name").first()["name"]
+    
+    # Retrieve all sessions for the doctor with the provided doctor_id
+    sessions = list(Sessions.objects.filter(doctor_id=doctor_id, session_time__gte=current_datetime).values())
+    
+    # Add specialty_name to doctor_infos
+    doctor_infos[0]["specialty_name"] = specialty_name
+    
+    # Create a dictionary containing both doctor's information and session list
+    response_data = {
+        'doctor_info': doctor_infos,
+        'session_list': sessions
+    }
+    
+    # Return the combined data as JSON response
+    return JsonResponse(response_data)
+@csrf_exempt
+def add_reservation(request):
+    if request.method == 'POST':
+        # Get session ID and patient ID from request.POST
+        session_id = request.POST.get('session_id')
+        patient_id = request.POST.get('patient_id')
+        
+        # Get Sessions instance for the session to reserve
+        session = Sessions.objects.get(session_id=session_id)
+        
+        # Update session state to "reserved"
+        session.state = 'requested'
+        session.save()
+
+        patient = Patient.objects.get(patient_id=patient_id)
+
+        # Create reservation
+        reservation = Reservation.objects.create(
+            session_id=session,
+            patient_id=patient,
+            state='requested'  # Set reservation state to "reserved"
+        )
+    return JsonResponse({'success': True, 'reservation_id': reservation.reservation_id})
+                
+
+
+
+
+
+def get_patient_reservations(request):
+    patient_id = request.GET.get('patient_id')
+    try:
+        # Query all reservations for the specified patient ID
+        reservations = Reservation.objects.filter(patient_id=patient_id)
+
+        # Serialize reservations data if needed
+        reservations_data = []
+        for reservation in reservations:
+            data = {
+                'reservation_id': reservation.reservation_id,
+                'session_id': reservation.session_id.session_id,
+                'doctor_name': reservation.session_id.doctor_id.full_name,
+                'session_time': reservation.session_id.session_time.strftime('%Y-%m-%d %H:%M:%S'),
+                'state': reservation.state
+            }
+            reservations_data.append(data)
+
+        # Return JSON response with reservations data
+        return JsonResponse({'success': True, 'reservations': reservations_data})
+    except Exception as e:
+        # Handle any exceptions and return error response
+        return JsonResponse({'success': False, 'message': str(e)})
