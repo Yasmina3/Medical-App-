@@ -20,7 +20,7 @@ class HomeScreen extends GetWidget<HomeController> {
           children: <Widget>[
             SizedBox(height: 19.v),
             Padding(
-              padding: EdgeInsets.only(left: 25.h, right: 26.h),
+              padding: EdgeInsets.only(left: 26.h, right: 26.h),
               child: CustomSearchView(
                 controller: controller.searchController,
                 hintText: "msg29".tr,
