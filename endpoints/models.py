@@ -57,3 +57,13 @@ class Patient(models.Model):
 
     def __str__(self):
         return self.full_name
+    
+
+
+class currentUser(models.Model):
+    session_id=models.IntegerField()
+    current_user_id = models.IntegerField()
+    
+    def __str__(self):
+        return self.current_user_id
+    
