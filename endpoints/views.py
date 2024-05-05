@@ -11,6 +11,12 @@ from .models import *
 from django.contrib.auth.hashers import check_password  # Import the password checking function
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.validators import validate_email
+from django.contrib.sessions.models import Session
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.db import transaction
+
+
 
 # Create your views here.
 
@@ -32,10 +38,8 @@ def get_doctor_info(request, doctor_id):
     except ValueError:
         return JsonResponse({'error': 'Invalid doctor ID'}, status=400)
 
-
 @csrf_exempt
 def login_user(request):
-    print('hello')
     if request.method == 'POST':
         try:
             data = request.POST
@@ -46,21 +50,31 @@ def login_user(request):
             if not email or not password:
                 response = {'success': False, 'message': 'البريد الإلكتروني وكلمة المرور مطلوبة'}
                 return JsonResponse(response)
-            print('hello')
+
             # Query the user by email
             try:
-                print('hello')
                 user = Patient.objects.get(email=email)
-                print('hello')
             except Patient.DoesNotExist:
                 # User not found
-                print('hello')
                 response = {'success': False, 'message': 'المستخدم غير موجود'}
                 return JsonResponse(response)
 
             # Check the password
             if password == user.password:
                 # Password is correct
+                # Delete all existing currentUser objects
+                with transaction.atomic():
+                    currentUser.objects.all().delete()
+
+                    # Create a new currentUser object
+                    try:
+                        currentUser.objects.create(session_id=1, current_user_id=user.patient_id)
+                    except IntegrityError:
+                        # Failed to create new row
+                        response = {'success': False, 'message': 'Failed to create currentUser object'}
+                        return JsonResponse(response)
+
+                # Include user information in the response
                 creds = {
                     "id": user.patient_id,
                     "email": user.email,
@@ -71,6 +85,7 @@ def login_user(request):
                     "weight": user.weight,
                     "wilaya": user.wilaya,
                 }
+
                 response = {'success': True, 'message': 'تم تسجيل الدخول بنجاح', 'credentials': creds}
                 return JsonResponse(response)
             else:
@@ -87,18 +102,23 @@ def login_user(request):
         # Invalid request method
         response = {'success': False, 'message': 'Invalid request method'}
         return JsonResponse(response)
-
+    
 @csrf_exempt
-def edit_profile(request, patient_id):
+def edit_profile(request):
     fields = request.POST
     full_name = fields['full_name']
     email = fields['email']
     password = fields['password']
     
     try:
-        # Retrieve the patient from the database
-        patient = Patient.objects.get(patient_id=patient_id)
-        print(patient.patient_id)
+        # Fetch the currentUser object where session_id=1
+        session_user = currentUser.objects.get(session_id=1)
+        # Get the current_user_id from the currentUser object
+        current_user_id = session_user.current_user_id
+        
+        # Retrieve the user using the current_user_id
+        patient = Patient.objects.get(patient_id=current_user_id)
+        
         # Verify the password
         if password != patient.password:
             return JsonResponse({"Error": "Incorrect password provided"}, status=403)
@@ -119,12 +139,43 @@ def edit_profile(request, patient_id):
 
         # Save the changes
         patient.save()
-        print('saved')
         return JsonResponse({"Response": "Patient profile updated successfully"})
     except ObjectDoesNotExist:
         return JsonResponse({"Error": "Patient not found"}, status=404)
     except KeyError as e:
         return JsonResponse({"Error": f"Missing field: {e}"}, status=400)
+    
+
+def get_user_info(request):
+    try:
+        # Fetch the currentUser object where session_id=1
+        session_user = currentUser.objects.get(session_id=1)
+        # Get the current_user_id from the currentUser object
+        current_user_id = session_user.current_user_id
+        
+        # Retrieve the user using the current_user_id
+        user = Patient.objects.get(patient_id=current_user_id)
+        
+        # Now you can use the user object to retrieve user information
+        user_info = {
+            "patient_id": user.patient_id,
+            "full_name": user.full_name,
+            "email": user.email,
+            "gender":user.gender
+        }
+        print(user_info['email'])
+        return JsonResponse(user_info)
+
+    except currentUser.DoesNotExist:
+        # Handle the case where the currentUser object with session_id=1 does not exist
+        error_message = {"error": "currentUser object with session_id=1 does not exist"}
+        return JsonResponse(error_message, status=404)
+    
+    except Patient.DoesNotExist:
+        # Handle the case where the user with the retrieved current_user_id does not exist
+        error_message = {"error": "User not found"}
+        return JsonResponse(error_message, status=404)
+
         
 @csrf_exempt
 def reset_password(request):
