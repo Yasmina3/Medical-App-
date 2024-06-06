@@ -44,7 +44,7 @@ class FortysevenItemWidget extends StatelessWidget {
                       padding: EdgeInsets.only(left: 29.h),
                       child: Obx(
                             () => Text(
-                          fortysevenItemModelObj.widget!.value,
+                         "Description ${fortysevenItemModelObj.widget!.value}",
                           style: theme.textTheme.titleSmall,
                         ),
                       ),
@@ -55,7 +55,7 @@ class FortysevenItemWidget extends StatelessWidget {
                       child: Obx(
                             () => Text(
                           "Phone Number: ${fortysevenItemModelObj.phonenumber!.value}",
-                          style: theme.textTheme.titleSmall,
+                          style: theme.textTheme.bodyLarge,
                         ),
                       ),
                     ),
@@ -65,7 +65,7 @@ class FortysevenItemWidget extends StatelessWidget {
                       child: Obx(
                             () => Text(
                           "Wilaya: ${fortysevenItemModelObj.wilaya!.value}",
-                          style: theme.textTheme.titleSmall,
+                          style: theme.textTheme.bodyLarge,
                         ),
                       ),
                     ),
@@ -77,21 +77,27 @@ class FortysevenItemWidget extends StatelessWidget {
         ),
 
         Obx(
-              () => CustomImageView(
-            imagePath: fortysevenItemModelObj.chardiologist3!.value,
-            height: 111.adaptSize,
-            width: 111.adaptSize,
-            radius: BorderRadius.circular(
-              8.h,
-            ),
-            margin: EdgeInsets.only(
-              top: 8.v,
-              bottom: 6.v,
-            ),
-          ),
+              () => _buildImage(fortysevenItemModelObj.chardiologist3!.value),
         ),
       ],
     );
   }
-}
 
+  Widget _buildImage(String imagePath) {
+    try {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8.h),
+        child: CustomImageView(
+          imagePath: imagePath,
+          height: 111.adaptSize,
+          width: 111.adaptSize,
+          margin: EdgeInsets.only(top: 8.v, bottom: 6.v),
+        ),
+      );
+    } catch (e) {
+      print("Error loading image: $e");
+      return Container(); // Empty container
+    }
+  }
+
+}

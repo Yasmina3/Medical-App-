@@ -9,6 +9,7 @@ import 'controller/top_doctor_controller.dart';
 import 'widgets/fortyseven_item_widget.dart';
 import 'models/fortyseven_item_model.dart';
 import 'add_donation_screen.dart';
+import 'api.dart';
 
 class TopDoctorScreen extends GetWidget<TopDoctorController> {
   const TopDoctorScreen({Key? key}) : super(key: key);
@@ -18,30 +19,39 @@ class TopDoctorScreen extends GetWidget<TopDoctorController> {
     return SafeArea(
       child: Scaffold(
         appBar: _buildAppBar(),
-        body: Padding(
-          padding: EdgeInsets.only(top: 15.v, right: 11.h),
-          child: Obx(
-                () => Column(
-              children: [
-                Expanded(
-                  child: ListView.separated(
-                    physics: BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    separatorBuilder: (context, index) => SizedBox(height: 24.v),
-                    itemCount: controller
-                        .topDoctorModelObj.value.fortysevenItemList.value.length,
-                    itemBuilder: (context, index) {
-                      FortysevenItemModel model = controller
-                          .topDoctorModelObj.value.fortysevenItemList.value[index];
-                      return FortysevenItemWidget(model);
-                    },
+        body: FutureBuilder<void>(
+          future: controller.fetchDonations(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Failed to load donations. Please try again later.'));
+            } else {
+              return Padding(
+                padding: EdgeInsets.only(top: 15.v, right: 11.h),
+                child: Obx(
+                      () => Column(
+                    children: [
+                      Expanded(
+                        child: ListView.separated(
+                          physics: BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          separatorBuilder: (context, index) => SizedBox(height: 24.v),
+                          itemCount: controller.topDoctorModelObj.value.fortysevenItemList.value.length,
+                          itemBuilder: (context, index) {
+                            FortysevenItemModel model = controller.topDoctorModelObj.value.fortysevenItemList.value[index];
+                            return FortysevenItemWidget(model);
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 20.v),
+                      _buildAddDonationButton(),
+                    ],
                   ),
                 ),
-                SizedBox(height: 20.v),
-                _buildAddDonationButton(context),
-              ],
-            ),
-          ),
+              );
+            }
+          },
         ),
       ),
     );
@@ -65,15 +75,18 @@ class TopDoctorScreen extends GetWidget<TopDoctorController> {
     );
   }
 
-  Widget _buildAddDonationButton(BuildContext context) {
-    return FloatingActionButton(
+  Widget _buildAddDonationButton() {
+    return FloatingActionButton.extended(
       onPressed: () {
         // Navigate to the donation adding page
-        // You'll implement this page later
-        Navigator.push(context, MaterialPageRoute(builder: (context) => AddDonationScreen()));
+        Get.to(() => AddDonationScreen());
       },
-      child: Icon(Icons.add),
-      backgroundColor: Theme.of(context).primaryColor,
+      label: Text(
+        'إضافة تبرع جديد',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      icon: Icon(Icons.add),
+      backgroundColor: Get.theme.primaryColor,
     );
   }
 }

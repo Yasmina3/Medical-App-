@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tabibak/core/app_export.dart';
+import 'package:tabibak/presentation/top_doctor_screen/top_doctor_screen.dart';
 import 'package:tabibak/widgets/custom_text_form_field.dart';
 import 'package:tabibak/widgets/custom_elevated_button.dart';
 import 'package:tabibak/widgets/custom_outlined_button.dart';
 import 'api.dart';
-
 
 class AddDonationScreen extends StatefulWidget {
   @override
@@ -87,8 +87,8 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
               _image != null
                   ? Image.file(
                 _image!,
-                width: 100,
-                height: 100,
+                width: 111.adaptSize,
+                height: 111.adaptSize,
                 fit: BoxFit.cover,
               )
                   : Container(),
@@ -104,11 +104,11 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
                 child: CustomElevatedButton(
                   text: 'حفظ التبرع',
                   onPressed: () {
-                    // Add your logic to save the donation information here
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => TopDoctorScreen()));
                     addDonation(
                       donationDescriptionController.text,
                       donationTitleController.text,
-                      _image!.path,
+                        _image != null ? _image!.path : "",
                       patientWilayaController.text,
                       patientPhoneNumberController.text,
                       2,

@@ -5,56 +5,46 @@ import '../../core/utils/api_urls.dart';
 Future<void> addDonation(
     String description,
     String title,
-    String image,
+    String image, // Change the type to String for image data
     String wilaya,
     String phoneNumber,
     int patientId,
     ) async {
   final Uri url = Uri.parse(Endpoints.addDonation);
 
-  final response = await http.post(
-    url,
-    headers: {
-      'Content-Type': 'application/json', // Set the content type to JSON
-    },
-    body: jsonEncode({
-      'description': description,
-      'title': title,
-      'image': image,
-      'wilaya': wilaya,
-      'phoneNumber': phoneNumber,
-      'patientId': patientId.toString(),
-    }),
-  );
+  try {
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'description': description,
+        'title': title,
+        'image': image, // Pass image data directly
+        'wilaya': wilaya,
+        'phoneNumber': phoneNumber,
+        'patientId': patientId.toString(),
+      }),
+    );
 
-  if (response.statusCode == 200) {
-    // Decode the response body to get the actual data
-    Map<String, dynamic> data = jsonDecode(response.body);
-    if (data['success']) {
-      // Donation added successfully
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      print(data);
+      if (data['success']) {
+        // Donation added successfully
+      } else {
+        // Handle error
+        throw Exception(data['message']);
+      }
     } else {
-      // Handle error
-      throw Exception(data['message']);
+      print("i am in else cannot insert");
+      // Handle HTTP error
+      throw Exception('Failed to add donation: ${response.statusCode}');
     }
-  } else {
-    // Handle error
-    throw Exception('Failed to add donation');
-  }
-}
-
-
-Future<List<Donation>> fetchDonations({String? wilaya}) async {
-  final Uri url = Uri.parse('${Endpoints.getDonations}?wilaya=$wilaya');
-
-  final response = await http.get(url);
-
-  if (response.statusCode == 200) {
-    List<dynamic> data = json.decode(response.body);
-    List<Donation> donations = data.map((item) => Donation.fromJson(item)).toList();
-    return donations;
-  } else {
-    // Handle error
-    throw Exception('Failed to load donations');
+  } catch (e) {
+    // Handle other exceptions
+    throw Exception('Failed to add donation: $e');
   }
 }
 

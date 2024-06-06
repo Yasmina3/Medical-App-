@@ -68,7 +68,7 @@ class HomeScreen extends GetWidget<HomeController> {
         onTap: (){
           Get.toNamed(AppRoutes.topDoctorScreen);
         },
-          imagePath: ImageConstant.imgUser,
+          imagePath: ImageConstant.imgBookmark,
           margin: EdgeInsets.only(left: 5, right: 5, bottom: 5)),
       title: Spacer(),
       actions: [
