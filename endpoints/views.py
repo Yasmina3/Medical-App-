@@ -11,6 +11,7 @@ import json
 import requests
 from .models import *
 import http.client
+from .translation_utils import translate_text
 
 
 # Create your views here.
@@ -232,6 +233,8 @@ def get_users(request):
     all_patients = Patient.objects.all().values()
     return JsonResponse(list(all_patients), safe=False)
 
+MODEL_ENDPOINT = 'http://127.0.0.1:5004/execute_final_result/'
+
 @csrf_exempt
 def chatbot_response(request):
     if request.method == 'POST':
@@ -240,12 +243,21 @@ def chatbot_response(request):
             data = json.loads(request.body)
             user_message = data.get('message')
             print(user_message)
+
+            # Translate the user message from Arabic to English
+            translated_message = translate_text(user_message, src='ar', dest='en')
+            print(f"Translated user message to English: {translated_message}")
             
-            # Forward the message to your model for processing
-            bot_response = forward_to_model(user_message)
+            # Forward the translated message to your model for processing
+            bot_response_english = forward_to_model(translated_message)
+            print(f"Model response in English: {bot_response_english}")
             
-            # Return the bot response
-            return JsonResponse({'response': bot_response})
+            # Translate the bot response from English to Arabic
+            bot_response_arabic = translate_text(bot_response_english, src='en', dest='ar')
+            print(f"Translated bot response to Arabic: {bot_response_arabic}")
+            
+            # Return the bot response in Arabic
+            return JsonResponse({'response': bot_response_arabic})
         
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON format'}, status=400)
@@ -255,9 +267,6 @@ def chatbot_response(request):
     
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-
-MODEL_ENDPOINT = 'http://127.0.0.1:5004/execute_final_result/'
 
 def forward_to_model(query):
     try:
@@ -286,15 +295,14 @@ def forward_to_model(query):
 def add_donation(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body.decode('utf-8'))
-            
+            data = json.loads(request.body)  # Parse JSON data
             description = data.get('description')
             title = data.get('title')
-            image = data.get('image')  # Store this as a file path or URL
+            image = data.get('image')
             wilaya = data.get('wilaya')
             phone_number = data.get('phoneNumber')
             patientId = data.get('patientId')
-            
+
             # Convert patientId to integer
             patientId = int(patientId)
 
@@ -327,8 +335,14 @@ def add_donation(request):
 def get_donations(request):
     if request.method == 'GET':
         try:
-            # Remove wilaya filter to display all donations
+            # Get all donations
             donations = Donation.objects.filter(available=True).values()
+
+            # Construct full image URL for each donation object
+            for donation in donations:
+                image_url = settings.MEDIA_URL  + donation['image']
+                donation['image'] = request.build_absolute_uri(image_url)
+                print(donation)
 
             return JsonResponse(list(donations), safe=False)
 
@@ -341,6 +355,8 @@ def get_donations(request):
         # Invalid request method
         response = {'success': False, 'message': 'Invalid request method'}
         return JsonResponse(response)
+
+
 
 
 @csrf_exempt

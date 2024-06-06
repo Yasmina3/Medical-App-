@@ -1,5 +1,7 @@
-from django.urls import path,include
+from django.urls import path
+from django.conf import settings
 from .views import *
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("All_doctors/",all_doctors),
@@ -18,4 +20,7 @@ urlpatterns = [
     path("add_reservation/",add_reservation),
     path("get_reservations_per_patient",get_patient_reservations),
     path("create_new_password/", create_new_password, name='create_new_password'),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

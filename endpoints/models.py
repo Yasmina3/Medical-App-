@@ -63,7 +63,7 @@ class Donation(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     description = models.TextField()
     title = models.TextField()
-    image = models.ImageField(upload_to='donation_images/')
+    image = models.ImageField(upload_to='donation_images')
     available = models.BooleanField(default=True)
     phone_number = models.CharField(max_length=20)
     wilaya = models.CharField(max_length=100)
